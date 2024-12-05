@@ -12,6 +12,15 @@ module.exports = (sequelize, DataTypes) => {
         through: "Comment",
         foreignKey: "user_id",
       });
+      
+      this.hasMany(models.Ticket, {
+        foreignKey: "author_id",
+      });
+
+      this.hasMany(models.Ticket, {
+        foreignKey: "assignee_id",
+      });
+
     }
   }
   User.init(

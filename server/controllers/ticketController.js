@@ -1,6 +1,6 @@
-import TicketService from "../services/Ticket.service";
+const TicketService = require ('../services/Ticket.service')
 
-class TicketController{
+class TicketController {
 
   static async getAllTickets(req, res) {
     const { author_id, assignee_id, status } = req.query;
@@ -69,6 +69,5 @@ class TicketController{
   }
 
 }
-
 
 module.exports = TicketController

@@ -1,9 +1,9 @@
-// const { where } = require("sequelize");
+const {Ticket} = require('../db/models/Ticket')
 
 class TicketService {
   static async getAllTickets(options = {}) {
     try {
-      return await TicketService.findAll({ where: options });
+      return await Ticket.findAll({ where: options });
     } catch (error) {
       throw new Error(error.message);
     }
