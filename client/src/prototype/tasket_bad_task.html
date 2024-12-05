@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tasket</title>
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css"
+>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+</head>
+<body>
+  <div class="container is-fluid">
+    <div class="columns">
+      <div class="column mt-4 is-narrow">
+        <aside class="menu">
+          <p class="menu-label">Вы авторизованы</p>
+          <ul class="menu-list">
+            <li>
+              <a>
+                <span class="icon-text">
+                  <span class="icon">
+                    <i class="fas fa-user"></i>
+                  </span>
+                  <span>Личный кабинет @vika</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a>
+                <span class="icon-text">
+                  <span class="icon">
+                    <i class="fas fa-right-to-bracket"></i>
+                  </span>
+                  <span>Выход</span>
+                </span>
+              </a>
+            </li>
+          </ul>
+          <p class="menu-label">Задачи</p>
+          <div class="field has-addons">
+                  <p class="control">
+                    <input class="input" type="text" placeholder="Поиск" />
+                  </p>
+                  <p class="control">
+                    <button class="button"><span class="icon"><i class="fas fa-magnifying-glass"></i></span></button>
+                  </p>
+                </div>
+          <ul class="menu-list">
+            <li><a>Мои открытые задачи</a></li>
+            <li>
+              <a>Все задачи</a>
+              <ul>
+                <li><a><span class="tag is-link is-light has-text-weight-bold is-uppercase">Ожидает разработки</span></a></li>
+                <li><a><span class="tag is-info is-light has-text-weight-bold is-uppercase">В работе</span></a></li>
+                <li><a><span class="tag has-text-weight-bold is-uppercase">На уточнении</span></a></li>
+                <li><a><span class="tag is-success is-light has-text-weight-bold is-uppercase">Завершённые</span></a></li>
+              </ul>
+            </li>
+          </ul>
+          <!-- <p class="menu-label">Transactions</p>
+          <ul class="menu-list">
+            <li><a>Payments</a></li>
+            <li><a>Transfers</a></li>
+            <li><a>Balance</a></li>
+          </ul> -->
+        </aside>
+      </div>
+      <div class="column mt-4 is-expanded">
+        <div class="card">
+          <div class="card-content">
+            <div class="media">
+              <div class="media-content">
+                <h1 class="title">ELBRUS-265</h1>
+              </div>
+            </div>
+
+            <div class="content">
+              <div class="buttons">
+                <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                    <span class="icon is-small">
+                      <i class="fas fa-pen" aria-hidden="true"></i>
+                    </span>
+                    <span>Редактировать</span>
+                  </button>
+              <div class="dropdown is-hoverable">
+                <div class="dropdown-trigger">
+                  <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                    <span>Статус: <span class="tag has-text-weight-bold is-uppercase">На уточнении</span></span>
+                    <span class="icon is-small">
+                      <i class="fas fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                  </button>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                  <div class="dropdown-content">
+                    <a class="dropdown-item"><span class="tag is-link is-light has-text-weight-bold is-uppercase">Ожидает разработки</span></a>
+                    <a class="dropdown-item"><span class="tag is-info is-light has-text-weight-bold is-uppercase">В работе</span></a>
+                    <a class="dropdown-item"><span class="tag has-text-weight-bold is-uppercase">На уточнении</span></a>
+                    <a class="dropdown-item"><span class="tag is-success is-light has-text-weight-bold is-uppercase">Завершено</span></a>
+                  </div>
+                </div>
+              </div>
+              <div class="dropdown is-hoverable">
+                <div class="dropdown-trigger">
+                  <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                    <span>Ответственный: @petya</span>
+                    <span class="icon is-small">
+                      <i class="fas fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                  </button>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                  <div class="dropdown-content">
+                    <div class="dropdown-item">
+                      <div class="field">
+                    
+                          <input class="input" type="text" placeholder="Поиск" />
+                  
+                      </div>
+                    </div>
+                    <a class="dropdown-item"><b>@petya</b> - ведущий разработчик</a>
+                    <a class="dropdown-item"><b>@maksik</b> - разработчик</a>
+                    <a class="dropdown-item"><b>@egor1995</b> - разработчик</a>
+                    <a class="dropdown-item"><b>@hr</b> - менеджер по персоналу</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+              <p>
+                Почините уже логу и регу!!!<br><br>
+              </p>
+              <br />
+              <strong>Оценка: 999 ч</strong>
+            </div>
+          </div>
+        </div>
+
+        <article class="message is-warning">
+        <div class="message-header">
+          <p>AI анализ задачи</p>
+        </div>
+        <div class="message-body">
+          Задача сформулирована неконкретно — неясно, что именно нужно исправить в логине и регистрации. Требования отсутствуют. Оценка явно завышена, без уточнения объема работ трудно обосновать такой срок.
+        </div>
+      </article>
+
+      <h2 class="title is-size-4">Комментарии</h2>
+      <div class="box">
+      <article class="media">
+        <div class="media-content">
+          <div class="content">
+            <p>
+              <strong>@vika</strong>
+              <br />
+              Коллеги, поясните, что имеется ввиду? Лога и рега работают
+              <br />
+              <small>2024-12-03 19:59:00</small>
+            </p>
+          </div>
+          </div>
+        </article>
+      </div>
+
+      <article class="media">
+      <div class="media-content">
+        <div class="field">
+          <p class="control">
+            <textarea class="textarea" placeholder="Add a comment..."></textarea>
+          </p>
+        </div>
+        <div class="field">
+          <p class="control">
+            <button class="button">Оставить комментарий</button>
+          </p>
+        </div>
+      </div>
+    </article>
+      </div>
+    </div>
+  </div>  
+</body>
+</html>
