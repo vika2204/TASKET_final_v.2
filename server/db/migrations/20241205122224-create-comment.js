@@ -15,7 +15,10 @@ module.exports = {
       user_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
-
+        references:{
+          model: "Users",
+          key:"id"
+        }
       },
       text: {
         type: Sequelize.TEXT,
@@ -24,17 +27,20 @@ module.exports = {
       ticket_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references:{
+          model: "Tickets",
+          key:"id"
+        }
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue:new Date()
-
+        defaultValue: Sequelize.fn("NOW"),
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue:new Date()
+        defaultValue: Sequelize.fn("NOW"),
       }
     });
   },
