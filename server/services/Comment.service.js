@@ -1,3 +1,4 @@
+const {Comment} = require('../db/models/Comment')
 class CommentService {
   static async getAllComments(options = {}) {
     const comments = await Comment.findAll({ where: options });
