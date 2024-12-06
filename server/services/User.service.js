@@ -3,7 +3,7 @@ const jsonwebtoken = require("jsonwebtoken");
 const { User } = require("../db/models");
 const generateTokens = require("../utils/generateTokens");
 
-class AuthService {
+class UserService {
   static async registerUser(email, password, username, role) {
     try {
       const existingUser = await User.findOne({ where: { email } });
@@ -63,6 +63,15 @@ class AuthService {
       throw new Error(`Error during token refresh: ${error.message}`);
     }
   }
+
+  static async getUsers() {
+    try {
+      const users = await User.findAll();
+      return users;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
 }
 
-module.exports = AuthService;
+module.exports = UserService;

@@ -1,7 +1,7 @@
 const AuthService = require("../services/Auth.service");
 const jwtConfig = require("../config/jwtConfig");
 
-class AuthController {
+class UserController {
   static async register(req, res) {
     const { email, password, username, role } = req.body;
     if (
@@ -11,8 +11,8 @@ class AuthController {
       !role ||
       email.trim() === "" ||
       password.trim() === "" ||
-      username.trim() === "" || 
-      role.trim() === "" 
+      username.trim() === "" ||
+      role.trim() === ""
     ) {
       res
         .status(400)
@@ -47,7 +47,6 @@ class AuthController {
   }
 
   static async refresh(req, res) {
-    
     try {
       const user = res.locals.user;
       const { accessToken, refreshToken } = await AuthService.refreshTokens(
@@ -66,6 +65,15 @@ class AuthController {
   static async logout(req, res) {
     res.clearCookie("refreshToken").json({ message: "clearCookie" });
   }
+
+  static async getAllUsers(req, res) {
+    try {
+      const users = await AuthService.getUsers();
+      res.status(200).json({ message: "Success", users });
+    } catch (error) {
+      res.status(500).json({ message: error.message, users: [] });
+    }
+  }
 }
 
-module.exports = AuthController;
+module.exports = UserController;
