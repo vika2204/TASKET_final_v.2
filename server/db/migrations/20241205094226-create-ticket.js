@@ -39,7 +39,8 @@ module.exports = {
       },
       estimate: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: false
+
       },
       project_id: {
         type: Sequelize.INTEGER,

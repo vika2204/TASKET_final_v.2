@@ -1,7 +1,9 @@
-const {Ticket} = require('../db/models/Ticket')
+const {Ticket} = require('../db/models')
 
 class TicketService {
+
   static async getAllTickets(options = {}) {
+
     try {
       return await Ticket.findAll({ where: options });
     } catch (error) {
@@ -10,6 +12,8 @@ class TicketService {
   }
 
   static async getOneTickets(id) {
+    console.log(id);
+    
     try {
       const ticket = await Ticket.findByPk(id);
       return ticket;
@@ -19,6 +23,8 @@ class TicketService {
   }
 
   static async addTicket(data) {
+
+    
     try {
       const ticket = await Ticket.create(data);
       return ticket;
