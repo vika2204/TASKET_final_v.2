@@ -1,9 +1,9 @@
-import { AuthorizationForm } from "@/features/auth/AuthorizationForm";
+// import { AuthorizationForm } from "@/features/auth/AuthorizationForm";
 
-export function AuthPage() {
-  return (
-    <>
-      <AuthorizationForm />
-    </>
-  );
-}
+// export function AuthPage() {
+//   return (
+//     <>
+//       <AuthorizationForm />
+//     </>
+//   );
+// }

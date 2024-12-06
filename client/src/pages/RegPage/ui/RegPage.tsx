@@ -1,9 +1,9 @@
-import { RegistrationForm } from "@/features/auth/RegistrationForm";
+// import { RegistrationForm } from "@/features/auth/RegistrationForm";
 
-export function RegPage() {
-  return (
-    <>
-      <RegistrationForm />
-    </>
-  );
-}
+// export function RegPage() {
+//   return (
+//     <>
+//       <RegistrationForm />
+//     </>
+//   );
+// }
