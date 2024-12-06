@@ -40,20 +40,25 @@ module.exports = {
       estimate: {
         type: Sequelize.INTEGER,
         allowNull: false
+
       },
       project_id: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+        references:{
+          model: "Projects",
+          key:"id"
+        }
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: new Date()
+        defaultValue: Sequelize.fn("NOW"),
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: new Date()
+        defaultValue: Sequelize.fn("NOW"),
       }
     });
   },
