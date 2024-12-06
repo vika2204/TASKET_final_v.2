@@ -1,1 +1,1 @@
-export { RegPage } from './ui/RegPage';
+// export { RegPage } from './ui/RegPage';
