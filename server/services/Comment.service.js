@@ -1,14 +1,16 @@
-const {Comment} = require('../db/models/Comment')
+const {Comment} = require('../db/models')
 class CommentService {
-  static async getAllComments(options = {}) {
-    const comments = await Comment.findAll({ where: options });
+
+  static async getAllComments(ticket_id) {
     try {
+      const comments = await Comment.findAll({
+        where: { ticket_id: ticket_id }
+      });
       return comments;
     } catch (error) {
-      throw new Error(error.message);
+      throw new Error(`Error fetching comments for ticket_id: ${ticket_id}. ${error.message}`);
     }
   }
-
 
   static async getOneComment(id) {
     try {
@@ -23,22 +25,19 @@ class CommentService {
 
 
   static async addComment(data) {
+
+    
     try {
       const comment = await Comment.create(data);
+      console.log(data);
+      
       return comment;
     } catch (error) {
       throw new Error(error.message);
     }
   }
 
-  static async deleteComment(id, authUserId) {
-    try {
-      const comment = await Comment.destroy({ where: { id, user_id: authUserId } });
-      return comment
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  }
+ 
 
   static async updateComment(data,id) {
     try {

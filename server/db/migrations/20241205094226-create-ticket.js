@@ -37,6 +37,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      estimate: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
       project_id: {
         type: Sequelize.INTEGER,
         allowNull: false

@@ -3,14 +3,19 @@ const CommentService = require("../services/Comment.service");
 class CommentController{
 
   static async getAllComments(req, res) {
-    const { ticket_id } = req.query;
-    const options = {};
-    if (ticket_id) options.ticket_id = ticket_id;
-   
+    const { ticket_id } = req.params;
+    console.log(`Fetching comments for ticket_id: ${ticket_id}`);
+  
+    if (!ticket_id) {
+      return res.status(400).json({ error: 'ticket_id is required' });
+    }
+  
     try {
-      const comments = await CommentService.getAllComments(options);
+      const comments = await CommentService.getAllComments(ticket_id);
+      console.log(`Found ${comments.length} comments for ticket_id: ${ticket_id}`);
       res.status(200).json(comments);
     } catch (error) {
+      console.error(`Error fetching comments for ticket_id: ${ticket_id}`, error);
       res.status(500).json({ error: error.message });
     }
   }
@@ -18,7 +23,11 @@ class CommentController{
  
   static async createCommentController(req, res) {
     const {user_id,text,ticket_id} = req.body;
+    console.log(user_id);
+    
     const authUser = res.locals.user;
+   
+    
     if (
       text.trim() === "" ||
       !user_id ||
@@ -29,7 +38,7 @@ class CommentController{
     }
     try {
       const comment = await CommentService.addComment({
-        user_id:authUser.id,
+        user_id:1,//authUser.id,
         text,
         ticket_id,
       });

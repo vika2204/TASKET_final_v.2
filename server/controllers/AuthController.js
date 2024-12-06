@@ -47,6 +47,7 @@ class AuthController {
   }
 
   static async refresh(req, res) {
+    
     try {
       const user = res.locals.user;
       const { accessToken, refreshToken } = await AuthService.refreshTokens(
