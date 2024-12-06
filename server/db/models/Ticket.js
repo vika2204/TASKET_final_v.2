@@ -25,7 +25,6 @@ module.exports = (sequelize, DataTypes) => {
     status: DataTypes.STRING,
     estimate:DataTypes.INTEGER,
     project_id: DataTypes.INTEGER,
-    estimate: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Ticket',
