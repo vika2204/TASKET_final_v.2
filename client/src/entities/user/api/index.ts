@@ -1,11 +1,12 @@
 import { axiosInstance, setAccessToken } from "@/shared/lib/axiosInstance";
-import { UserWithoutPasswordType } from "../model";
+import { UserList, UserWithoutPasswordType } from "../model";
 
 enum API_ROUTES {
   REG_PATH = "/auth/registration",
   AUTH_PATH = "/auth/authorization",
   LOGOUT_PATH = "/auth/logout",
   REFRESH_PATH = "/auth/refresh",
+  GET_PATH = "/auth/users",
 }
 
 export class UserService {
@@ -49,5 +50,9 @@ export class UserService {
     const response = await axiosInstance.get(API_ROUTES.REFRESH_PATH);
     setAccessToken(response.data.accessToken);
     return response.data;
+  }
+  static async getAllUsers(): Promise<UserList> {
+    const response = await axiosInstance.get(API_ROUTES.GET_PATH);
+    return response.data.users;
   }
 }
