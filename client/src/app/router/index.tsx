@@ -9,6 +9,7 @@ export enum CLIENT_ROUTES {
   HOME = "/",
   NOT_FOUND = "*",
   PROFILE = "/user/:id",
+  TICKET_PAGE = "/tickets/:id"
 }
 
 export const router = createBrowserRouter([
@@ -28,6 +29,10 @@ export const router = createBrowserRouter([
         path: CLIENT_ROUTES.NOT_FOUND,
         element: <NotFound />,
       },
+      // {
+      //   path: CLIENT_ROUTES.TICKET_PAGE,
+      //   element: <TicketPage />,
+      // },
     ],
   },
   {
