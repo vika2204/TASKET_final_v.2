@@ -3,25 +3,25 @@ const {Op} = require("sequelize");
 
 class TicketService {
 
-  static async getAllTickets(projectId, assignee_id = null, status = null, search = null) {
-    // assignee_id = null, status = null, search = null
+  static async getAllTickets(projectId, assignee_id = null, search = null, status = null) {
+
     try {
-      console.log(projectId,assignee_id,status,search);
       const options = {
         project_id: projectId
       };
 
-      if (assignee_id) options.assignee_id = assignee_id;
-      if (status) options.status = status;
+      if (assignee_id!==0&&assignee_id!==null) options.assignee_id = assignee_id;
+      if (status!=='') options.status = status;
 
-      if (search) {
+      if (search!=='') {
         options[Op.or] = [
           { title: { [Op.iLike]: `%${search}%` } },
           { description: { [Op.iLike]: `%${search}%` } },
         ];
       }
-
-   return await Ticket.findAll({ where: {project_id:options.project_id} });
+      console.log(options);
+      
+   return await Ticket.findAll({ where: options });
 
     } catch (error) {
       throw new Error(error.message);

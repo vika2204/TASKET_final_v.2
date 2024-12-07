@@ -9,7 +9,7 @@ type rejectValue = {
 
 export const getAllTickets = createAsyncThunk<
   TicketList,
-  {search:string, assignee_id:number, status:string},
+  {search:string, assignee_id:number|undefined, status:string},
   { rejectValue: rejectValue }
 >("get/tickets", async ({search, assignee_id, status}, { rejectWithValue }) => {
   try {

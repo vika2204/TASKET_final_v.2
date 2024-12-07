@@ -37,7 +37,7 @@ class TicketController {
     const { projectId } = req.params;
 
     const authUser = res.locals.user
-    console.log(11111, authUser);
+
     
     if (
       !title ||

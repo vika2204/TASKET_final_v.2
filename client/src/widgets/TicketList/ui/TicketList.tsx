@@ -10,8 +10,8 @@ export function TicketList() {
 const {ticketList} = useAppSelector(state=>state.ticket)
 const dispatch= useAppDispatch()
 
-const[search,setSearch] = useState('фикс')
-const[assignee_id,setAssignee_id] = useState<number>(1)
+const[search,setSearch] = useState<string>('фикс')
+const[assignee_id,setAssignee_id] = useState<number|undefined>()
 const[status,setStatus] = useState('Ожидает разработки')
 
 
