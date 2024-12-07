@@ -8,13 +8,13 @@ import {
 } from "./userThunk";
 
 type UserState = {
-  user: UserWithoutPasswordType | null;
+  user: UserWithoutPasswordType | null | undefined; // undefined - неизвестно залогинен ли, null - известно, что не залогинен
   error: string | null;
   loading: boolean;
 };
 
 const initialState: UserState = {
-  user: null,
+  user: undefined, // undefined - неизвестно залогинен ли, null - известно, что не залогинен. Для корректной работы <ProtectedRoute/>
   error: null,
   loading: false,
 };
@@ -36,6 +36,7 @@ const userSlice = createSlice({
       })
       .addCase(refreshAccessToken.rejected, (state) => {
         state.loading = false;
+        state.user = null;
       })
 
       .addCase(registration.pending, (state) => {
@@ -49,6 +50,7 @@ const userSlice = createSlice({
       .addCase(registration.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload?.message || "Reg: fail";
+        state.user = null;
       })
 
       .addCase(authorization.pending, (state) => {
@@ -62,6 +64,7 @@ const userSlice = createSlice({
       .addCase(authorization.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload?.message || "Auth: fail";
+        state.user = null;
       })
 
       .addCase(logout.pending, (state) => {
@@ -75,6 +78,7 @@ const userSlice = createSlice({
       .addCase(logout.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload?.message || "Logout: fail";
+        state.user = null;
       });
   },
 });

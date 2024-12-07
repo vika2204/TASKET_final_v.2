@@ -1,8 +1,13 @@
 import { AuthorizationForm } from "@/features/auth/AuthorizationForm";
 import { RegistrationForm } from "@/features/auth/RegistrationForm";
-import React, { useState } from "react";
+import { useState } from "react";
+import {useAppSelector} from "@/shared/hooks/rtkHooks.ts";
+import {Navigate} from "react-router-dom";
+import {CLIENT_ROUTES} from "@/app/router";
 
-export function LoginPage() {
+export function LandingPage() {
+  const { user } = useAppSelector(state => state.user)
+
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isRegModalOpen, setIsRegModalOpen] = useState(false);
 
@@ -11,6 +16,10 @@ export function LoginPage() {
 
   const openRegModal = () => setIsRegModalOpen(true);
   const closeRegModal = () => setIsRegModalOpen(false);
+
+  if (user) {
+    return <Navigate to={CLIENT_ROUTES.HOME} />
+  }
 
   return (
     <section

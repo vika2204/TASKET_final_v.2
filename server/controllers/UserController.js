@@ -1,4 +1,4 @@
-const AuthService = require("../services/Auth.service");
+const UserService = require("../services/User.service");
 const jwtConfig = require("../config/jwtConfig");
 
 class UserController {
@@ -20,7 +20,7 @@ class UserController {
     }
     try {
       const { user, accessToken, refreshToken } =
-        await AuthService.registerUser(email, password, username, role);
+        await UserService.registerUser(email, password, username, role);
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         maxAge: jwtConfig.refresh.expiresIn,
@@ -35,7 +35,7 @@ class UserController {
     const { email, password } = req.body;
     try {
       const { user, accessToken, refreshToken } =
-        await AuthService.authorizeUser(email, password);
+        await UserService.authorizeUser(email, password);
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         maxAge: jwtConfig.refresh.expiresIn,
@@ -49,7 +49,7 @@ class UserController {
   static async refresh(req, res) {
     try {
       const user = res.locals.user;
-      const { accessToken, refreshToken } = await AuthService.refreshTokens(
+      const { accessToken, refreshToken } = await UserService.refreshTokens(
         user
       );
       res.cookie("refreshToken", refreshToken, {
@@ -68,7 +68,7 @@ class UserController {
 
   static async getAllUsers(req, res) {
     try {
-      const users = await AuthService.getUsers();
+      const users = await UserService.getUsers();
       res.status(200).json({ message: "Success", users });
     } catch (error) {
       res.status(500).json({ message: error.message, users: [] });
