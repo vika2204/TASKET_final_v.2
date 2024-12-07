@@ -1,100 +1,73 @@
-import  { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "@/shared/hooks/rtkHooks";
-import { logout } from "@/entities/user/model/userThunk";
-import { CLIENT_ROUTES } from "@/app/router";
-import "./Nav.css";
+import {useAppSelector} from "@/shared/hooks/rtkHooks.ts";
+
 
 export function Nav() {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const { user } = useAppSelector((state) => state.user);
-  const [isActive, setIsActive] = useState(false);
+    const { user } = useAppSelector((state) => state.user);
 
-  const toggleMenu = () => {
-    setIsActive(!isActive);
-  };
-
-  const logoutHandler = () => {
-    dispatch(logout());
-    navigate(CLIENT_ROUTES.AUTH);
-  };
-
-  const menu = (
-    <div className="navbar-dropdown is-right ">
-      <Link to={CLIENT_ROUTES.PROFILE} className="navbar-item">
-        Личный кабинет
-      </Link>
-      <hr className="navbar-divider" />
-      <a className="navbar-item" onClick={logoutHandler}>
-        Выйти
-      </a>
-    </div>
-  );
-
-  return (
-    <nav
-      className="navbar"
-      role="navigation"
-      aria-label="main navigation"
-      style={{ backgroundColor: "#2c3e50" }}
-    >
-      <div className="navbar-brand">
-        <Link
-          to={CLIENT_ROUTES.HOME}
-          className="navbar-item"
-          style={{ fontSize: "1.5rem", fontWeight: "bold", color: "#fff" }}
-        >
-          TASKS
-        </Link>
-        <a
-          role="button"
-          className={`navbar-burger ${isActive ? "is-active" : ""}`}
-          aria-label="menu"
-          aria-expanded="false"
-          onClick={toggleMenu}
-        >
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
-      </div>
-
-      <div
-        id="navbarBasicExample"
-        className={`navbar-menu ${isActive ? "is-active" : ""}`}
-      >
-        <div className="navbar-end">
-          {user ? (
-            <div className="navbar-item has-dropdown is-hoverable">
-              <a className="navbar-link" style={{ color: "#fff" }}>
-                Привет! {user.username}
-              </a>
-              {menu}
-            </div>
-          ) : (
-            <div
-              className="navbar-item "
-              style={{ display: "flex", alignItems: "center" }}
-            >
-              <Link
-                to={CLIENT_ROUTES.AUTH}
-                className="navbar-item"
-                style={{ color: "#fff", marginRight: "0.5rem" }}
-              >
-                ВХОД
-              </Link>
-              <Link
-                to={CLIENT_ROUTES.REG}
-                className="navbar-item"
-                style={{ color: "#fff" }}
-              >
-                РЕГИСТРАЦИЯ
-              </Link>
-            </div>
-          )}
-        </div>
-      </div>
-    </nav>
-  );
+    return (
+        <>
+            <aside className="menu">
+                <div style={{
+                    textAlign: "left",
+                    fontWeight: "bold",
+                    fontSize: "36px",
+                    borderBottom: "1px solid #ccc",
+                    paddingBottom: "20px"
+                }}>
+                    TASKET
+                </div>
+                <p className="menu-label">Вы авторизованы</p>
+                <ul className="menu-list">
+                    <li>
+                        <a>
+                <span className="icon-text">
+                  <span className="icon">
+                    <i className="fas fa-user"></i>
+                  </span>
+                  <span>Личный кабинет @{ user?.username }</span>
+                </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                <span className="icon-text">
+                  <span className="icon">
+                    <i className="fas fa-right-to-bracket"></i>
+                  </span>
+                  <span>Выход</span>
+                </span>
+                        </a>
+                    </li>
+                </ul>
+                <p className="menu-label">Задачи</p>
+                <div className="field has-addons">
+                    <p className="control">
+                        <input className="input" type="text" placeholder="Поиск" value="ELBRUS-"/>
+                    </p>
+                    <p className="control">
+                        <button className="button"><span className="icon"><i
+                            className="fas fa-magnifying-glass"></i></span></button>
+                    </p>
+                </div>
+                <ul className="menu-list">
+                    <li><a>Мои открытые задачи</a></li>
+                    <li>
+                        <a>Все задачи</a>
+                        <ul>
+                            <li><a className="is-active"><span
+                                className="tag is-link is-light has-text-weight-bold is-uppercase">Ожидает разработки</span></a>
+                            </li>
+                            <li><a><span
+                                className="tag is-info is-light has-text-weight-bold is-uppercase">В работе</span></a>
+                            </li>
+                            <li><a><span className="tag has-text-weight-bold is-uppercase">На уточнении</span></a></li>
+                            <li><a><span
+                                className="tag is-success is-light has-text-weight-bold is-uppercase">Завершённые</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+        </>
+    );
 }

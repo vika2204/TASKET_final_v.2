@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@/shared/hooks/rtkHooks";
 import { authorization } from "@/entities/user/model/userThunk";
-// import { CLIENT_ROUTES } from "@/app/router";
+import { CLIENT_ROUTES } from "@/app/router";
 
 type FormValues = {
   email: string;
@@ -11,7 +11,7 @@ type FormValues = {
 };
 
 export const AuthorizationForm: React.FC = () => {
-//   const navigate = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -29,7 +29,7 @@ export const AuthorizationForm: React.FC = () => {
           password: data.password,
         })
       ).unwrap();
-    //   navigate(CLIENT_ROUTES.HOME);
+      navigate(CLIENT_ROUTES.HOME);
     } catch  {
       setErrorMessage("Введите корректные данные");
     }

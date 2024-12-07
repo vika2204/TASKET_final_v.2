@@ -11,8 +11,8 @@ export function ProtectedRoute({ children }: { children: ReactNode }) {
         return <Loader />
     }
 
-    if (!user) {
-        return <Navigate to={CLIENT_ROUTES.AUTH} />
+    if (user === null) {
+        return <Navigate to={CLIENT_ROUTES.LANDING} />
     }
 
     return children;

@@ -3,6 +3,7 @@ import { useAppDispatch } from "@/shared/hooks/rtkHooks";
 import { Nav } from "@/widgets/Nav/ui/Nav";
 import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
+import {ProtectedRoute} from "@/shared/ui/ProtectedRoute/ProtectedRoute.tsx";
 
 
 
@@ -15,13 +16,19 @@ export function Layout() {
   }, [dispatch]);
 
   return (
-    <>
-          <Nav />
-          <Outlet />
-    </>
+      <>
+          <div className="container is-fluid">
+              <div className="columns">
+                  <div className="column mt-4 is-narrow">
+                      <Nav/>
+                  </div>
+                  <div className="column mt-4 is-expanded">
+                  <ProtectedRoute><Outlet/></ProtectedRoute>
+                  </div>
+              </div>
+          </div>
+      </>
 
-   
-     
-    
+
   );
 }
