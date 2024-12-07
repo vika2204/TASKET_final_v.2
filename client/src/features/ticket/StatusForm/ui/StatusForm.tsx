@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 export function StatusForm() {
   const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
@@ -24,15 +24,17 @@ export function StatusForm() {
         >
           <span>
             Статус:
-            <span className={`tag has-text-weight-bold is-uppercase ${
-              selectedStatus === "Ожидает разработки"
-                ? "is-link"
-                : selectedStatus === "В работе"
-                ? "is-info"
-                : selectedStatus === "Завершено"
-                ? "is-success"
-                : ""
-            }`}>
+            <span
+              className={`tag has-text-weight-bold is-uppercase ${
+                selectedStatus === "Ожидает разработки"
+                  ? "is-link"
+                  : selectedStatus === "В работе"
+                  ? "is-info"
+                  : selectedStatus === "Завершено"
+                  ? "is-success"
+                  : ""
+              }`}
+            >
               {selectedStatus || "Выбрать"}
             </span>
           </span>
