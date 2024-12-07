@@ -19,9 +19,8 @@ class TicketService {
           { description: { [Op.iLike]: `%${search}%` } },
         ];
       }
-      console.log(options);
-      
-   return await Ticket.findAll({ where: options });
+
+   return await Ticket.findAll({ where: options, order: [['createdAt', 'DESC']]});
 
     } catch (error) {
       throw new Error(error.message);

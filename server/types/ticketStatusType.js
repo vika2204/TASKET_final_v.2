@@ -10,4 +10,4 @@ function validateStatus(status) {
     return TICKET_STATUS[status] !== undefined;
 }
 
-module.exports = {validateStatus, ticketStatus: TICKET_STATUS}
+module.exports = {validateStatus, TICKET_STATUS}
