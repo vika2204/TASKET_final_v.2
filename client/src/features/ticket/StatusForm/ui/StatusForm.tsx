@@ -23,7 +23,7 @@ export function StatusForm() {
           aria-controls="dropdown-menu"
         >
           <span>
-            Статус:
+            Статус:&nbsp;
             <span
               className={`tag has-text-weight-bold is-uppercase ${
                 selectedStatus === "Ожидает разработки"

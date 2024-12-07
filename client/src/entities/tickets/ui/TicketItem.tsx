@@ -25,18 +25,9 @@ export function TicketItem({ticket}:{ticket:Ticket}) {
           <div className="content">
             <div className="buttons">
                 <EditButton/>
-            <div className="dropdown is-hoverable">
-              <div className="dropdown-trigger">
                 <StatusForm/>
-              </div>
-              <div className="dropdown-menu" id="dropdown-menu" role="menu">
-              
-              </div>
+                <ResponsibleForm/>
             </div>
-            <div className="dropdown-trigger">
-            <ResponsibleForm/>
-              </div>
-          </div>
 
             <p>{ticket.description}</p>
             <br />
