@@ -10,12 +10,11 @@ export class TicketService {
     project_id: number
   ): Promise<Ticket> {
     try {
-      const response = await axiosInstance.post("/projects/1/tickets", {
+      const response = await axiosInstance.post(`/projects/${project_id}/tickets`, {
         title,
         description,
         status,
         estimate,
-        project_id,
       });
       return response.data.ticket;
     } catch (error) {
