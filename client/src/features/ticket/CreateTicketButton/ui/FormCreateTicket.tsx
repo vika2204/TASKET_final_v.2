@@ -1,6 +1,7 @@
-import { createNewTicket } from "@/entities/tickets/model/TicketThunks";
-import { useAppDispatch } from "@/shared/hooks/rtkHooks";
-import { useState } from "react";
+import {createNewTicket} from "@/entities/tickets/model/TicketThunks";
+import {useAppDispatch} from "@/shared/hooks/rtkHooks";
+import {useState} from "react";
+import {TICKET_STATUS} from "@/shared/types/statusEnum.ts";
 
 type FormCreateTicketProps = {
   onClose: () => void;
@@ -20,7 +21,6 @@ export function FormCreateTicket({ onClose }: FormCreateTicketProps) {
       createNewTicket({
         title,
         description,
-        status: "Ожидает разработки",
         estimate: Number(estimate),
         project_id: 1,
       })
