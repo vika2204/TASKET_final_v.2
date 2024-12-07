@@ -1,52 +1,39 @@
-const { Op } = require("sequelize");
 const TicketService = require("../services/Ticket.service");
 
 class TicketController {
   static async getAllTickets(req, res) {
+    const { projectId } = req.params;
     const { search, assignee_id, status } = req.query;
-    const options = {};
-
-    if (assignee_id) options.assignee_id = assignee_id;
-    if (status) options.status = status;
-
-    if (search) {
-      options[Op.or] = [
-        { title: { [Op.iLike]: `%${search}%` } },
-        { description: { [Op.iLike]: `%${search}%` } },
-      ];
-    }
 
     try {
-      const tickets = await TicketService.getAllTickets(options);
+      const tickets = await TicketService.getAllTickets(projectId, assignee_id, search, status);
       res.status(200).json(tickets);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      res.status(404).json({ error: error.message });
     }
   }
 
   static async getOneTicketController(req, res) {
     const { id } = req.params;
     try {
-      const ticket = await TicketService.getOneTickets(id);
+      const ticket = await TicketService.getOneTicket(id);
       res.status(200).json({ ticket });
     } catch (error) {
-      res.status(500).json({ message: error.message, ticket: {} });
+      res.status(404).json({ message: error.message, ticket: {} });
     }
   }
 
   static async createTicketController(req, res) {
-    const { title, author_id, description, status, estimate, project_id } =
-      req.body;
+    const { title, description, estimate} = req.body;
+    const { projectId } = req.params;
 
     // const authUser = //res.locals.user;
     if (
+      !title ||
       title.trim() === "" ||
+      !description ||
       description.trim() === "" ||
-      status.trim() === "" ||
-      !estimate ||
-      // !author_id ||
-      //!estimate||
-      !project_id
+      !estimate
     ) {
       res.status(400).json({ message: "Заполните все поля" });
       return;
@@ -56,20 +43,19 @@ class TicketController {
         title,
         author_id: 1, //authUser.id,
         description,
-        estimate: 1,
-        status,
-        project_id,
+        estimate,
+        status: 'OPEN', //todo: сделать enum
+        project_id: projectId,
       });
 
       res.status(200).json({ ticket });
     } catch (error) {
-      res.status(500).json({ message: error.message, ticket: {} });
+      res.status(404).json({ message: error.message, ticket: {} });
     }
   }
 
   static async updateTicketController(req, res) {
-    const { title, assignee_id, description, status, estimate } =
-      req.body;
+    const { title, assignee_id, description, status, estimate } = req.body;
     const { id } = req.params;
     try {
       const updateTicket = await TicketService.updateTicket(
@@ -77,10 +63,10 @@ class TicketController {
         id
       );
       if (updateTicket) {
-        const ticket = await TicketService.getOneTickets(id);
+        const ticket = await TicketService.getOneTicket(id);
         res.status(200).json({ ticket });
       } else {
-        res.status(200).json({ message: "fail" });
+        res.status(404).json({ message: "fail" });
       }
     } catch (error) {
       res.status(500).json({ message: error.message, ticket: {} });
