@@ -1,11 +1,15 @@
 const TicketService = require("../services/Ticket.service");
+const {TICKET_STATUS, validateStatus} = require("../types/ticketStatusType");
 
 class TicketController {
   static async getAllTickets(req, res) {
     const { projectId } = req.params;
     const { search, assignee_id, status } = req.query;
 
-
+    if (status !== undefined && !validateStatus(status)) {
+      res.status(400).json({ error: 'Incorrect status' });
+      return;
+    }
 
     try {
       const tickets = await TicketService.getAllTickets(
@@ -38,7 +42,6 @@ class TicketController {
 
     const authUser = res.locals.user
 
-    
     if (
       !title ||
       title.trim() === "" ||
@@ -55,7 +58,7 @@ class TicketController {
         author_id: authUser.id,
         description,
         estimate,
-        status: "Ожидает разработки", //todo: сделать enum
+        status: TICKET_STATUS.OPEN,
         project_id: projectId,
       });
 
@@ -68,6 +71,19 @@ class TicketController {
   static async updateTicketController(req, res) {
     const { title, assignee_id, description, status, estimate } = req.body;
     const { id } = req.params;
+
+    if (
+        !title ||
+        title.trim() === "" ||
+        !description ||
+        description.trim() === "" ||
+        !estimate ||
+        !validateStatus(status)
+    ) {
+      res.status(400).json({ message: "Заполните все поля" });
+      return;
+    }
+
     try {
       const updateTicket = await TicketService.updateTicket(
         { title, assignee_id, description, status, estimate },
