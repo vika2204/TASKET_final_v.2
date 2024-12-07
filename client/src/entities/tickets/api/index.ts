@@ -1,11 +1,11 @@
 import { axiosInstance } from "@/shared/lib/axiosInstance";
 import { Ticket, TicketList } from "../model";
+import {TICKET_STATUS} from "@/shared/types/statusEnum.ts";
 
 export class TicketService {
   static async createNewTicket(
     title: string,
     description: string,
-    status: string,
     estimate: number,
     project_id: number
   ): Promise<Ticket> {
@@ -27,7 +27,7 @@ export class TicketService {
 
     search: string,
     assignee_id: number|undefined,
-    status: string
+    status: TICKET_STATUS
   ): Promise<TicketList> {
     try {
       const response = await axiosInstance.get(`/projects/1/tickets`, {
@@ -59,7 +59,7 @@ export class TicketService {
     title: string,
     assignee_id: number,
     description: string,
-    status: string,
+    status: TICKET_STATUS,
     estimate: number
   ): Promise<Ticket> {
     try {

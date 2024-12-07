@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 import { Ticket, TicketList } from ".";
 import { TicketService } from "../api";
+import {TICKET_STATUS} from "@/shared/types/statusEnum.ts";
 
 type rejectValue = {
   message: string;
@@ -9,7 +10,7 @@ type rejectValue = {
 
 export const getAllTickets = createAsyncThunk<
   TicketList,
-  {search:string, assignee_id:number|undefined, status:string},
+  {search:string, assignee_id:number|undefined, status:TICKET_STATUS},
   { rejectValue: rejectValue }
 >("get/tickets", async ({search, assignee_id, status}, { rejectWithValue }) => {
   try {
@@ -40,14 +41,14 @@ export const getOneTicket = createAsyncThunk<
 export const createNewTicket = createAsyncThunk<
   Ticket,
   {
-    title:string,description:string,status:string,estimate:number,project_id:number
+    title:string,description:string,estimate:number,project_id:number
   },
   { rejectValue: rejectValue }
 >(
   "create/ticket",
-  async ({ title, description, status, estimate,project_id }, { rejectWithValue }) => {
+  async ({ title, description, estimate,project_id }, { rejectWithValue }) => {
     try {
-      return await TicketService.createNewTicket(title, description, status, estimate,project_id);
+      return await TicketService.createNewTicket(title, description, estimate,project_id);
     } catch (error) {
       const err = error as AxiosError<{ message: string }>;
       return rejectWithValue({
@@ -60,12 +61,12 @@ export const createNewTicket = createAsyncThunk<
 export const updateTicket = createAsyncThunk<
   Ticket,
   {
-   id:number, title:string, assignee_id:number, description:string, status:string, estimate:number
+   id:number, title:string, assignee_id:number, description:string, status:TICKET_STATUS, estimate:number
   },
   { rejectValue: rejectValue }
 >(
   "update/ticket",
-  async ({ id, title, assignee_id, description, status,estimate }, { rejectWithValue }) => {
+  async ({ id, title, assignee_id, description, status, estimate }, { rejectWithValue }) => {
     try {
       return await TicketService.updateTicket(
         id,title, assignee_id, description, status,estimate
