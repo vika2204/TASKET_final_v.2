@@ -1,5 +1,5 @@
 import { useAppSelector } from "@/shared/hooks/rtkHooks.ts";
-import { Logout } from "./Loguot";
+import { Logout } from "./Logout";
 
 export function Nav() {
   const { user } = useAppSelector((state) => state.user);
