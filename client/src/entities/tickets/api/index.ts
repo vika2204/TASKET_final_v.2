@@ -24,16 +24,18 @@ export class TicketService {
   }
 
   static async getAllTickets(
+
     search: string,
-    assignee_id: number,
+    assignee_id: number|undefined,
     status: string
   ): Promise<TicketList> {
     try {
-      const response = await axiosInstance.get("/tickets", {
+      const response = await axiosInstance.get(`/projects/1/tickets`, {
         params: { search, assignee_id, status },
       });
+      return response.data;
 
-      return response.data.tickets;
+      
     } catch (error) {
       console.error("Error fetching all tickets:", error);
       throw new Error("Failed to fetch tickets");

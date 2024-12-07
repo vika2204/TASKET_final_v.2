@@ -5,6 +5,8 @@ class TicketController {
     const { projectId } = req.params;
     const { search, assignee_id, status } = req.query;
 
+
+
     try {
       const tickets = await TicketService.getAllTickets(
         projectId,
@@ -12,6 +14,8 @@ class TicketController {
         search,
         status
       );
+
+      
       res.status(200).json(tickets);
     } catch (error) {
       res.status(404).json({ error: error.message });
@@ -33,7 +37,7 @@ class TicketController {
     const { projectId } = req.params;
 
     const authUser = res.locals.user
-    console.log(11111, authUser);
+
     
     if (
       !title ||
