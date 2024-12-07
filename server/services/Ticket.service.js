@@ -1,19 +1,31 @@
 const {Ticket} = require('../db/models')
+const {Op} = require("sequelize");
 
 class TicketService {
 
-  static async getAllTickets(options = {}) {
-
+  static async getAllTickets(projectId, assignee_id = null, status = null, search = null) {
     try {
+      const options = {
+        project_id: projectId
+      };
+
+      if (assignee_id) options.assignee_id = assignee_id;
+      if (status) options.status = status;
+
+      if (search) {
+        options[Op.or] = [
+          { title: { [Op.iLike]: `%${search}%` } },
+          { description: { [Op.iLike]: `%${search}%` } },
+        ];
+      }
+
       return await Ticket.findAll({ where: options });
     } catch (error) {
       throw new Error(error.message);
     }
   }
 
-  static async getOneTickets(id) {
-    console.log(id);
-    
+  static async getOneTicket(id) {
     try {
       const ticket = await Ticket.findByPk(id);
       return ticket;
@@ -23,8 +35,6 @@ class TicketService {
   }
 
   static async addTicket(data) {
-
-    
     try {
       const ticket = await Ticket.create(data);
       return ticket;
@@ -33,7 +43,7 @@ class TicketService {
     }
   }
 
-  
+
   static async updateTicket(data, id) {
     try {
       const [ticket] = await Ticket.update(data, {where:{id}});

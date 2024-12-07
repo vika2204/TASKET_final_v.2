@@ -1,11 +1,12 @@
 const TicketController = require("../controllers/TicketController");
+const CommentController = require("../controllers/CommentController");
 const router = require("express").Router();
 
 
-router.get('/', TicketController.getAllTickets)
 router.get('/:id', TicketController.getOneTicketController)
-router.post('/', TicketController.createTicketController)
 router.put('/:id', TicketController.updateTicketController)
+router.get('/:ticketId/comments', CommentController.getAllComments)
+router.post('/:ticketId/comments', CommentController.createCommentController)
 
 
 module.exports = router;
