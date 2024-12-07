@@ -41,8 +41,8 @@ export function ResponsibleForm() {
           aria-controls="dropdown-menu"
         >
           <span>
-            Ответственный:
-            {selectedUser ? " @" + selectedUser.username : "Выбрать "}
+            Ответственный:&nbsp;
+            {selectedUser ? " @" + selectedUser.username : "Выбрать"}
           </span>
           <span className="icon is-small" style={{ color: "white" }}>
             <i className="fas fa-angle-down" aria-hidden="true"></i>
