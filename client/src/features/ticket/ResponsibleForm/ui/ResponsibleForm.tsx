@@ -33,7 +33,7 @@ export function ResponsibleForm() {
     .slice(0, 5);
 
   return (
-    <div className="dropdown is-hoverable" style={{ marginLeft: "500px" }}>
+    <div className="dropdown is-hoverable" >
       <div className="dropdown-trigger">
         <button
           className="button"

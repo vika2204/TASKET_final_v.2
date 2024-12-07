@@ -10,14 +10,14 @@ export function TicketList() {
 const {ticketList} = useAppSelector(state=>state.ticket)
 const dispatch= useAppDispatch()
 
-const[search,setSearch] = useState<string>('фикс')
+const[search,setSearch] = useState<string>('')
 const[assignee_id,setAssignee_id] = useState<number|undefined>()
-const[status,setStatus] = useState('Ожидает разработки')
+const[status,setStatus] = useState('')
 
 
 useEffect(()=>{dispatch(getAllTickets({search:search,assignee_id:assignee_id,status:status}))},[dispatch,search,assignee_id,status])
 
-console.log(ticketList);
+
 
 
   return (
