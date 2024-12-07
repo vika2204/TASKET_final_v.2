@@ -26,7 +26,7 @@ export function getTicketStatusName(status: TICKET_STATUS | string | null): stri
             return 'Отменено';
     }
 
-    return 'Неизвестный статус';
+    return '';
 }
 
 // класс (цвет) статуса

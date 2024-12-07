@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { UserService, UserType } from "@/entities/user";
+import {UserService, UserWithoutPasswordType} from "@/entities/user";
 import { useAppSelector } from "@/shared/hooks/rtkHooks";
 
 export function ResponsibleForm() {
-  const [users, setUsers] = useState<UserType[]>([]);
-  const [selectedUser, setSelectedUser] = useState<UserType | null>(null);
+  const [users, setUsers] = useState<UserWithoutPasswordType[]>([]);
+  const [selectedUser, setSelectedUser] = useState<UserWithoutPasswordType | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const { user: authUser } = useAppSelector((state) => state.user);
 
@@ -17,7 +17,7 @@ export function ResponsibleForm() {
     loadUsers();
   }, []);
 
-  const handleUserSelect = (user: UserType) => {
+  const handleUserSelect = (user: UserWithoutPasswordType) => {
     setSelectedUser(user);
   };
 
@@ -25,12 +25,16 @@ export function ResponsibleForm() {
     setSearchTerm(event.target.value);
   };
 
-  const filteredUsers = [
-    authUser,
+  let filteredUsers = [
     ...users.filter((u) => u.id !== authUser?.id),
   ]
-    .filter((u) => u?.username.toLowerCase().includes(searchTerm.toLowerCase()))
-    .slice(0, 5);
+
+  if (authUser) {
+    filteredUsers.unshift(authUser);
+  }
+
+  filteredUsers = filteredUsers.filter((u) => u?.username.toLowerCase().includes(searchTerm.toLowerCase()) || u?.role.toLowerCase().includes(searchTerm.toLowerCase()))
+      .slice(0, 5);
 
   return (
     <div className="dropdown is-hoverable" >
@@ -44,7 +48,7 @@ export function ResponsibleForm() {
             Ответственный:&nbsp;
             {selectedUser ? " @" + selectedUser.username : "Выбрать"}
           </span>
-          <span className="icon is-small" style={{ color: "white" }}>
+          <span className="icon is-small">
             <i className="fas fa-angle-down" aria-hidden="true"></i>
           </span>
         </button>

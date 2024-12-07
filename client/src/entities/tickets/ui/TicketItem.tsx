@@ -7,11 +7,6 @@ export function TicketItem({ticket}:{ticket:Ticket}) {
     return (
 <>
 
-
-
-
-
-
         <div className="card">
         <div className="card-content">
           <div className="media">

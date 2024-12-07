@@ -40,7 +40,6 @@ export function Nav() {
               className="input"
               type="text"
               placeholder="Поиск"
-              value="ELBRUS-"
             />
           </p>
           <p className="control">
@@ -59,7 +58,7 @@ export function Nav() {
             <a>Все задачи</a>
             <ul>
               {Object.keys(TICKET_STATUS).map((status) =>
-                <li>
+                <li key={status}>
                   <a>
                   <span className={`tag ${getTicketStatusClass(status)} is-light has-text-weight-bold is-uppercase`}>
                     {getTicketStatusName(status)}

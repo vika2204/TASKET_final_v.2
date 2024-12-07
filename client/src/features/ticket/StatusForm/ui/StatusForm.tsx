@@ -28,10 +28,10 @@ export function StatusForm() {
                 getTicketStatusClass(selectedStatus)
               }`}
             >
-              {selectedStatus || "Выбрать"}
+              {getTicketStatusName(selectedStatus) || "Выбрать"}
             </span>
           </span>
-          <span className="icon is-small" style={{ color: "white" }}>
+          <span className="icon is-small">
             <i className="fas fa-angle-down" aria-hidden="true"></i>
           </span>
         </button>
@@ -45,9 +45,9 @@ export function StatusForm() {
               onClick={() => handleStatusSelect(status)}
             >
               <span
-                className={`tag is-light has-text-weight-bold is-uppercase ${getTicketStatusName(status)}`}
+                className={`tag is-light has-text-weight-bold is-uppercase ${getTicketStatusClass(status)}`}
               >
-                {status}
+                {getTicketStatusName(status)}
               </span>
             </a>
           ))}
