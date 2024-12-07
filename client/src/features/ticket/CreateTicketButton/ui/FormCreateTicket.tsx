@@ -1,4 +1,5 @@
-import { useAppSelector } from "@/shared/hooks/rtkHooks";
+import { createNewTicket } from "@/entities/tickets/model/TicketThunks";
+import { useAppDispatch } from "@/shared/hooks/rtkHooks";
 import { useState } from "react";
 
 type FormCreateTicketProps = {
@@ -10,17 +11,21 @@ export function FormCreateTicket({ onClose }: FormCreateTicketProps) {
   const [description, setDescription] = useState<string>("");
   const [estimate, setEstimate] = useState<string>("");
 
-  const { user } = useAppSelector((state) => state.user);
-
+  // const { user } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log({
-      title,
-      user,
-      description,
-      estimate,
-    });
+    dispatch(
+      createNewTicket({
+        title,
+        description,
+        status: "Ожидает разработки",
+        estimate: Number(estimate),
+        project_id: 1,
+      })
+    );
+
     onClose();
   };
 

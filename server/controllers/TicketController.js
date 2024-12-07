@@ -6,7 +6,12 @@ class TicketController {
     const { search, assignee_id, status } = req.query;
 
     try {
-      const tickets = await TicketService.getAllTickets(projectId, assignee_id, search, status);
+      const tickets = await TicketService.getAllTickets(
+        projectId,
+        assignee_id,
+        search,
+        status
+      );
       res.status(200).json(tickets);
     } catch (error) {
       res.status(404).json({ error: error.message });
@@ -24,10 +29,12 @@ class TicketController {
   }
 
   static async createTicketController(req, res) {
-    const { title, description, estimate} = req.body;
+    const { title, description, estimate } = req.body;
     const { projectId } = req.params;
 
-    // const authUser = //res.locals.user;
+    const authUser = res.locals.user
+    console.log(11111, authUser);
+    
     if (
       !title ||
       title.trim() === "" ||
@@ -41,10 +48,10 @@ class TicketController {
     try {
       const ticket = await TicketService.addTicket({
         title,
-        author_id: 1, //authUser.id,
+        author_id: authUser.id,
         description,
         estimate,
-        status: 'OPEN', //todo: сделать enum
+        status: "Ожидает разработки", //todo: сделать enum
         project_id: projectId,
       });
 
