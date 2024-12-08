@@ -49,6 +49,21 @@ console.log(authUser);
   };
 
 
+
+  const updateUserHandler = (user: UserWithoutPasswordType | null) => {
+    if (user) {
+      dispatch(updateTicket({
+        id: ticket.id,
+        title: ticket.title,
+        assignee_id: user.id,
+        description: ticket.description,
+        status: ticket.status,
+        estimate: ticket.estimate
+      }));
+    }
+  };
+
+
   let filteredUsers = [
     ...users.filter((u) => u.id !== authUser?.id),
   ]
