@@ -92,6 +92,8 @@ console.log(tickets);
       );
       if (updateTicket) {
         const ticket = await TicketService.getOneTicket(id);
+        console.log(ticket);
+        
         res.status(200).json({ ticket });
       } else {
         res.status(404).json({ message: "fail" });

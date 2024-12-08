@@ -2,9 +2,12 @@ import { getAllTickets } from "@/entities/tickets/model/TicketThunks";
 import { TicketItem } from "@/entities/tickets/ui/TicketItem";
 import { useAppDispatch, useAppSelector } from "@/shared/hooks/rtkHooks";
 import { useEffect, useState } from "react";
-import {TICKET_STATUS} from "@/shared/types/statusEnum.ts";
+import { TICKET_STATUS } from "@/shared/types/statusEnum";
 
 export function TicketList() {
+  const { ticketList } = useAppSelector(state => state.ticket);
+  const dispatch = useAppDispatch();
+
 
 const {ticketList} = useAppSelector(state=>state.ticket)
 const dispatch= useAppDispatch()
@@ -17,11 +20,14 @@ const {searchFilter, statusFilter, assigneeIdFilter} = useAppSelector((state) =>
 
 useEffect(()=>{dispatch(getAllTickets({search:searchFilter,assignee_id:assigneeIdFilter,status:statusFilter}))},[dispatch,searchFilter,assigneeIdFilter,statusFilter])
 
+  useEffect(() => {
+    dispatch(getAllTickets({ search, assignee_id, status }));
+  }, [dispatch, search, assignee_id, status]);
 
   return (
     <div>
       {ticketList.map((ticket) => (
-        <TicketItem key={ticket.id} ticket={ticket}></TicketItem>
+        <TicketItem key={ticket.id} ticket={ticket} />
       ))}
     </div>
   );

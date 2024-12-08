@@ -5,13 +5,40 @@ import {
   getTicketStatusName,
   TICKET_STATUS
 } from "@/shared/types/statusEnum.ts";
+import { useAppDispatch } from "@/shared/hooks/rtkHooks";
+import { updateTicket } from "@/entities/tickets/model/TicketThunks";
+import { Ticket } from "@/entities/tickets/model";
 
-export function StatusForm() {
-  const [selectedStatus, setSelectedStatus] = useState<TICKET_STATUS | null>(null);
+interface statusFormProps  {
+  ticket: Ticket;
+}
+
+
+export const StatusForm: React.FC<statusFormProps> = ({ticket}) => {
+  const [selectedStatus, setSelectedStatus] = useState<TICKET_STATUS | null>(ticket.status);
 
   const handleStatusSelect = (status: string) => {
-    setSelectedStatus(getTicketStatusEnumFromString(status));
+  const statusEnum =  getTicketStatusEnumFromString(status);
+  setSelectedStatus(statusEnum);
+  updateStatusHandler(statusEnum)
   };
+
+const dispatch = useAppDispatch()
+
+const updateStatusHandler = (status:TICKET_STATUS|null) => {
+  if (status) {
+    dispatch(updateTicket({
+      id: ticket.id,
+      title: ticket.title,
+      assignee_id: ticket.assignee_id,
+      description: ticket.description,
+      status: status,
+      estimate: ticket.estimate
+    }));
+  }
+};
+
+
 
   return (
     <div className="dropdown is-hoverable">

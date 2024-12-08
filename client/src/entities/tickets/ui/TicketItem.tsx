@@ -3,9 +3,14 @@ import { Ticket } from "../model";
 import { Link } from "react-router-dom";
 
 
-export function TicketItem({ticket}:{ticket:Ticket}) {
+interface  TicketItemProps {
+  ticket: Ticket;
+}
+
+
+export const TicketItem: React.FC<TicketItemProps> = ({ ticket }) => {
     return (
-<>
+
 
         <div className="card">
         <div className="card-content">
@@ -20,7 +25,7 @@ export function TicketItem({ticket}:{ticket:Ticket}) {
           <div className="content">
             <div className="buttons">
                 <EditButton/>
-                <StatusForm/>
+                <StatusForm  ticket={ticket}/>
                 <ResponsibleForm/>
             </div>
 
@@ -31,7 +36,7 @@ export function TicketItem({ticket}:{ticket:Ticket}) {
         </div>
       </div>
 
-      </>
+
 
 
     )
