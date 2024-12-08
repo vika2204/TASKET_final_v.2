@@ -1,6 +1,23 @@
-export function CommentAddForm(): JSX.Element {
+import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/shared/hooks/rtkHooks.ts";
+import { createComment } from "@/entities/comment";
 
-  
+type propsCommentAddForm = {
+  ticketId: number;
+  onCommentAdd: () => void;
+};
+
+export function CommentAddForm(props: propsCommentAddForm): JSX.Element {
+  const [commentText, setCommentText] = useState("");
+  const dispatch = useAppDispatch();
+
+  const sendComment = async (): Promise<void> => {
+    await dispatch(
+      createComment({ ticketId: props.ticketId, text: commentText })
+    );
+    setCommentText("");
+    props.onCommentAdd();
+  };
   return (
     <>
       <article className="media">
@@ -8,6 +25,8 @@ export function CommentAddForm(): JSX.Element {
           <div className="field">
             <p className="control">
               <textarea
+                onChange={(event) => setCommentText(event.target.value)}
+                value={commentText}
                 className="textarea"
                 placeholder="Add a comment..."
               ></textarea>
@@ -15,7 +34,9 @@ export function CommentAddForm(): JSX.Element {
           </div>
           <div className="field">
             <p className="control">
-              <button className="button">Оставить комментарий</button>
+              <button onClick={sendComment} className="button">
+                Оставить комментарий
+              </button>
             </p>
           </div>
         </div>

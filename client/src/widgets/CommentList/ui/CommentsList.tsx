@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "@/shared/hooks/rtkHooks.ts";
 import { CommentType, getComments, Comment } from "@/entities/comment";
-// import { CommentAddForm } from "@/widgets/CommentList";
+import { CommentAddForm } from "@/widgets/CommentList";
 
 type propsCommentList = {
   id: number;
@@ -26,13 +26,17 @@ export function CommentsList({ id }: propsCommentList): JSX.Element {
 
   return (
     <>
-      {comments.map(
-        (comment: CommentType): JSX.Element => (
-          <Comment data={comment} key={comment.id} />
+      {comments.length === 0 ? (
+        <h6 className="title is-6">Нет комментариев...</h6>
+      ) : (
+        comments.map(
+          (comment: CommentType): JSX.Element => (
+            <Comment data={comment} key={comment.id} />
+          )
         )
       )}
 
-      {/* <CommentAddForm id={id} onCommentAdd={loadComments} /> */}
+      <CommentAddForm ticketId={id} onCommentAdd={loadComments} />
     </>
   );
 }
