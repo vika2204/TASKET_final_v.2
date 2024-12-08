@@ -9,12 +9,13 @@ export function TicketList() {
 const {ticketList} = useAppSelector(state=>state.ticket)
 const dispatch= useAppDispatch()
 
-const[search,setSearch] = useState<string>('')
-const[assignee_id,setAssignee_id] = useState<number|undefined>()
-const[status,setStatus] = useState(TICKET_STATUS.OPEN)
+// const[search,setSearch] = useState<string>('')
+// const[assignee_id,setAssignee_id] = useState<number|undefined>()
+// const[status,setStatus] = useState(TICKET_STATUS.OPEN);
+const {searchFilter, statusFilter, assigneeIdFilter} = useAppSelector((state) => state.ticket.filters)
 
 
-useEffect(()=>{dispatch(getAllTickets({search:search,assignee_id:assignee_id,status:status}))},[dispatch,search,assignee_id,status])
+useEffect(()=>{dispatch(getAllTickets({search:searchFilter,assignee_id:assigneeIdFilter,status:statusFilter}))},[dispatch,searchFilter,assigneeIdFilter,statusFilter])
 
 
   return (
