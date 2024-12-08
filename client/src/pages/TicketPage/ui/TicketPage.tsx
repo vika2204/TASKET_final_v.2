@@ -1,9 +1,7 @@
-// import { useParams } from "react-router";
-
-// import { TicketItem } from "@/entities/tickets/ui/TicketItem";
-
 import { getOneTicket } from "@/entities/tickets/model/TicketThunks";
+import { TicketItem } from "@/entities/tickets/ui/TicketItem";
 import { useAppDispatch, useAppSelector } from "@/shared/hooks/rtkHooks";
+import { CommentsList } from "@/widgets/CommentList";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
@@ -18,16 +16,12 @@ export function TicketPage(): JSX.Element {
     dispatch(getOneTicket({ id: Number(id) }));
   }, [dispatch, id]);
 
-  console.log(111, ticket);
-
   return (
     <>
-      {/* тут должен выводиться компонент TicketItem */}
-      <h1>{id}</h1>
-      <h1>{ticket?.title}</h1>
+      {ticket === null ? "" : <TicketItem ticket={ticket} />}
+      <h3 className="title">Комментарии</h3>
+      <CommentsList id={Number(id)} />
 
-      {/* <h3 classNameName="title">Обсуждение</h3>
-      <CommentsList breedId={Number(ticketId)} /> */}
       <article className="media">
         <div className="media-content">
           <div className="field">
