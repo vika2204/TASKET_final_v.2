@@ -33,13 +33,13 @@ export const getComments = createAsyncThunk<
 
 export const createComment = createAsyncThunk<
   CommentType,
-  { id: number; text: string },
+  { ticketId: number; text: string },
   { rejectValue: RejectValue }
 >(
   COMMENT_THUNK_TYPES_PREFIX.COMMENT_CREATE,
-  async ({ id, text }, { rejectWithValue }) => {
+  async ({ ticketId, text }, { rejectWithValue }) => {
     try {
-      return await CommentService.createComment({ id, text });
+      return await CommentService.createComment({ ticketId, text });
     } catch (error) {
       const err = error as AxiosError<{ message: string }>;
 
