@@ -13,7 +13,7 @@ export function CommentAddForm(props: propsCommentAddForm): JSX.Element {
 
   const sendComment = async (): Promise<void> => {
     await dispatch(
-      createComment({ breedId: props.breedId, text: commentText })
+      createComment({ ticketId: props.ticketId, text: commentText })
     );
     setCommentText("");
     props.onCommentAdd();

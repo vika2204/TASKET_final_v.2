@@ -36,7 +36,7 @@ export function CommentsList({ id }: propsCommentList): JSX.Element {
         )
       )}
 
-      <CommentAddForm id={id} onCommentAdd={loadComments} />
+      <CommentAddForm ticketId={id} onCommentAdd={loadComments} />
     </>
   );
 }
