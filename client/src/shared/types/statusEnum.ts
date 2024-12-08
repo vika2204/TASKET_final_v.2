@@ -37,7 +37,7 @@ export function getTicketStatusClass(status: TICKET_STATUS | string | null): str
         case TICKET_STATUS.IN_PROGRESS:
             return "is-info";
         case TICKET_STATUS.NEED_INFO:
-            return "";
+            return "is-warning";
         case TICKET_STATUS.DONE:
             return "is-success";
         case TICKET_STATUS.CANCELED:
