@@ -15,7 +15,7 @@ export function Comment(props: propsComment): JSX.Element {
         <div className="media-content">
           <div className="content">
             <p>
-              <strong>Имя пользователя - @{username}</strong>
+              <strong>@{username}</strong>
               <br />
               {text}
               <br />
