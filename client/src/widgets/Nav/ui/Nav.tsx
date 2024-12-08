@@ -1,5 +1,6 @@
 import { useAppSelector } from "@/shared/hooks/rtkHooks.ts";
 import { Logout } from "./Logout";
+import {getTicketStatusClass, getTicketStatusName, TICKET_STATUS} from "@/shared/types/statusEnum.ts";
 
 export function Nav() {
   const { user } = useAppSelector((state) => state.user);
@@ -39,7 +40,6 @@ export function Nav() {
               className="input"
               type="text"
               placeholder="Поиск"
-              value="ELBRUS-"
             />
           </p>
           <p className="control">
@@ -57,34 +57,15 @@ export function Nav() {
           <li>
             <a>Все задачи</a>
             <ul>
-              <li>
-                <a className="is-active">
-                  <span className="tag is-link is-light has-text-weight-bold is-uppercase">
-                    Ожидает разработки
+              {Object.keys(TICKET_STATUS).map((status) =>
+                <li key={status}>
+                  <a>
+                  <span className={`tag ${getTicketStatusClass(status)} is-light has-text-weight-bold is-uppercase`}>
+                    {getTicketStatusName(status)}
                   </span>
-                </a>
-              </li>
-              <li>
-                <a>
-                  <span className="tag is-info is-light has-text-weight-bold is-uppercase">
-                    В работе
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a>
-                  <span className="tag has-text-weight-bold is-uppercase">
-                    На уточнении
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a>
-                  <span className="tag is-success is-light has-text-weight-bold is-uppercase">
-                    Завершённые
-                  </span>
-                </a>
-              </li>
+                  </a>
+                </li>
+              )}
             </ul>
           </li>
         </ul>

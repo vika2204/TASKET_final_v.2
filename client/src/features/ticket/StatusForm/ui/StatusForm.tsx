@@ -1,18 +1,17 @@
 import { useState } from "react";
+import {
+  getTicketStatusClass,
+  getTicketStatusEnumFromString,
+  getTicketStatusName,
+  TICKET_STATUS
+} from "@/shared/types/statusEnum.ts";
 
 export function StatusForm() {
-  const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
+  const [selectedStatus, setSelectedStatus] = useState<TICKET_STATUS | null>(null);
 
   const handleStatusSelect = (status: string) => {
-    setSelectedStatus(status);
+    setSelectedStatus(getTicketStatusEnumFromString(status));
   };
-
-  const statuses = [
-    "Ожидает разработки",
-    "В работе",
-    "На уточнении",
-    "Завершено",
-  ];
 
   return (
     <div className="dropdown is-hoverable">
@@ -26,43 +25,29 @@ export function StatusForm() {
             Статус:&nbsp;
             <span
               className={`tag has-text-weight-bold is-uppercase ${
-                selectedStatus === "Ожидает разработки"
-                  ? "is-link"
-                  : selectedStatus === "В работе"
-                  ? "is-info"
-                  : selectedStatus === "Завершено"
-                  ? "is-success"
-                  : ""
+                getTicketStatusClass(selectedStatus)
               }`}
             >
-              {selectedStatus || "Выбрать"}
+              {getTicketStatusName(selectedStatus) || "Выбрать"}
             </span>
           </span>
-          <span className="icon is-small" style={{ color: "white" }}>
+          <span className="icon is-small">
             <i className="fas fa-angle-down" aria-hidden="true"></i>
           </span>
         </button>
       </div>
       <div className="dropdown-menu" id="dropdown-menu" role="menu">
         <div className="dropdown-content">
-          {statuses.map((status) => (
+          {Object.keys(TICKET_STATUS).map((status) => (
             <a
               key={status}
               className="dropdown-item"
               onClick={() => handleStatusSelect(status)}
             >
               <span
-                className={`tag is-light has-text-weight-bold is-uppercase ${
-                  status === "Ожидает разработки"
-                    ? "is-link"
-                    : status === "В работе"
-                    ? "is-info"
-                    : status === "Завершено"
-                    ? "is-success"
-                    : ""
-                }`}
+                className={`tag is-light has-text-weight-bold is-uppercase ${getTicketStatusClass(status)}`}
               >
-                {status}
+                {getTicketStatusName(status)}
               </span>
             </a>
           ))}

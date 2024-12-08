@@ -69,7 +69,12 @@ class UserController {
   static async getAllUsers(req, res) {
     try {
       const users = await UserService.getUsers();
-      res.status(200).json({ message: "Success", users });
+      const usersWithoutPassword = users.map((user) => {
+        const targetUser = user.get();
+        delete targetUser.password;
+        return targetUser;
+      })
+      res.status(200).json({ message: "Success", users: usersWithoutPassword });
     } catch (error) {
       res.status(500).json({ message: error.message, users: [] });
     }
