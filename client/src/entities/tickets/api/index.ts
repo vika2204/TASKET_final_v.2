@@ -68,8 +68,7 @@ export class TicketService {
         status,
         estimate,
       });
-      console.log(1111111,response);
-      
+
       return response.data.ticket;
     } catch (error) {
       console.error("Error updating ticket:", error);
