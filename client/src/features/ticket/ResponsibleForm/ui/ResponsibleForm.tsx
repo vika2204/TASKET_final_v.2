@@ -62,12 +62,12 @@ console.log(authUser);
     <div className="dropdown is-hoverable" >
       <div className="dropdown-trigger">
         <button
-          className="button"
+          className={users.length === 0 ? "button is-loading" : "button"}
           aria-haspopup="true"
           aria-controls="dropdown-menu"
         >
           <span>
-            Ответственный:&nbsp;
+            Исполнитель:&nbsp;
             {selectedUser ? " @" + selectedUser.username : "Выбрать"}
           </span>
           <span className="icon is-small">

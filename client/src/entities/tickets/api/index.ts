@@ -75,4 +75,13 @@ export class TicketService {
       throw new Error("Failed to update ticket");
     }
   }
+
+  static async ticketAnalysis(id: number): Promise<{isGoodTicket: boolean, analysis: string}> {
+    try{
+      const response = await axiosInstance.post(`/tickets/${id}/analysis`);
+      return response.data;
+    } catch(error) {
+      throw new Error("Failed to get ticket analysis");
+    }
+  }
 }

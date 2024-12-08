@@ -86,7 +86,7 @@ export function FormEditTicket({ onClose,ticket }: FormEditTicketProps) {
             </div>
             <div className="field">
               <div className="control">
-                <button className="button is-primary" type="submit">
+                <button className="button is-info" type="submit">
                   Применить
                 </button>
               </div>
