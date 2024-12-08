@@ -5,8 +5,6 @@ type propsComment = {
 };
 
 export function Comment(props: propsComment): JSX.Element {
-  //   console.log(comment);
-
   return (
     <div className="box">
       <article className="media">

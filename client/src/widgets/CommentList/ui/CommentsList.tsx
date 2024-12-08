@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "@/shared/hooks/rtkHooks.ts";
 import { CommentType, getComments, Comment } from "@/entities/comment";
-// import { CommentAddForm } from "@/widgets/CommentList";
+import { CommentAddForm } from "@/widgets/CommentList";
 
 type propsCommentList = {
   id: number;
@@ -32,7 +32,7 @@ export function CommentsList({ id }: propsCommentList): JSX.Element {
         )
       )}
 
-      {/* <CommentAddForm id={id} onCommentAdd={loadComments} /> */}
+      <CommentAddForm id={id} onCommentAdd={loadComments} />
     </>
   );
 }
