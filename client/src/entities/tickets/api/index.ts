@@ -10,12 +10,15 @@ export class TicketService {
     project_id: number
   ): Promise<Ticket> {
     try {
-      const response = await axiosInstance.post(`/projects/${project_id}/tickets`, {
-        title,
-        description,
-        status,
-        estimate,
-      });
+      const response = await axiosInstance.post(
+        `/projects/${project_id}/tickets`,
+        {
+          title,
+          description,
+          status,
+          estimate,
+        }
+      );
       return response.data.ticket;
     } catch (error) {
       console.error("Error create ticket:", error);
@@ -24,9 +27,8 @@ export class TicketService {
   }
 
   static async getAllTickets(
-
     search: string,
-    assignee_id: number|undefined,
+    assignee_id: number | undefined,
     status: string
   ): Promise<TicketList> {
     try {
@@ -34,8 +36,6 @@ export class TicketService {
         params: { search, assignee_id, status },
       });
       return response.data;
-
-      
     } catch (error) {
       console.error("Error fetching all tickets:", error);
       throw new Error("Failed to fetch tickets");
@@ -44,9 +44,7 @@ export class TicketService {
 
   static async getOneTicket(id: number): Promise<Ticket> {
     try {
-      const response = await axiosInstance.get("/tickets/:id", {
-        params: { id },
-      });
+      const response = await axiosInstance.get(`/tickets/${id}`);
       return response.data.ticket;
     } catch (error) {
       console.error("Error fetching all tickets:", error);

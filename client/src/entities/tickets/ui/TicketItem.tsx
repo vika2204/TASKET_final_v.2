@@ -16,9 +16,9 @@ export function TicketItem({ticket}:{ticket:Ticket}) {
         <div className="card-content">
           <div className="media">
             <div className="media-content">
-                {/* <Link to={`/tickets/${ticket.id}`}> */}
+                <Link to={`/tickets/${ticket.id}`}>
               <h1 className="title">{ticket.title}</h1>
-              {/* </Link> */}
+              </Link>
             </div>
           </div>
 
@@ -31,7 +31,7 @@ export function TicketItem({ticket}:{ticket:Ticket}) {
 
             <p>{ticket.description}</p>
             <br />
-            <strong>Оценка: {ticket.estimate} ч</strong>
+            <strong>Оценка: {ticket.estimate} </strong>
           </div>
         </div>
       </div>
