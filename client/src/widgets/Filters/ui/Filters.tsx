@@ -13,6 +13,7 @@ export function Filters() {
     const [searchText, setSearchText] = useState<string | null>(null);
     const dispatch = useAppDispatch();
     const {user} = useAppSelector((state) => state.user)
+    const currentFilters = useAppSelector((state) => state.ticket.filters)
 
     function applySearchFilter() {
         dispatch(ticketSlice.actions.setSearchFilter(searchText))
@@ -28,8 +29,10 @@ export function Filters() {
         dispatch(ticketSlice.actions.setAssigneeFilter(null));   //сбрасываем фильтр по текущему юзеру, если вдруг он был
     }
 
-
-
+    function applyAllTicketsFilter() {
+        dispatch(ticketSlice.actions.setStatusFilter(null))
+        dispatch(ticketSlice.actions.setAssigneeFilter(null));
+    }
 
     return (
         <>
@@ -53,14 +56,20 @@ export function Filters() {
             </div>
             <ul className="menu-list">
                 <li>
-                    <a onClick={applyAssigneeUserFilter}>Мои открытые задачи</a>
+                    <a
+                        className={currentFilters.assigneeIdFilter === user?.id ? 'is-active' : ''}
+                        onClick={applyAssigneeUserFilter}>Мои открытые задачи</a>
                 </li>
                 <li>
-                    <a>Все задачи</a>
+                    <a
+                        onClick={applyAllTicketsFilter}
+                        className={currentFilters.assigneeIdFilter === null && currentFilters.statusFilter === null ? 'is-active' : ''}>Все задачи</a>
                     <ul>
                         {Object.keys(TICKET_STATUS).map((status) =>
                                 <li key={status}>
-                                    <a onClick={() => applyStatusFilter(status)}>
+                                    <a
+                                        className={currentFilters.statusFilter === status ? 'is-active' : ''}
+                                        onClick={() => applyStatusFilter(status)}>
                   <span className={`tag ${getTicketStatusClass(status)} is-light has-text-weight-bold is-uppercase`}>
                     {getTicketStatusName(status)}
                   </span>
