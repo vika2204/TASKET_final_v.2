@@ -1,6 +1,6 @@
 import { useAppSelector } from "@/shared/hooks/rtkHooks.ts";
 import { Logout } from "./Logout";
-import {getTicketStatusClass, getTicketStatusName, TICKET_STATUS} from "@/shared/types/statusEnum.ts";
+import {Filters} from "@/widgets/Filters";
 
 export function Nav() {
   const { user } = useAppSelector((state) => state.user);
@@ -33,42 +33,7 @@ export function Nav() {
           </li>
           <Logout />
         </ul>
-        <p className="menu-label">Задачи</p>
-        <div className="field has-addons">
-          <p className="control">
-            <input
-              className="input"
-              type="text"
-              placeholder="Поиск"
-            />
-          </p>
-          <p className="control">
-            <button className="button">
-              <span className="icon">
-                <i className="fas fa-magnifying-glass"></i>
-              </span>
-            </button>
-          </p>
-        </div>
-        <ul className="menu-list">
-          <li>
-            <a>Мои открытые задачи</a>
-          </li>
-          <li>
-            <a>Все задачи</a>
-            <ul>
-              {Object.keys(TICKET_STATUS).map((status) =>
-                <li key={status}>
-                  <a>
-                  <span className={`tag ${getTicketStatusClass(status)} is-light has-text-weight-bold is-uppercase`}>
-                    {getTicketStatusName(status)}
-                  </span>
-                  </a>
-                </li>
-              )}
-            </ul>
-          </li>
-        </ul>
+        <Filters/>
       </aside>
     </>
   );
