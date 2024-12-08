@@ -82,7 +82,7 @@ export function FormCreateTicket({ onClose }: FormCreateTicketProps) {
             </div>
             <div className="field">
               <div className="control">
-                <button className="button is-primary" type="submit">
+                <button className="button is-info" type="submit">
                   Создать
                 </button>
               </div>
