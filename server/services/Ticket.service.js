@@ -10,10 +10,10 @@ class TicketService {
         project_id: projectId
       };
 
-      if (assignee_id!==0&&assignee_id!==null) options.assignee_id = assignee_id;
-      if (status!=='') options.status = status;
+      if (assignee_id) options.assignee_id = assignee_id;
+      if (status) options.status = status;
 
-      if (search!=='') {
+      if (search) {
         options[Op.or] = [
           { title: { [Op.iLike]: `%${search}%` } },
           { description: { [Op.iLike]: `%${search}%` } },

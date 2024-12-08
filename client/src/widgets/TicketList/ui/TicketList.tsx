@@ -8,9 +8,17 @@ export function TicketList() {
   const { ticketList } = useAppSelector(state => state.ticket);
   const dispatch = useAppDispatch();
 
-  const [search, setSearch] = useState<string>('');
-  const [assignee_id, setAssignee_id] = useState<number | undefined>();
-  const [status, setStatus] = useState<TICKET_STATUS>(TICKET_STATUS.OPEN);
+
+const {ticketList} = useAppSelector(state=>state.ticket)
+const dispatch= useAppDispatch()
+
+// const[search,setSearch] = useState<string>('')
+// const[assignee_id,setAssignee_id] = useState<number|undefined>()
+// const[status,setStatus] = useState(TICKET_STATUS.OPEN);
+const {searchFilter, statusFilter, assigneeIdFilter} = useAppSelector((state) => state.ticket.filters)
+
+
+useEffect(()=>{dispatch(getAllTickets({search:searchFilter,assignee_id:assigneeIdFilter,status:statusFilter}))},[dispatch,searchFilter,assigneeIdFilter,statusFilter])
 
   useEffect(() => {
     dispatch(getAllTickets({ search, assignee_id, status }));

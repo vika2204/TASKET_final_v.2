@@ -1,6 +1,6 @@
 // Импортируем редьюсер для пользователя из файла user.ts
 import userReducer from "@/entities/user/model/userSlice";
-import ticketReducer from "@/entities//tickets/model/TicketSlice";
+import {ticketReducer} from "@/entities//tickets/model/TicketSlice";
 
 // Импортируем функцию configureStore из Redux Toolkit
 import { configureStore } from "@reduxjs/toolkit";

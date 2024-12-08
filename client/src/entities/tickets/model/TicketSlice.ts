@@ -1,15 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { Ticket, TicketList } from ".";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {FilterType, Ticket, TicketList} from ".";
 import {
   getAllTickets,
   getOneTicket,
   createNewTicket,
   updateTicket
 } from "./TicketThunks";
+import {TICKET_STATUS} from "@/shared/types/statusEnum.ts";
 
 type TicketState = {
   ticketList: TicketList;
-  ticket:Ticket|null
+  ticket: Ticket | null;
+  filters: FilterType;
   error: string | null;
   loading: boolean;
 };
@@ -19,12 +21,27 @@ const initialState: TicketState = {
   ticket: null,
   error: null,
   loading: false,
+  filters: {
+    searchFilter: null,
+    statusFilter: null,
+    assigneeIdFilter: null
+  }
 };
 
-const ticketSlice = createSlice({
+export const ticketSlice = createSlice({
   name: "tickets",
   initialState,
-  reducers: {},
+  reducers: {
+    setSearchFilter(state, action: PayloadAction<string | null>) {
+      state.filters.searchFilter = action.payload
+    },
+    setAssigneeFilter(state, action: PayloadAction<number | null>) {
+      state.filters.assigneeIdFilter = action.payload
+    },
+    setStatusFilter(state, action: PayloadAction<TICKET_STATUS | null>) {
+      state.filters.statusFilter = action.payload
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(createNewTicket.pending, (state) => {
@@ -76,4 +93,4 @@ const ticketSlice = createSlice({
   },
 });
 
-export default ticketSlice.reducer;
+export const ticketReducer = ticketSlice.reducer;
