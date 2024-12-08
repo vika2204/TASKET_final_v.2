@@ -1,10 +1,12 @@
-const {Comment} = require('../db/models')
+const {Comment} = require('../db/models');
+const User = require('../db/models/User');
 class CommentService {
 
   static async getAllComments(ticket_id) {
     try {
       const comments = await Comment.findAll({
-        where: { ticket_id: ticket_id }
+        where: { ticket_id: ticket_id },
+        include: [{model: User, as: 'user'}]
       });
       return comments;
     } catch (error) {
