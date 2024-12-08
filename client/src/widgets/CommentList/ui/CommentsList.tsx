@@ -26,9 +26,13 @@ export function CommentsList({ id }: propsCommentList): JSX.Element {
 
   return (
     <>
-      {comments.map(
-        (comment: CommentType): JSX.Element => (
-          <Comment data={comment} key={comment.id} />
+      {comments.length === 0 ? (
+        <h6 className="title is-6">Нет комментарий...</h6>
+      ) : (
+        comments.map(
+          (comment: CommentType): JSX.Element => (
+            <Comment data={comment} key={comment.id} />
+          )
         )
       )}
 

@@ -1,6 +1,7 @@
 import { useAppSelector } from "@/shared/hooks/rtkHooks.ts";
 import { Logout } from "./Logout";
-import {Filters} from "@/widgets/Filters";
+import { Filters } from "@/widgets/Filters";
+import { Link } from "react-router-dom";
 
 export function Nav() {
   const { user } = useAppSelector((state) => state.user);
@@ -17,7 +18,9 @@ export function Nav() {
             paddingBottom: "20px",
           }}
         >
-          TASKET
+          <Link to={"/"}>
+            <h1 className="title is-1">TASKET</h1>
+          </Link>
         </div>
         <p className="menu-label">Вы авторизованы</p>
         <ul className="menu-list">
@@ -33,7 +36,7 @@ export function Nav() {
           </li>
           <Logout />
         </ul>
-        <Filters/>
+        <Filters />
       </aside>
     </>
   );
