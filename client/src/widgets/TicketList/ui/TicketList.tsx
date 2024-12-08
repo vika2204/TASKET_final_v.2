@@ -4,9 +4,7 @@ import { useAppDispatch, useAppSelector } from "@/shared/hooks/rtkHooks";
 import { useEffect, useState } from "react";
 import {TICKET_STATUS} from "@/shared/types/statusEnum.ts";
 
-
 export function TicketList() {
-
 
 const {ticketList} = useAppSelector(state=>state.ticket)
 const dispatch= useAppDispatch()
@@ -19,12 +17,11 @@ const[status,setStatus] = useState(TICKET_STATUS.OPEN)
 useEffect(()=>{dispatch(getAllTickets({search:search,assignee_id:assignee_id,status:status}))},[dispatch,search,assignee_id,status])
 
 
-
-
   return (
     <div>
-{ticketList.map((ticket)=><TicketItem key={ticket.id} ticket={ticket}></TicketItem>)}
+      {ticketList.map((ticket) => (
+        <TicketItem key={ticket.id} ticket={ticket}></TicketItem>
+      ))}
     </div>
   );
 }
-

@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import {HomePage, LandingPage, NotFound} from "@/pages";
+import {HomePage, LandingPage, NotFound, TicketPage} from "@/pages";
 import { UserItem } from "@/entities/user";
 import {Layout} from "@/app/router/Layout/Layout.tsx";
 import {LandingLayout} from "@/app/router/Layout/LandingLayout.tsx";
@@ -29,10 +29,10 @@ export const router = createBrowserRouter([
         path: CLIENT_ROUTES.NOT_FOUND,
         element: <NotFound />,
       },
-      // {
-      //   path: CLIENT_ROUTES.TICKET_PAGE,
-      //   element: <TicketPage />,
-      // },
+      {
+        path: CLIENT_ROUTES.TICKET_PAGE,
+        element: <TicketPage />,
+      },
     ],
   },
   {
