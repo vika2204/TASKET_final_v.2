@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import {UserService, UserWithoutPasswordType} from "@/entities/user";
-import { useAppSelector } from "@/shared/hooks/rtkHooks";
+import { useAppDispatch, useAppSelector } from "@/shared/hooks/rtkHooks";
+import { Ticket } from "@/entities/tickets/model";
+import { updateTicket } from "@/entities/tickets/model/TicketThunks";
 
-export function ResponsibleForm() {
+export function ResponsibleForm({ticket}:{ticket: Ticket}) {
   const [users, setUsers] = useState<UserWithoutPasswordType[]>([]);
   const [selectedUser, setSelectedUser] = useState<UserWithoutPasswordType | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const { user: authUser } = useAppSelector((state) => state.user);
-
+  const dispatch = useAppDispatch()
   const loadUsers = async () => {
     const loadedUsers = await UserService.getAllUsers();
     setUsers(loadedUsers);
@@ -17,13 +19,35 @@ export function ResponsibleForm() {
     loadUsers();
   }, []);
 
+  useEffect(() => {
+    const currentAssignee = users.find(user => user.id === ticket.assignee_id);
+    setSelectedUser(currentAssignee || null);
+  }, [users, ticket.assignee_id]);
+
   const handleUserSelect = (user: UserWithoutPasswordType) => {
     setSelectedUser(user);
+    updateUserHandler(user)
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
+console.log(authUser);
+
+
+  const updateUserHandler = (user: UserWithoutPasswordType | null) => {
+    if (user) {
+      dispatch(updateTicket({
+        id: ticket.id,
+        title: ticket.title,
+        assignee_id: user.id,
+        description: ticket.description,
+        status: ticket.status,
+        estimate: ticket.estimate
+      }));
+    }
+  };
+
 
   let filteredUsers = [
     ...users.filter((u) => u.id !== authUser?.id),
