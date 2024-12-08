@@ -26,7 +26,7 @@ export const TicketItem: React.FC<TicketItemProps> = ({ ticket }) => {
             <div className="buttons">
                 <EditButton/>
                 <StatusForm  ticket={ticket}/>
-                <ResponsibleForm/>
+                <ResponsibleForm ticket={ticket}/>
             </div>
 
             <p>{ticket.description}</p>
