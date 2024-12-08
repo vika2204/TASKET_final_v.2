@@ -32,7 +32,6 @@ export function ResponsibleForm({ticket}:{ticket: Ticket}) {
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
-console.log(authUser);
 
 
   const updateUserHandler = (user: UserWithoutPasswordType | null) => {

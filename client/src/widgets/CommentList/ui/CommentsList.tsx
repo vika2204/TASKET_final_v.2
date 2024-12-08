@@ -20,6 +20,8 @@ export function CommentsList({ id }: propsCommentList): JSX.Element {
     }
   };
 
+  console.log(11111, comments);
+  
   useEffect((): void => {
     loadComments();
   }, []);
