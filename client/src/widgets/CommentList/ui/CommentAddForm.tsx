@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAppDispatch, useAppSelector } from "@/shared/hooks/rtkHooks.ts";
+import { useAppDispatch } from "@/shared/hooks/rtkHooks.ts";
 import { createComment } from "@/entities/comment";
 
 type propsCommentAddForm = {

@@ -1,7 +1,7 @@
 import {createNewTicket} from "@/entities/tickets/model/TicketThunks";
 import {useAppDispatch} from "@/shared/hooks/rtkHooks";
 import {useState} from "react";
-import {TICKET_STATUS} from "@/shared/types/statusEnum.ts";
+
 
 type FormCreateTicketProps = {
   onClose: () => void;
