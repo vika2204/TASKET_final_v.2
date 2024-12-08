@@ -26,7 +26,7 @@ export function TicketItem({ticket}:{ticket:Ticket}) {
 
             <p>{ticket.description}</p>
             <br />
-            <strong>Оценка: {ticket.estimate} </strong>
+            <strong>Оценка: {ticket.estimate} ч</strong>
           </div>
         </div>
       </div>

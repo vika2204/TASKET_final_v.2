@@ -3,4 +3,5 @@ export type CommentType = {
   user_id: number;
   text: string;
   ticket_id: number;
+  createdAt: string;
 };

@@ -1,43 +1,51 @@
-import {createAsyncThunk} from "@reduxjs/toolkit";
-import {AxiosError} from "axios";
-import {CommentService} from "@/entities/comment/api";
-import {CommentType} from "@/entities/comment/model/index.ts";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { AxiosError } from "axios";
+import { CommentService } from "@/entities/comment/api";
+import { CommentType } from "@/entities/comment/model/index.ts";
 
-// Определяем тип RejectValue для значения rejectWithValue
 type RejectValue = {
-    message: string;
+  message: string;
 };
 
 enum COMMENT_THUNK_TYPES_PREFIX {
-    COMMENT_GET_ALL = 'comment/getAll',
-    COMMENT_CREATE = 'comment/create',
+  COMMENT_GET_ALL = "comments/getAll",
+  COMMENT_CREATE = "comments/create",
 }
 
-export const getComments = createAsyncThunk<CommentType[], number, { rejectValue: RejectValue }>(COMMENT_THUNK_TYPES_PREFIX.COMMENT_GET_ALL, async (breedId, { rejectWithValue }) => {
+export const getComments = createAsyncThunk<
+  CommentType[],
+  number,
+  { rejectValue: RejectValue }
+>(
+  COMMENT_THUNK_TYPES_PREFIX.COMMENT_GET_ALL,
+  async (id, { rejectWithValue }) => {
     try {
-        return await CommentService.getComments(breedId)
+      return await CommentService.getComments(id);
     } catch (error) {
-        // Обрабатываем ошибку, приводя ее к типу AxiosError
-        const err = error as AxiosError<{ message: string }>
+      const err = error as AxiosError<{ message: string }>;
 
-        // Возвращаем значение rejectWithValue с сообщением об ошибке
-        return rejectWithValue({
-            message: err.response?.data.message || err.message
-        });
+      return rejectWithValue({
+        message: err.response?.data.message || err.message,
+      });
     }
-});
+  }
+);
 
-export const createComment = createAsyncThunk<CommentType, {breedId: number, text: string}, { rejectValue: RejectValue }>(COMMENT_THUNK_TYPES_PREFIX.COMMENT_CREATE, async ({breedId, text}, { rejectWithValue }) => {
+export const createComment = createAsyncThunk<
+  CommentType,
+  { id: number; text: string },
+  { rejectValue: RejectValue }
+>(
+  COMMENT_THUNK_TYPES_PREFIX.COMMENT_CREATE,
+  async ({ id, text }, { rejectWithValue }) => {
     try {
-        return await CommentService.createComment({breedId, text})
+      return await CommentService.createComment({ id, text });
     } catch (error) {
-        // Обрабатываем ошибку, приводя ее к типу AxiosError
-        const err = error as AxiosError<{ message: string }>
+      const err = error as AxiosError<{ message: string }>;
 
-        // Возвращаем значение rejectWithValue с сообщением об ошибке
-        return rejectWithValue({
-            message: err.response?.data.message || err.message
-        });
+      return rejectWithValue({
+        message: err.response?.data.message || err.message,
+      });
     }
-});
-
+  }
+);

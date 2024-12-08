@@ -1,36 +1,38 @@
-import {useEffect, useState} from 'react';
-import {useAppDispatch} from "@/shared/hooks/rtkHooks.ts";
-import {CommentType, getComments, Comment} from "@/entities/comment";
-import {CommentAddForm} from "@/widgets/CommentList";
-
+import { useEffect, useState } from "react";
+import { useAppDispatch } from "@/shared/hooks/rtkHooks.ts";
+import { CommentType, getComments, Comment } from "@/entities/comment";
+// import { CommentAddForm } from "@/widgets/CommentList";
 
 type propsCommentList = {
-    breedId: number;
-}
+  id: number;
+};
 
-export function CommentsList({breedId}: propsCommentList): JSX.Element {
-    const[comments, setComments] = useState<CommentType[]>([]);
-    const dispatch = useAppDispatch();
+export function CommentsList({ id }: propsCommentList): JSX.Element {
+  const [comments, setComments] = useState<CommentType[]>([]);
+  const dispatch = useAppDispatch();
 
-    function loadComments(): void {
-        dispatch(getComments(breedId))
-            .then((action) => {
-                if (getComments.fulfilled.match(action)) {
-                    setComments(action.payload);
-                }
-        })
+  const loadComments = async (): Promise<void> => {
+    try {
+      const payload = await dispatch(getComments(id)).unwrap();
+      setComments(payload);
+    } catch (error) {
+      console.error("Failed to load comments", error);
     }
+  };
 
-    useEffect((): void => {
-        loadComments()
-    }, [])
+  useEffect((): void => {
+    loadComments();
+  }, []);
 
-    return (
-        <>
-            {comments.map((comment: CommentType): JSX.Element => <Comment data={comment} key={comment.id}/> )}
+  return (
+    <>
+      {comments.map(
+        (comment: CommentType): JSX.Element => (
+          <Comment data={comment} key={comment.id} />
+        )
+      )}
 
-            <CommentAddForm breedId={breedId} onCommentAdd={loadComments} />
-        </>
-    );
+      {/* <CommentAddForm id={id} onCommentAdd={loadComments} /> */}
+    </>
+  );
 }
-
