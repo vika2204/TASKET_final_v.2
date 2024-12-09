@@ -1,14 +1,15 @@
 import {TicketService} from "@/entities/tickets/api";
 import {useEffect, useState} from "react";
+import {useAppSelector} from "@/shared/hooks/rtkHooks.ts";
 
 
 export function AiAdvice({ticketId}: {ticketId: number}) {
     const [analysis, setAnalysis] = useState<{isGoodTicket: boolean, analysis: string} | null>(null);
-
+    const currentTicket = useAppSelector((state) => state.ticket.ticket)
 
     useEffect(() => {
         loadAiAdvice()
-    }, [ticketId])
+    }, [ticketId, currentTicket?.description, currentTicket?.estimate])
 
 
     async function loadAiAdvice(){

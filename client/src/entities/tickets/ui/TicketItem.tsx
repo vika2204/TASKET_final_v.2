@@ -1,25 +1,15 @@
 import { EditButton, ResponsibleForm, StatusForm } from "@/features/ticket";
 import { Ticket } from "../model";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "@/shared/hooks/rtkHooks";
-import { getAllProjects } from "@/entities/projects/model/ProjectThunk";
-
+import { useAppSelector } from "@/shared/hooks/rtkHooks";
+import sanitizeHtml from 'sanitize-html';
 
 interface TicketItemProps {
   ticket: Ticket;
 }
 
 export const TicketItem: React.FC<TicketItemProps> = ({ ticket }) => {
-  const dispatch = useAppDispatch();
-  const projectList = useAppSelector(state => state.project.projectList);
-
-  useEffect(() => {
-    dispatch(getAllProjects());
-  }, [dispatch]);
-
-
-  const project = projectList.find(project => project.id === ticket.project_id);
+  const project = useAppSelector(state => state.project.currentProject);
 
   return (
     <div className="card">
@@ -34,13 +24,21 @@ export const TicketItem: React.FC<TicketItemProps> = ({ ticket }) => {
 
         <div className="content">
           <div className="buttons">
-            <EditButton ticket={ticket} />
-            <StatusForm ticket={ticket} />
-            <ResponsibleForm ticket={ticket} />
+            <EditButton ticket={ticket}/>
+            <StatusForm ticket={ticket}/>
+            <ResponsibleForm ticket={ticket}/>
           </div>
 
-          <p>{ticket.description}</p>
-          <br />
+          {/*<p>{ticket.description}</p>*/}
+          {/*раньше использовали пропс выше, а теперь выводим сырой HTML код dangerouslySetInnerHTML*/}
+          {/*sanitizeHtml имеет белый список тегов, которые безопасно выводить*/}
+          {/*мы добавляем в этот метод атрибут цвет текста*/}
+          <p dangerouslySetInnerHTML={{__html: sanitizeHtml(ticket.description, {
+            allowedAttributes: {
+              span: ['style']
+            }
+            })}}/>
+          <br/>
           <strong>Оценка: {ticket.estimate} ч</strong>
         </div>
       </div>

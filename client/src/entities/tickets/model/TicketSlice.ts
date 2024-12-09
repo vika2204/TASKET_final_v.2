@@ -73,6 +73,7 @@ export const ticketSlice = createSlice({
         state.ticketList = state.ticketList.map((el) =>
           el.id === action.payload.id ? action.payload : el
         );
+        state.ticket = action.payload;
         state.loading = false;
         state.error = null;
       })
