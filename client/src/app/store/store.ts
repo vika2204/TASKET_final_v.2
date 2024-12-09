@@ -4,11 +4,13 @@ import {ticketReducer} from "@/entities//tickets/model/TicketSlice";
 
 // Импортируем функцию configureStore из Redux Toolkit
 import { configureStore } from "@reduxjs/toolkit";
+import { projectReducer } from "@/entities/projects/model/ProjectSlice";
 
 const store = configureStore({
   reducer: {
     user: userReducer,
     ticket: ticketReducer,
+    project: projectReducer
   },
 });
 
