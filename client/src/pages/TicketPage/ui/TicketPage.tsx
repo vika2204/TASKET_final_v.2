@@ -8,7 +8,7 @@ import {AiAdvice} from "@/features/ticket/AI";
 
 export function TicketPage(): JSX.Element {
   const { id } = useParams();
-
+  
   const dispatch = useAppDispatch();
 
   const { ticket } = useAppSelector((state) => state.ticket);
