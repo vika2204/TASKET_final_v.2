@@ -73,10 +73,32 @@ class UserController {
         const targetUser = user.get();
         delete targetUser.password;
         return targetUser;
-      })
+      });
       res.status(200).json({ message: "Success", users: usersWithoutPassword });
     } catch (error) {
       res.status(500).json({ message: error.message, users: [] });
+    }
+  }
+
+  static async updateUserController(req, res) {
+    const { username, password } = req.body;
+    const { id } = res.locals.user;
+  
+    try {
+      const updateData = {};
+      if (username) updateData.username = username;
+      if (password) updateData.password = password;
+  
+      const countUpdated = await UserService.updateUser(updateData, id);
+  
+      if (countUpdated > 0) {
+        const user = await UserService.getOneUser(id);
+        res.status(200).json({ message: "Success", user });
+      } else {
+        res.status(301).json({ message: "No your user" });
+      }
+    } catch (error) {
+      res.status(500).json({ message: error.message, user: {} });
     }
   }
 }

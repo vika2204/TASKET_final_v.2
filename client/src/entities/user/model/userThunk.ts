@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
-import { UserWithoutPasswordType } from "./index";
+import {  UserWithoutPasswordType } from "./index";
 import { UserService } from "../api";
 type RejectValue = {
   message: string;
@@ -86,3 +86,22 @@ export const logout = createAsyncThunk<
     });
   }
 });
+
+export const updateUser = createAsyncThunk<
+  UserWithoutPasswordType,
+  { username: string; password: string },
+  { rejectValue: RejectValue }
+>(
+  "user/updateUser",
+  async ({ username, password }, { rejectWithValue }) => {
+    try {
+      const response = await UserService.updateUser(username, password);
+      return response;
+    } catch (error) {
+      const err = error as AxiosError<{ message: string }>;
+      return rejectWithValue({
+        message: err.response?.data.message || err.message,
+      });
+    }
+  }
+);

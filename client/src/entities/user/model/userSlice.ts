@@ -5,6 +5,8 @@ import {
   registration,
   authorization,
   logout,
+  updateUser,
+  // updateUser,
 } from "./userThunk";
 
 type UserState = {
@@ -79,6 +81,22 @@ const userSlice = createSlice({
         state.loading = false;
         state.error = action.payload?.message || "Logout: fail";
         state.user = null;
+      })
+
+      .addCase(updateUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+        // state.error = action.payload?.message || "Logout: fail";
+
+      })
+      .addCase(updateUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload?.message || "Logout: fail";
+        state.error = null;
       });
   },
 });

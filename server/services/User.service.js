@@ -72,6 +72,32 @@ class UserService {
       throw new Error(error.message);
     }
   }
+
+  static async updateUser(data, id) {
+    try {
+      const [countUpdated] = await User.update(data, { where: { id } });
+      return countUpdated;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  static async getOneUser(id) {
+    try {
+      const user = await User.findOne({
+        where: {
+          id,
+        },
+      });
+
+      const userWithoutPassword = user.get()
+      delete userWithoutPassword.password
+
+      return userWithoutPassword;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
 }
 
 module.exports = UserService;
