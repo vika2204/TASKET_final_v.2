@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 
 export function TicketPage(): JSX.Element {
   const { id } = useParams();
-
+  
   const dispatch = useAppDispatch();
 
   const { ticket } = useAppSelector((state) => state.ticket);

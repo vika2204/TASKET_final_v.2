@@ -18,7 +18,6 @@ class TicketController {
         search,
         status
       );
-console.log(tickets);
 
       
       res.status(200).json(tickets);
