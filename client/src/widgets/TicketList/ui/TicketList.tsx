@@ -1,4 +1,3 @@
-import { getAllProjects } from "@/entities/projects/model/ProjectThunk";
 import { getAllTickets } from "@/entities/tickets/model/TicketThunks";
 import { TicketItem } from "@/entities/tickets/ui/TicketItem";
 import { useAppDispatch, useAppSelector } from "@/shared/hooks/rtkHooks";
