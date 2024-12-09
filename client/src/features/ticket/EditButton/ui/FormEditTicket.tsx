@@ -1,8 +1,8 @@
-
 import { Ticket } from "@/entities/tickets/model";
 import { updateTicket } from "@/entities/tickets/model/TicketThunks";
 import {useAppDispatch} from "@/shared/hooks/rtkHooks";
 import {useState} from "react";
+import {RichEditor} from "@/widgets/RichEditor";
 
 
 type FormEditTicketProps = {
@@ -63,16 +63,11 @@ export function FormEditTicket({ onClose,ticket }: FormEditTicketProps) {
             <div className="field">
               <label className="label">Описание</label>
               <div className="control">
-                <textarea
-                  className="textarea"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  required
-                ></textarea>
-              </div>
+                  <RichEditor state={description} setState={setDescription}/>
             </div>
+      </div>
 
-            <div className="field">
+      <div className="field">
               <label className="label">Оценка (часы)</label>
               <div className="control">
                 <input

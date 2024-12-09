@@ -1,16 +1,18 @@
-import {createSlice} from "@reduxjs/toolkit";
-import { ProjectList } from ".";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {Project, ProjectList} from ".";
 import { createNewProject, getAllProjects } from "./ProjectThunk";
 
 
 type ProjectState = {
   projectList: ProjectList;
+  currentProject: Project;
   error: string | null;
   loading: boolean;
 };
 
 const initialState: ProjectState = {
   projectList: [],
+  currentProject: {id: 1, title: 'Tasket', code: 'TASKET'} as Project,
   error: null,
   loading: false,
 };
@@ -18,7 +20,11 @@ const initialState: ProjectState = {
 export const projectSlice = createSlice({
   name: "projects",
   initialState,
-  reducers: {},
+  reducers: {
+    setSelectedProject(state, action: PayloadAction<Project>) {
+      state.currentProject = action.payload;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(createNewProject.pending, (state) => {

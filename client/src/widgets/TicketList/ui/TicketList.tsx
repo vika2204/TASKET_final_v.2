@@ -5,20 +5,22 @@ import { useEffect, useState } from "react";
 
 export function TicketList() {
   const { ticketList } = useAppSelector(state => state.ticket);
+  const { currentProject } = useAppSelector(state => state.project);
   const dispatch = useAppDispatch();
 
   const { searchFilter, statusFilter, assigneeIdFilter } = useAppSelector((state) => state.ticket.filters);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10); // Количество элементов на странице
+  const [itemsPerPage] = useState(10); // Количество элементов на странице
 
   useEffect(() => {
     dispatch(getAllTickets({
       search: searchFilter,
       assignee_id: assigneeIdFilter,
-      status: statusFilter
+      status: statusFilter,
+      projectId: currentProject.id
     }));
-  }, [dispatch, searchFilter, assigneeIdFilter, statusFilter]);
+  }, [dispatch, searchFilter, assigneeIdFilter, statusFilter, currentProject]);
 
   // Функция для получения текущей страницы
   const getCurrentPageItems = () => {
@@ -33,7 +35,7 @@ export function TicketList() {
     return Array.from({ length: pageCount }, (_, i) => i + 1);
   };
 
-  const handlePageChange = (pageNumber) => {
+  const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
 

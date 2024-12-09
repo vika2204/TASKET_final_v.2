@@ -1,7 +1,7 @@
-import {createNewTicket} from "@/entities/tickets/model/TicketThunks";
-import {useAppDispatch} from "@/shared/hooks/rtkHooks";
+import {createNewTicket, getAllTickets} from "@/entities/tickets/model/TicketThunks";
+import {useAppDispatch, useAppSelector} from "@/shared/hooks/rtkHooks";
 import {useState} from "react";
-
+import {RichEditor} from "@/widgets/RichEditor";
 
 type FormCreateTicketProps = {
   onClose: () => void;
@@ -11,20 +11,29 @@ export function FormCreateTicket({ onClose }: FormCreateTicketProps) {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [estimate, setEstimate] = useState<string>("");
+  const currentProject = useAppSelector((state) => state.project.currentProject)
+  const { searchFilter, statusFilter, assigneeIdFilter } = useAppSelector((state) => state.ticket.filters);
 
   // const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    dispatch(
+    await dispatch(
       createNewTicket({
         title,
         description,
         estimate: Number(estimate),
-        project_id: 1,
+        project_id: currentProject.id,
       })
-    );
+    ).unwrap();
+
+    dispatch(getAllTickets({
+      search: searchFilter,
+      assignee_id: assigneeIdFilter,
+      status: statusFilter,
+      projectId: currentProject.id
+    }));
 
     onClose();
   };
@@ -59,12 +68,7 @@ export function FormCreateTicket({ onClose }: FormCreateTicketProps) {
             <div className="field">
               <label className="label">Описание</label>
               <div className="control">
-                <textarea
-                  className="textarea"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  required
-                ></textarea>
+                <RichEditor state={description} setState={setDescription}/>
               </div>
             </div>
 

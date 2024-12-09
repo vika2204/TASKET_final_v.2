@@ -28,11 +28,11 @@ export class TicketService {
   static async getAllTickets(
     search: string | null,
     assignee_id: number | null,
-    status: TICKET_STATUS | null
-
+    status: TICKET_STATUS | null,
+    projectId: number
   ): Promise<TicketList> {
     try {
-      const response = await axiosInstance.get(`/projects/1/tickets`, {
+      const response = await axiosInstance.get(`/projects/${projectId}/tickets`, {
         params: { search, assignee_id, status },
       });
       return response.data;
