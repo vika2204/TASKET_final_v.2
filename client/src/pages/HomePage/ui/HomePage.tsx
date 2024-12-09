@@ -3,20 +3,13 @@ import { CreateTicketButton } from "@/features/ticket";
 import { TicketList } from "@/widgets/TicketList";
 
 export function HomePage() {
-
-
   return (
-  
-  <>
-
-<ProjectsDropDown />
-<CreateTicketButton />
-
-    <TicketList/>
-  </>
-  
-
-
-
-)
+    <>
+      <div className="level">
+        <ProjectsDropDown />
+        <CreateTicketButton />
+      </div>
+      <TicketList />
+    </>
+  );
 }
