@@ -1,5 +1,6 @@
 const TicketService = require("../services/Ticket.service");
 const {TICKET_STATUS, validateStatus} = require("../types/ticketStatusType");
+const AIService = require("../services/AI.service")
 
 class TicketController {
   static async getAllTickets(req, res) {
@@ -19,7 +20,7 @@ class TicketController {
         status
       );
 
-      
+
       res.status(200).json(tickets);
     } catch (error) {
       res.status(404).json({ error: error.message });
@@ -92,7 +93,7 @@ class TicketController {
       if (updateTicket) {
         const ticket = await TicketService.getOneTicket(id);
         console.log(ticket);
-        
+
         res.status(200).json({ ticket });
       } else {
         res.status(404).json({ message: "fail" });
@@ -101,6 +102,24 @@ class TicketController {
       res.status(500).json({ message: error.message, ticket: {} });
     }
   }
+
+  static async ticketAnalysisController (req, res) {
+    try {
+      const {ticketId} = req.params;
+      const ticket = await TicketService.getOneTicket(ticketId);
+      if(ticket === undefined){
+        res.status(404).json({ message: `ticket is not found`});
+        return;
+      }
+      const response = await AIService.askGPT(ticket);
+      res.status(200).json(response);
+
+    } catch (error) {
+      res.status(500).json({ message: error.message, ticket: {} })
+    }
+
+  }
+
 }
 
 module.exports = TicketController;
