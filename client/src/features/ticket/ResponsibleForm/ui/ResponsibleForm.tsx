@@ -33,7 +33,6 @@ export function ResponsibleForm({ticket}:{ticket: Ticket}) {
     setSearchTerm(event.target.value);
   };
 
-
   const updateUserHandler = (user: UserWithoutPasswordType | null) => {
     if (user) {
       dispatch(updateTicket({
