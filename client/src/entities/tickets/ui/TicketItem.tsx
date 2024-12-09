@@ -17,7 +17,7 @@ export const TicketItem: React.FC<TicketItemProps> = ({ ticket }) => {
         <div className="media">
           <div className="media-content">
             <Link to={`/tickets/${ticket.id}`}>
-              <h1 className="title">{project ? project.title : "Unknown Project"}-{ticket.id} {ticket.title}</h1>
+              <h1 className="title">{project.code}-{ticket.id} {ticket.title}</h1>
             </Link>
           </div>
         </div>
