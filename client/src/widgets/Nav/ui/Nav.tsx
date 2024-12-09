@@ -24,16 +24,16 @@ export function Nav() {
         </div>
         <p className="menu-label">Вы авторизованы</p>
         <ul className="menu-list">
-          <li>
-            <a>
+          <Link to={`/profile/${user?.id}`}>
+            <li>
               <span className="icon-text">
                 <span className="icon">
                   <i className="fas fa-user"></i>
                 </span>
                 <span>Личный кабинет @{user?.username}</span>
               </span>
-            </a>
-          </li>
+            </li>
+          </Link>
           <Logout />
         </ul>
         <Filters />
