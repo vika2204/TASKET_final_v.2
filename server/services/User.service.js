@@ -89,7 +89,11 @@ class UserService {
           id,
         },
       });
-      return user;
+
+      const userWithoutPassword = user.get()
+      delete userWithoutPassword.password
+
+      return userWithoutPassword;
     } catch (error) {
       throw new Error(error.message);
     }

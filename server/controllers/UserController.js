@@ -80,19 +80,22 @@ class UserController {
     }
   }
 
-  static async updateUser(req, res) {
+  static async updateUserController(req, res) {
     const { username, password } = req.body;
     const { id } = res.locals.user;
-
+  
     try {
-      const countUpdated = await UserService.updateUser(req.body, id);
-
+      const updateData = {};
+      if (username) updateData.username = username;
+      if (password) updateData.password = password;
+  
+      const countUpdated = await UserService.updateUser(updateData, id);
+  
       if (countUpdated > 0) {
         const user = await UserService.getOneUser(id);
-
         res.status(200).json({ message: "Success", user });
       } else {
-        res.status(200).json({ message: "No your user" });
+        res.status(301).json({ message: "No your user" });
       }
     } catch (error) {
       res.status(500).json({ message: error.message, user: {} });
