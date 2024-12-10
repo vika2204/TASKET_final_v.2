@@ -77,7 +77,7 @@ export const RegistrationForm: React.FC = () => {
         </style>
         <div className="field">
           <label className="label has-text-black">Email</label>
-          <div className="control has-icons-right">
+          <div className="control has-icons-left">
             <input
               className={`input has-background-white has-text-black ${
                 errors.email ? "is-danger" : ""

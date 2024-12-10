@@ -15,6 +15,10 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(models.Comment,{
         foreignKey:"ticket_id",
       });
+      this.belongsTo(models.Project,{
+        foreignKey: "project_id",
+        as: 'project'
+      });
     }
   }
   Ticket.init({

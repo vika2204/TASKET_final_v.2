@@ -49,7 +49,7 @@ const updateStatusHandler = (status:TICKET_STATUS|null) => {
           <span>
             Статус:&nbsp;
             <span
-              className={`tag has-text-weight-bold is-uppercase ${
+              className={`tag has-text-weight-bold is-light is-uppercase ${
                 getTicketStatusClass(selectedStatus)
               }`}
             >

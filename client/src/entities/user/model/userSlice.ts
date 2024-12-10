@@ -9,13 +9,13 @@ import {
 } from "./userThunk";
 
 type UserState = {
-  user: UserWithoutPasswordType | null;
+  user: UserWithoutPasswordType | null | undefined; // undefined - неизвестно, есть ли юзер (нужно для корректной работы ProtectedRoute)
   error: string | null;
   loading: boolean;
 };
 
 const initialState: UserState = {
-  user: null,
+  user: undefined, // undefined - неизвестно, есть ли юзер (нужно для корректной работы ProtectedRoute), null - известно, что нет
   error: null,
   loading: false,
 };

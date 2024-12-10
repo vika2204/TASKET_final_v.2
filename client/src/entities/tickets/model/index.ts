@@ -1,4 +1,5 @@
 import {TICKET_STATUS} from "@/shared/types/statusEnum.ts";
+import {Project} from "@/entities/projects";
 
 export type Ticket = {
   id: number;
@@ -9,6 +10,7 @@ export type Ticket = {
   status: TICKET_STATUS;
   estimate: number;
   project_id: number;
+  project: Project;
 };
 
 export type TicketList = Ticket[];

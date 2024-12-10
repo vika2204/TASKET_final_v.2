@@ -1,7 +1,6 @@
 import { EditButton, ResponsibleForm, StatusForm } from "@/features/ticket";
 import { Ticket } from "../model";
 import { Link } from "react-router-dom";
-import { useAppSelector } from "@/shared/hooks/rtkHooks";
 import sanitizeHtml from 'sanitize-html';
 
 interface TicketItemProps {
@@ -9,15 +8,13 @@ interface TicketItemProps {
 }
 
 export const TicketItem: React.FC<TicketItemProps> = ({ ticket }) => {
-  const project = useAppSelector(state => state.project.currentProject);
-
   return (
     <div className="card">
       <div className="card-content">
         <div className="media">
           <div className="media-content">
             <Link to={`/tickets/${ticket.id}`}>
-              <h1 className="title">{project.code}-{ticket.id} {ticket.title}</h1>
+              <h1 className="title">{ticket.project.code}-{ticket.id} {ticket.title}</h1>
             </Link>
           </div>
         </div>

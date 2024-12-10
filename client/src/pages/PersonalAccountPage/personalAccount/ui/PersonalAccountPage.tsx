@@ -2,13 +2,22 @@ import { PersonalAccountCard } from "@/entities/user";
 import { ActiveUserTasks } from "@/widgets/ActiveUserTasks";
 import { ProgressBar } from "@/widgets/ProgressBar";
 import { UserCommentsList } from "@/widgets/UserCommetsList";
-import { useEffect } from "react";
+import {useEffect, useState} from "react";
+import {TicketList} from "@/entities/tickets/model";
+import {TicketService} from "@/entities/tickets/api";
 
 export function PersonalAccountPage() {
+    const [userTicketList, setUserTicketList] = useState<TicketList>([])
 
+    async function loadUserTickets() {
+        setUserTicketList(await TicketService.getAllUserTickets());
+    }
   useEffect(() => {
-    document.title = "TASKET-Личный кабинет";
+    document.title = "Личный кабинет – TASKET";
+    loadUserTickets();
   }, []);
+
+
   return (
     <>
       <section className="section">
@@ -17,7 +26,7 @@ export function PersonalAccountPage() {
 
       {/* Ниже располагается просто HTML разметка (МАКЕТ) */}
 
-      <ProgressBar/>
+      <ProgressBar userTickets={userTicketList}/>
 
       <section className="section">
 

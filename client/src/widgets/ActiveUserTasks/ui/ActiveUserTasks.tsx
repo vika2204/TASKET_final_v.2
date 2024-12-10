@@ -1,20 +1,11 @@
-import { ProjectList, ProjectService } from "@/entities/projects";
 import { TicketService } from "@/entities/tickets/api";
 import { TicketList } from "@/entities/tickets/model";
-import { useAppSelector } from "@/shared/hooks/rtkHooks";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import {truncate} from "@/shared/lib/truncate.ts";
 
 export const ActiveUserTasks = () => {
-  const { user } = useAppSelector((state) => state.user);
-
-  const [projectList, setProjectList] = useState<ProjectList | undefined>();
-  const [ticketList, setTicketList] = useState<TicketList | undefined>();
-
-  const getAllProjects = async () => {
-    const response = await ProjectService.getAllProjects();
-    setProjectList(response);
-  };
+  const [ticketList, setTicketList] = useState<TicketList>([]);
 
   const getAllTickets = async () => {
     const response = await TicketService.getAllUserTickets();
@@ -22,13 +13,11 @@ export const ActiveUserTasks = () => {
   };
 
   useEffect(() => {
-    getAllProjects();
     getAllTickets();
   }, []);
 
   // Фильтруем и сортируем тикеты пользователя
   const userTickets = ticketList
-    ?.filter((ticket) => ticket.author_id === user?.id) // Фильтруем по author_id
     .sort((a, b) => b.id - a.id) // Сортируем по убыванию id
     .slice(0, 5); // Берем только 5 последних
 
@@ -38,11 +27,6 @@ export const ActiveUserTasks = () => {
       {userTickets ? (
         userTickets.length > 0 ? (
           userTickets.map((ticket) => {
-            // Находим проект по project_id у текущего тикета
-            const project = projectList?.find(
-              (project) => project.id === ticket.project_id
-            );
-
             return (
               <div className="box" key={ticket.id}>
                 <div className="level">
@@ -50,8 +34,8 @@ export const ActiveUserTasks = () => {
                     <a>
                       <Link to={`/tickets/${ticket.id}`}>
                       <strong>
-                        {project ? `${project.code}-${ticket.id}` : `UNKNOWN-${ticket.id}`}{" "}
-                        {ticket.title}
+                        {`${ticket.project.code}-${ticket.id} `}
+                        {truncate(ticket.title, 20)}
                       </strong>
                       </Link>
                     </a>

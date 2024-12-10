@@ -2,6 +2,7 @@ import { useAppSelector } from "@/shared/hooks/rtkHooks.ts";
 import { Logout } from "./Logout";
 import { Filters } from "@/widgets/Filters";
 import { Link } from "react-router-dom";
+import {CLIENT_ROUTES} from "@/app/router";
 
 export function Nav() {
   const { user } = useAppSelector((state) => state.user);
@@ -30,7 +31,7 @@ export function Nav() {
         </div>
         <p className="menu-label">Вы авторизованы</p>
         <ul className="menu-list">
-          <Link to={`/profile/${user?.id}`}>
+          <Link to={CLIENT_ROUTES.PROFILE}>
             <li>
               <span className="icon-text">
                 <span className="icon">

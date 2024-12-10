@@ -1,13 +1,10 @@
 import { CommentType } from "@/entities/comment";
 import { CommentService } from "@/entities/comment/api";
-import { useAppSelector } from "@/shared/hooks/rtkHooks";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import {truncate} from "@/shared/lib/truncate.ts";
 
 export const UserCommentsList = () => {
-  const { ticketList } = useAppSelector((state) => state.ticket);
-  const { projectList } = useAppSelector((state) => state.project);
-
   const [comments, setComments] = useState<CommentType[]>([]); // Состояние для хранения комментариев
   const [loading, setLoading] = useState(true); // Состояние для индикации загрузки
   const [error, setError] = useState<string | null>(null); // Состояние для хранения ошибок
@@ -44,26 +41,16 @@ export const UserCommentsList = () => {
         <p>{error}</p>
       ) : userComments.length > 0 ? (
         userComments
-          .filter((comment) => {
-            // Находим тикет по ticket_id
-            const ticket = ticketList.find((ticket) => ticket.id === comment.ticket_id);
-            return ticket !== undefined; // Оставим только комментарии с найденным тикетом
-          })
           .map((comment) => {
-            // Находим тикет по ticket_id
-            const ticket = ticketList.find((ticket) => ticket.id === comment.ticket_id);
-            // Находим проект по project_id тикета
-            const project = projectList.find((project) => project.id === ticket?.project_id);
-
             return (
               <div className="box" key={comment.id}>
                 <div className="level">
-                  <div className="level-left">{comment.text}</div>
+                  <div className="level-left">{truncate(comment.text, 40)}</div>
                   <div className="level-right">
                     <a>
-                    <Link to={`/tickets/${ticket?.id}`}>
+                    <Link to={`/tickets/${comment.ticket.id}`}>
                       <strong>
-                        {project ? `${project.code}-${ticket?.id}` : `UNKNOWN-${ticket?.id}`}
+                        {`${comment.ticket.project.code}-${comment.ticket.id}`}
                       </strong>
                       </Link>
                     </a>
