@@ -8,13 +8,13 @@ export function Logout() {
   };
 
   return (
-    <li>
+    <li onClick={logoutHandler}>
       <a>
         <span className="icon-text">
           <span className="icon">
             <i className="fas fa-right-to-bracket"></i>
           </span>
-          <span onClick={logoutHandler}>Выход</span>
+          <span>Выход</span>
         </span>
       </a>
     </li>

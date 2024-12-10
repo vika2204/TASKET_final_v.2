@@ -115,7 +115,11 @@ class UserService {
 
       // Возвращаем обновленного пользователя
       const updatedUser = await User.findOne({ where: { id } });
-      return updatedUser;
+
+      const userWithoutPassword = updatedUser.get();
+      delete userWithoutPassword.password;
+
+      return userWithoutPassword;
     } catch (error) {
       throw new Error(error.message);
     }

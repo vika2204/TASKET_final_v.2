@@ -8,7 +8,13 @@ export function Nav() {
 
   return (
     <>
-      <aside className="menu">
+      <aside
+        className="menu"
+        style={{
+          position: "sticky",
+          top: 0,
+        }}
+      >
         <div
           style={{
             textAlign: "left",
