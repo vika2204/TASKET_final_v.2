@@ -26,9 +26,10 @@ export function FormChangeName({ onClose }: FormChangeNameProps) {
       await dispatch(
         updateUser({
           email: user.email,
-          password: "",
+          curPass: "",
           username: newName,
           role: user.role,
+          newPass: "",
         })
       ).unwrap();
 

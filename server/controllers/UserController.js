@@ -82,35 +82,39 @@ class UserController {
   }
 
   static async updateUserController(req, res) {
-    const { username, password, email, role } = req.body;
+    const { username, curPass, email, role, newPass } = req.body;
     const { id } = res.locals.user;
 
     try {
       const updateData = {};
       if (email) updateData.email = email;
-      if (password) updateData.password = password;
+      if (curPass) updateData.curPass = curPass;
       if (username) updateData.username = username;
       if (role) updateData.role = role;
+      if (newPass) updateData.newPass = newPass;
 
-      const countUpdated = await UserService.updateUser(updateData, id);
+      const updatedUser = await UserService.updateUser(updateData, id);
 
-      if (countUpdated > 0) {
-        const user = await UserService.getOneUser(id);
-
-        const { accessToken, refreshToken } = generateTokens({
-          user: user,
-        });
-
-        res.cookie("refreshToken", refreshToken, {
-          httpOnly: true,
-          maxAge: jwtConfig.refresh.expiresIn,
-        });
-
-        res.status(200).json({ message: "Success", user, accessToken });
-      } else {
-        res.status(301).json({ message: "No your user" });
+      if (!updatedUser) {
+        return res.status(404).json({ message: "Пользователь не найден" });
       }
+
+      const { accessToken, refreshToken } = generateTokens({
+        user: updatedUser,
+      });
+
+      res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        maxAge: jwtConfig.refresh.expiresIn,
+      });
+
+      res
+        .status(200)
+        .json({ message: "Success", user: updatedUser, accessToken });
     } catch (error) {
+      if (error.message === "Текущий пароль неверный") {
+        return res.status(400).json({ message: "Неверный текущий пароль" });
+      }
       res.status(500).json({ message: error.message, user: {} });
     }
   }

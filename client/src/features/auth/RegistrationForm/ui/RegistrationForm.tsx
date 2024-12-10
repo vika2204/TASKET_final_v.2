@@ -37,7 +37,7 @@ export const RegistrationForm: React.FC = () => {
         })
       ).unwrap();
       navigate(CLIENT_ROUTES.HOME);
-    } catch (error:unknown) {
+    } catch (error: unknown) {
       if (typeof error === "object" && error !== null && "message" in error) {
         const errorMessage = (error as { message: string }).message;
         if (errorMessage.includes("This email already in use")) {

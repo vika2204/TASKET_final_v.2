@@ -94,7 +94,6 @@ const userSlice = createSlice({
       .addCase(updateUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload?.message || "Update: fail";
-        state.error = null;
       });
   },
 });

@@ -73,12 +73,49 @@ class UserService {
     }
   }
 
-  static async updateUser(data, id) {
+  static async updateUser(updateData, id) {
     try {
-      const [countUpdated] = await User.update(data, { where: { id } });
-      return countUpdated;
+      const user = await User.findOne({
+        where: {
+          id,
+        },
+      });
 
-      
+      if (!user) {
+        throw new Error("Пользователь не найден");
+      }
+
+      // Проверка текущего пароля, если передан новый пароль
+      if (updateData.newPass && !updateData.curPass) {
+        throw new Error("Текущий пароль не указан");
+      }
+
+      if (updateData.curPass) {
+        const isPasswordValid = await bcrypt.compare(updateData.curPass, user.password);
+        if (!isPasswordValid) {
+          throw new Error("Текущий пароль неверный");
+        }
+      }
+
+      // Хеширование нового пароля, если он передан
+      if (updateData.newPass) {
+        const newHashedPass = await bcrypt.hash(updateData.newPass, 10);
+        updateData.password = newHashedPass;
+      }
+
+      // Удаляем поля, которые не нужно обновлять
+      delete updateData.curPass;
+      delete updateData.newPass;
+
+      const [countUpdated] = await User.update(updateData, { where: { id } });
+
+      if (countUpdated === 0) {
+        throw new Error("Пользователь не был обновлен");
+      }
+
+      // Возвращаем обновленного пользователя
+      const updatedUser = await User.findOne({ where: { id } });
+      return updatedUser;
     } catch (error) {
       throw new Error(error.message);
     }
@@ -92,8 +129,8 @@ class UserService {
         },
       });
 
-      const userWithoutPassword = user.get()
-      delete userWithoutPassword.password
+      const userWithoutPassword = user.get();
+      delete userWithoutPassword.password;
 
       return userWithoutPassword;
     } catch (error) {

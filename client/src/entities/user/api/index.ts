@@ -59,15 +59,17 @@ export class UserService {
 
   static async updateUser(
     email: string,
-    password: string,
+    curPass: string,
     username: string,
-    role: string
+    role: string,
+    newPass: string
   ): Promise<{ accessToken: string; user: UserWithoutPasswordType }> {
     const response = await axiosInstance.put(API_ROUTES.UPDATE_PATH, {
       email,
-      password,
+      curPass,
       username,
       role,
+      newPass,
     });
     setAccessToken(response.data.accessToken);
 
