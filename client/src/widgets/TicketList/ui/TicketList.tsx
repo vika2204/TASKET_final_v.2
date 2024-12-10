@@ -51,41 +51,48 @@ export function TicketList() {
     }
   };
 
+  // Проверка, нужна ли пагинация
+  const shouldShowPagination = ticketList.length > itemsPerPage;
+
   return (
     <div>
       {getCurrentPageItems().map((ticket) => (
         <TicketItem key={ticket.id} ticket={ticket} />
       ))}
-      <nav className="pagination" role="navigation" aria-label="pagination">
-        <a
-          className={`pagination-previous ${currentPage === 1 ? 'is-disabled' : ''}`}
-          title="This is the first page"
-          onClick={handlePrevPage}
-        >
-          Предыдущая страница
-        </a>
-        <a
-          href="#"
-          className="pagination-next"
-          onClick={handleNextPage}
-        >
-          Следующая страница
-        </a>
-        <ul className="pagination-list">
-          {getPageNumbers().map((number) => (
-            <li key={number}>
-              <a
-                href="#"
-                className={`pagination-link ${number === currentPage ? 'is-current' : ''}`}
-                aria-label={`Goto page ${number}`}
-                onClick={() => handlePageChange(number)}
-              >
-                {number}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
+
+      {/* Пагинация отображается только если элементов больше, чем на одной странице */}
+      {shouldShowPagination && (
+        <nav className="pagination" role="navigation" aria-label="pagination">
+          <a
+            className={`pagination-previous ${currentPage === 1 ? 'is-disabled' : ''}`}
+            title="This is the first page"
+            onClick={handlePrevPage}
+          >
+            Предыдущая страница
+          </a>
+          <a
+            href="#"
+            className="pagination-next"
+            onClick={handleNextPage}
+          >
+            Следующая страница
+          </a>
+          <ul className="pagination-list">
+            {getPageNumbers().map((number) => (
+              <li key={number}>
+                <a
+                  href="#"
+                  className={`pagination-link ${number === currentPage ? 'is-current' : ''}`}
+                  aria-label={`Goto page ${number}`}
+                  onClick={() => handlePageChange(number)}
+                >
+                  {number}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
     </div>
   );
 }
