@@ -14,6 +14,19 @@ class CommentService {
       );
     }
   }
+  static async getAllUserComments(user_id) {
+    try {
+      const comments = await Comment.findAll({
+        where: { user_id: user_id },
+        include: [{ model: User, as: "user" }],
+      });
+      return comments;
+    } catch (error) {
+      throw new Error(
+        `Error fetching comments for user_id: ${user_id}. ${error.message}`
+      );
+    }
+  }
 
   static async getOneComment(id) {
     try {

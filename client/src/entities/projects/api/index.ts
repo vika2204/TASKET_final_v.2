@@ -7,6 +7,8 @@ export class ProjectService {
   static async getAllProjects():Promise<ProjectList>{
     try {
       const response = await axiosInstance.get("/projects")
+
+      
       return response.data
     } catch (error) {
       console.error("Error fetching all projects:", error);

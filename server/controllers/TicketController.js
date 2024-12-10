@@ -27,6 +27,35 @@ class TicketController {
     }
   }
 
+  static async getAllUserTickets(req, res) {
+    const  author_id  = res.locals.user.id;
+  console.log(111111,author_id);
+  
+
+    if (!author_id) {
+      return res.status(400).json({ error: "author_id is required" });
+    }
+
+    try {
+      const tickets = await TicketService.getAllUserTickets(author_id);
+      console.log(tickets);
+      
+      console.log(
+        `Found ${tickets.length} tickets for author_id: ${author_id}`
+      );
+      res.status(200).json(tickets);
+    } catch (error) {
+      console.error(
+        `Error fetching tickets for author_id: ${author_id}`,
+        error
+      );
+      res.status(404).json({ error: error.message });
+    }
+  }
+
+
+
+
   static async getOneTicketController(req, res) {
     const { id } = req.params;
     try {
