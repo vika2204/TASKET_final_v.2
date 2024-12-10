@@ -22,7 +22,7 @@ export function TicketList() {
     }));
   }, [dispatch, searchFilter, assigneeIdFilter, statusFilter, currentProject]);
 
-  // Функция для получения текущей страницы
+
   const getCurrentPageItems = () => {
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -51,7 +51,7 @@ export function TicketList() {
     }
   };
 
-  // Проверка, нужна ли пагинация
+
   const shouldShowPagination = ticketList.length > itemsPerPage;
 
   return (
@@ -60,7 +60,7 @@ export function TicketList() {
         <TicketItem key={ticket.id} ticket={ticket} />
       ))}
 
-      {/* Пагинация отображается только если элементов больше, чем на одной странице */}
+
       {shouldShowPagination && (
         <nav className="pagination" role="navigation" aria-label="pagination">
           <a

@@ -1,6 +1,11 @@
 import { PersonalAccountCard } from "@/entities/user";
+import { useEffect } from "react";
 
 export function PersonalAccountPage() {
+
+  useEffect(() => {
+    document.title = "TASKET-Личный кабинет";
+  }, []);
   return (
     <>
       <section className="section">
