@@ -1,4 +1,5 @@
 import { PersonalAccountCard } from "@/entities/user";
+import { ActiveUserTasks } from "@/widgets/ActiveUserTasks";
 import { ProgressBar } from "@/widgets/ProgressBar";
 import { useEffect } from "react";
 
@@ -18,54 +19,10 @@ export function PersonalAccountPage() {
       <ProgressBar/>
 
       <section className="section">
+
         <div className="columns">
-          <div className="column is-half">
-            <h5 className="title">Ваши задачи</h5>
-            <div className="box">
-              <div className="level">
-                <div className="level-left">
-                  <a>
-                    <strong>ELBRUS-235 Отработать движения на брусе</strong>
-                  </a>
-                </div>
-                <div className="level-right">
-                  <span className="tag is-success is-light has-text-weight-bold is-uppercase">
-                    Завершённые
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div className="box">
-              <div className="level">
-                <div className="level-left">
-                  <a>
-                    <strong>
-                      ELBRUS-234 Сделать переворот, разворот и поворот
-                    </strong>
-                  </a>
-                </div>
-                <div className="level-right">
-                  <span className="tag is-info is-light has-text-weight-bold is-uppercase">
-                    В работе
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div className="box">
-              <div className="level">
-                <div className="level-left">
-                  <a>
-                    <strong>ELBRUS-236 Удариться брусьями об рот</strong>
-                  </a>
-                </div>
-                <div className="level-right">
-                  <span className="tag is-link is-light has-text-weight-bold is-uppercase">
-                    Ожидает разработки
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
+        <ActiveUserTasks/>
+
           <div className="column is-half">
             <h5 className="title">Ваши последние комментарии</h5>
             <div className="box">
