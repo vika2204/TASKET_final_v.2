@@ -17,13 +17,10 @@ export function FormChangePass({ onClose }: FormChangePassProps) {
   const [rNewPass, setRNewPass] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [isTrue, setIsTrue] = useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Сбрасываем состояния перед отправкой
-    setError(null);
-    setSuccess(null);
 
     if (!user?.id) {
       setError("Пользователь не найден");
@@ -48,34 +45,18 @@ export function FormChangePass({ onClose }: FormChangePassProps) {
 
       await dispatch(refreshAccessToken()).unwrap();
 
-      // Устанавливаем сообщение об успехе
       setSuccess("Пароль успешно изменен");
-
-      // Закрываем модальное окно через 2 секунды
-      setTimeout(() => {
-        onClose();
-      }, 2000);
     } catch (err) {
+      alert("Неверный текущий пароль");
       console.error("Ошибка:", err);
       setError("Неудачная попытка. Пожалуйста, проверьте введенные данные.");
     }
   };
 
-  // Сбрасываем состояния при закрытии модального окна
-  const handleClose = () => {
-    setError(null);
-    setSuccess(null);
-    onClose();
-  };
-
   return (
     <div className="modal is-active">
-      <div className="modal-background" onClick={handleClose}></div>
+      <div className="modal-background" onClick={onClose}></div>
       <div className="modal-card">
-        <header className="modal-card-head">
-          <p className="modal-card-title">Сменить пароль</p>
-          <button className="delete" aria-label="close" onClick={handleClose}></button>
-        </header>
         <section className="modal-card-body">
           <form onSubmit={handleSubmit}>
             <div className="field">
