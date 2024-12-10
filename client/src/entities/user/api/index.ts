@@ -1,5 +1,5 @@
 import { axiosInstance, setAccessToken } from "@/shared/lib/axiosInstance";
-import { UserType, UserWithoutPasswordType } from "../model";
+import { UserWithoutPasswordType } from "../model";
 
 enum API_ROUTES {
   REG_PATH = "/auth/registration",
@@ -7,6 +7,7 @@ enum API_ROUTES {
   LOGOUT_PATH = "/auth/logout",
   REFRESH_PATH = "/auth/refresh",
   GET_PATH = "/auth/users",
+  UPDATE_PATH = "/auth/profile",
 }
 
 export class UserService {
@@ -57,13 +58,19 @@ export class UserService {
   }
 
   static async updateUser(
+    email: string,
+    password: string,
     username: string,
-    password: string
-  ): Promise<UserType> {
-    const response = await axiosInstance.put(`/auth/profile`, {
-      username,
+    role: string
+  ): Promise<{ accessToken: string; user: UserWithoutPasswordType }> {
+    const response = await axiosInstance.put(API_ROUTES.UPDATE_PATH, {
+      email,
       password,
+      username,
+      role,
     });
+    setAccessToken(response.data.accessToken);
+
     return response.data.user;
   }
 }

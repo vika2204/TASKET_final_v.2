@@ -6,17 +6,16 @@ import {
   authorization,
   logout,
   updateUser,
-  // updateUser,
 } from "./userThunk";
 
 type UserState = {
-  user: UserWithoutPasswordType | null | undefined; // undefined - неизвестно залогинен ли, null - известно, что не залогинен
+  user: UserWithoutPasswordType | null;
   error: string | null;
   loading: boolean;
 };
 
 const initialState: UserState = {
-  user: undefined, // undefined - неизвестно залогинен ли, null - известно, что не залогинен. Для корректной работы <ProtectedRoute/>
+  user: null,
   error: null,
   loading: false,
 };
@@ -89,13 +88,12 @@ const userSlice = createSlice({
       })
       .addCase(updateUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload;
-        // state.error = action.payload?.message || "Logout: fail";
-
+        state.user = action.payload.user;
+        state.error = null;
       })
       .addCase(updateUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload?.message || "Logout: fail";
+        state.error = action.payload?.message || "Update: fail";
         state.error = null;
       });
   },

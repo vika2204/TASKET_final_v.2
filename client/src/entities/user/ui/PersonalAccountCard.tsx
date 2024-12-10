@@ -3,6 +3,8 @@ import { useAppSelector } from "@/shared/hooks/rtkHooks";
 
 export function PersonalAccountCard() {
   const { user } = useAppSelector((state) => state.user);
+  console.log(11111111, user?.username);
+
   return (
     <div className="box">
       <h1 className="title">Личный кабинет @{user?.username}</h1>
