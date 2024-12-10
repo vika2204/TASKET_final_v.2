@@ -1,9 +1,10 @@
 const {Ticket} = require('../db/models')
 const {Op} = require("sequelize");
+const {sequelize} = require("../db/models/index.js")
 
 class TicketService {
 
-  static async getAllTickets(projectId, assignee_id = null, search = null, status = null) {
+  static async getAllTickets(projectId, assignee_id = null, search = null, statuses = null) {
 
     try {
       const options = {
@@ -11,12 +12,17 @@ class TicketService {
       };
 
       if (assignee_id) options.assignee_id = assignee_id;
-      if (status) options.status = status;
-
+      if (statuses) {
+        options.status = { [Op.in]: statuses };
+      }
       if (search) {
         options[Op.or] = [
           { title: { [Op.iLike]: `%${search}%` } },
           { description: { [Op.iLike]: `%${search}%` } },
+          sequelize.where(
+              sequelize.cast(sequelize.col("id"),"varchar"),
+              { [Op.iLike]:  `%${search}%` }
+      )
         ];
       }
 

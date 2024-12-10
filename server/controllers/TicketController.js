@@ -7,9 +7,13 @@ class TicketController {
     const { projectId } = req.params;
     const { search, assignee_id, status } = req.query;
 
-    if (status !== undefined && !validateStatus(status)) {
-      res.status(400).json({ error: 'Incorrect status' });
-      return;
+    if(Array.isArray(status)){
+      for(let el of status) {
+        if (el !== undefined && !validateStatus(el)) {
+          res.status(400).json({ error: 'Incorrect status' });
+          return;
+        }
+      }
     }
 
     try {
@@ -19,7 +23,6 @@ class TicketController {
         search,
         status
       );
-
 
       res.status(200).json(tickets);
     } catch (error) {

@@ -28,7 +28,7 @@ export class TicketService {
   static async getAllTickets(
     search: string | null,
     assignee_id: number | null,
-    status: TICKET_STATUS | null,
+    status: TICKET_STATUS[],
     projectId: number
   ): Promise<TicketList> {
     try {
