@@ -7,11 +7,9 @@ import { useEffect } from "react";
 export function HomePage() {
 
   useEffect(() => {
-    document.title = "TASKET-Главная";
+    document.title = "Просмотр задач - TASKET";
   }, []);
 
-
-  
   return (
     <>
       <div className="level">

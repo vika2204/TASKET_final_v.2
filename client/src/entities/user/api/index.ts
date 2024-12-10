@@ -2,12 +2,12 @@ import { axiosInstance, setAccessToken } from "@/shared/lib/axiosInstance";
 import { UserWithoutPasswordType } from "../model";
 
 enum API_ROUTES {
-  REG_PATH = "/auth/registration",
-  AUTH_PATH = "/auth/authorization",
-  LOGOUT_PATH = "/auth/logout",
-  REFRESH_PATH = "/auth/refresh",
-  GET_PATH = "/auth/users",
-  UPDATE_PATH = "/auth/profile",
+  REG_PATH = "/users/registration",
+  AUTH_PATH = "/users/authorization",
+  LOGOUT_PATH = "/users/logout",
+  REFRESH_PATH = "/users/refresh",
+  GET_PATH = "/users/users",
+  UPDATE_PATH = "/users/profile",
 }
 
 export class UserService {

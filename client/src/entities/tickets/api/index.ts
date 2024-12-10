@@ -44,9 +44,9 @@ export class TicketService {
 
   static async getAllUserTickets(): Promise<TicketList> {
     try {
-      const response = await axiosInstance.get(`/auth/userId/tickets`);
+      const response = await axiosInstance.get(`/users/tickets`);
       console.log(response);
-      
+
       return response.data;
     } catch (error) {
       console.error("Error fetching all tickets:", error);

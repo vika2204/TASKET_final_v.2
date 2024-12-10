@@ -19,7 +19,7 @@ export function TicketPage(): JSX.Element {
   }, [dispatch, id]);
 
   useEffect(() => {
-    document.title = `TASKET-${currentProject.code}-${ticket?.id}`;
+    document.title = `${currentProject.code}-${ticket?.id} ${ticket?.title} - TASKET`;
   }, [currentProject,ticket]);
 
   return (

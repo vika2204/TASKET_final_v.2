@@ -25,7 +25,6 @@ class CommentController {
   }
   static async getAllUserComments(req, res) {
     const  user_id  = res.locals.user.id;
-  
 
     if (!user_id) {
       return res.status(400).json({ error: "user_id is required" });

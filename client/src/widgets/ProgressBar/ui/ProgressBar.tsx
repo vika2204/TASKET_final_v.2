@@ -1,13 +1,6 @@
-import { useAppSelector } from "@/shared/hooks/rtkHooks";
+import {TicketList} from "@/entities/tickets/model";
 
-export const ProgressBar = () => {
-  const { user } = useAppSelector((state) => state.user);
-  const { ticketList } = useAppSelector((state) => state.ticket);
-
-  // Фильтруем задачи, назначенные текущему пользователю
-  const userTickets = ticketList.filter(
-    (ticket) => ticket.assignee_id === user?.id
-  );
+export const ProgressBar = ({userTickets} : {userTickets: TicketList}) => {
 
   // Считаем выполненные задачи (статус "DONE")
   const completedTickets = userTickets.filter(

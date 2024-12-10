@@ -1,4 +1,4 @@
-const {Ticket} = require('../db/models')
+const {Ticket, Project} = require('../db/models')
 const {Op} = require("sequelize");
 const {sequelize} = require("../db/models/index.js")
 
@@ -26,7 +26,11 @@ class TicketService {
         ];
       }
 
-   return await Ticket.findAll({ where: options, order: [['createdAt', 'DESC']]});
+   return await Ticket.findAll({
+     where: options,
+     order: [['createdAt', 'DESC']],
+     include: [{ model: Project, as: "project" }]
+   });
 
     } catch (error) {
       throw new Error(error.message);
@@ -37,10 +41,11 @@ class TicketService {
   static async getAllUserTickets(author_id) {
     try {
       const tickets = await Ticket.findAll({
-        where: {author_id}
+        where: {author_id},
+        include: [{ model: Project, as: "project" }]
       });
       console.log(tickets);
-      
+
       return tickets;
     } catch (error) {
       throw new Error(
@@ -52,7 +57,9 @@ class TicketService {
 
   static async getOneTicket(id) {
     try {
-      const ticket = await Ticket.findByPk(id);
+      const ticket = await Ticket.findByPk(id, {
+        include: [{ model: Project, as: "project" }]
+      });
       return ticket;
     } catch (error) {
       throw new Error(error.message);

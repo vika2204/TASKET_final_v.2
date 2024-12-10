@@ -32,8 +32,6 @@ class TicketController {
 
   static async getAllUserTickets(req, res) {
     const  author_id  = res.locals.user.id;
-  console.log(111111,author_id);
-  
 
     if (!author_id) {
       return res.status(400).json({ error: "author_id is required" });
@@ -42,7 +40,7 @@ class TicketController {
     try {
       const tickets = await TicketService.getAllUserTickets(author_id);
       console.log(tickets);
-      
+
       console.log(
         `Found ${tickets.length} tickets for author_id: ${author_id}`
       );

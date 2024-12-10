@@ -12,7 +12,18 @@ export function LandingPage() {
   const [isRegModalOpen, setIsRegModalOpen] = useState(false);
 
   useEffect(() => {
-    document.title = "TASKET-Вход";
+    document.title = "Вход на сайт - TASKET";
+
+    const script = document.createElement('script');
+
+    script.src = "landing.js";
+    script.async = true;
+
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    }
   }, []);
 
   const openAuthModal = () => setIsAuthModalOpen(true);
@@ -26,72 +37,75 @@ export function LandingPage() {
   }
 
   return (
-    <section
-      className="hero is-fullheight"
-      style={{ backgroundColor: "#ADD8E6", backgroundSize: "cover" }}
-    >
-      <div className="hero-body">
-        <div
-          className="box"
-          style={{ backgroundColor: "white", color: "black" }}
-        >
-          <p
-            className="title"
-            style={{ backgroundColor: "white", color: "black" }}
+      <>
+        <section
+          className="hero is-fullheight"
+      >
+        <canvas id="background" style={{zIndex: -1,position: "absolute"}}></canvas>
+        <div className="hero-body">
+          <div
+              className="box"
+              style={{backgroundColor: "transparent", color: "white", backdropFilter: "blur(8px)", margin: "0px auto", boxShadow: "none"}}
           >
-            Tasket - это корпоративный менеджер задач с возможностями AI
-          </p>
-          <p
-            className="subtitle"
-            style={{ backgroundColor: "white", color: "black" }}
-          >
-            У вас больше не будет плохо сформулированных задач, ведь
-            искусственный интеллект обратит ваше внимание, если такие появятся
-          </p>
-
-          <div className="buttons">
-            <button
-              className="button js-modal-trigger is-info"
-              onClick={openAuthModal}
+            <p
+                className="title"
+                style={{ color: "white", textAlign: "center", fontSize:"57px"}}
             >
-              Войти
-            </button>{" "}
-            <button className="button js-modal-trigger" onClick={openRegModal}>
-              Зарегистрироваться
-            </button>
-          </div>
-        </div>
-      </div>
+              TASKET
+            </p>
+            <p
+                className="subtitle"
+                style={{ color: "white", textAlign: "center", fontSize: "28px"}}
+            >
+              проекты без промедлений: интеллектуальное управление с помощью AI
+            </p>
 
-      {/* Модальное окно для авторизации */}
-      {isAuthModalOpen && (
-        <div className="modal is-active">
-          <div className="modal-background" onClick={closeAuthModal}></div>
-          <div className="modal-content">
-            <AuthorizationForm />
+            <div className="buttons" style={{justifyContent: "center"}}>
+              <button
+                  className="button js-modal-trigger is-info"
+                  onClick={openAuthModal}
+              >
+                Войти
+              </button>
+              {" "}
+              <button className="button js-modal-trigger" onClick={openRegModal}>
+                Зарегистрироваться
+              </button>
+            </div>
           </div>
-          <button
-            className="modal-close is-large"
-            aria-label="close"
-            onClick={closeAuthModal}
-          ></button>
         </div>
-      )}
 
-      {/* Модальное окно для регистрации */}
-      {isRegModalOpen && (
-        <div className="modal is-active">
-          <div className="modal-background" onClick={closeRegModal}></div>
-          <div className="modal-content">
-            <RegistrationForm />
-          </div>
-          <button
-            className="modal-close is-large"
-            aria-label="close"
-            onClick={closeRegModal}
-          ></button>
-        </div>
-      )}
-    </section>
-  );
+        {/* Модальное окно для авторизации */}
+        {isAuthModalOpen && (
+            <div className="modal is-active">
+              <div className="modal-background" onClick={closeAuthModal}></div>
+              <div className="modal-content">
+                <AuthorizationForm/>
+              </div>
+              <button
+                  className="modal-close is-large"
+                  aria-label="close"
+                  onClick={closeAuthModal}
+              ></button>
+            </div>
+        )}
+
+        {/* Модальное окно для регистрации */}
+        {isRegModalOpen && (
+            <div className="modal is-active">
+              <div className="modal-background" onClick={closeRegModal}></div>
+              <div className="modal-content">
+                <RegistrationForm/>
+              </div>
+              <button
+                  className="modal-close is-large"
+                  aria-label="close"
+                  onClick={closeRegModal}
+              ></button>
+            </div>
+        )}
+      </section>
+      <script src="landing.js"></script>
+    </>)
+  ;
 }
