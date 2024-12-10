@@ -27,6 +27,23 @@ class TicketService {
     }
   }
 
+
+  static async getAllUserTickets(author_id) {
+    try {
+      const tickets = await Ticket.findAll({
+        where: {author_id}
+      });
+      console.log(tickets);
+      
+      return tickets;
+    } catch (error) {
+      throw new Error(
+        `Error fetching comments for user_id: ${author_id}. ${error.message}`
+      );
+    }
+  }
+
+
   static async getOneTicket(id) {
     try {
       const ticket = await Ticket.findByPk(id);

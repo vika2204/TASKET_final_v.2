@@ -1,6 +1,7 @@
 import { PersonalAccountCard } from "@/entities/user";
 import { ActiveUserTasks } from "@/widgets/ActiveUserTasks";
 import { ProgressBar } from "@/widgets/ProgressBar";
+import { UserCommentsList } from "@/widgets/UserCommetsList";
 import { useEffect } from "react";
 
 export function PersonalAccountPage() {
@@ -22,44 +23,7 @@ export function PersonalAccountPage() {
 
         <div className="columns">
         <ActiveUserTasks/>
-
-          <div className="column is-half">
-            <h5 className="title">Ваши последние комментарии</h5>
-            <div className="box">
-              <div className="level">
-                <div className="level-left">
-                  Коллеги, поясните, что именно имелось ввиду?
-                </div>
-                <div className="level-right">
-                  <a>
-                    <strong>ELBRUS-235</strong>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div className="box">
-              <div className="level">
-                <div className="level-left">
-                  ещё одна такая задача и я уволюсь
-                </div>
-                <div className="level-right">
-                  <a>
-                    <strong>ELBRUS-236</strong>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div className="box">
-              <div className="level">
-                <div className="level-left">(((((</div>
-                <div className="level-right">
-                  <a>
-                    <strong>ELBRUS-234</strong>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
+        <UserCommentsList/>
         </div>
       </section>
     </>

@@ -42,6 +42,18 @@ export class TicketService {
     }
   }
 
+  static async getAllUserTickets(): Promise<TicketList> {
+    try {
+      const response = await axiosInstance.get(`/auth/userId/tickets`);
+      console.log(response);
+      
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching all tickets:", error);
+      throw new Error("Failed to fetch tickets");
+    }
+  }
+
   static async getOneTicket(id: number): Promise<Ticket> {
     try {
       const response = await axiosInstance.get(`/tickets/${id}`);
@@ -81,6 +93,7 @@ export class TicketService {
       const response = await axiosInstance.post(`/tickets/${id}/analysis`);
       return response.data;
     } catch(error) {
+      console.error("Error analysis  ticket:", error);
       throw new Error("Failed to get ticket analysis");
     }
   }

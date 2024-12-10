@@ -30,7 +30,6 @@ export const ProgressBar = () => {
     <div>
       <section className="section">
         <div className="box">
-          <p>{user?.email}</p>
           <h3 className="title">
             Задач выполнено: {completedTickets.length} из {maxTasks}
           </h3>
