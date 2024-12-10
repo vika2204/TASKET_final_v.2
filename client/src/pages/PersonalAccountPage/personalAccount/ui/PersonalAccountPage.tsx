@@ -1,4 +1,5 @@
 import { PersonalAccountCard } from "@/entities/user";
+import { ProgressBar } from "@/widgets/ProgressBar";
 import { useEffect } from "react";
 
 export function PersonalAccountPage() {
@@ -13,18 +14,8 @@ export function PersonalAccountPage() {
       </section>
 
       {/* Ниже располагается просто HTML разметка (МАКЕТ) */}
-      <section className="section">
-        <div className="box">
-          <h3 className="title">Задач выполнено: 6 из 10</h3>
-          <progress
-            className="progress is-success is-large"
-            value="60"
-            max="100"
-          >
-            60%
-          </progress>
-        </div>
-      </section>
+
+      <ProgressBar/>
 
       <section className="section">
         <div className="columns">
