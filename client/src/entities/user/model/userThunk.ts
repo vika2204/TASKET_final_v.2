@@ -90,17 +90,18 @@ export const logout = createAsyncThunk<
 
 export const updateUser = createAsyncThunk<
   AuthResponse,
-  { email: string; password: string; username: string; role: string },
+  { email: string; curPass: string; username: string; role: string, newPass: string },
   { rejectValue: RejectValue }
 >(
   USER_THUNK_TYPES_PREFIX.USER_UPDATE,
-  async ({ email, password, username, role }, { rejectWithValue }) => {
+  async ({ email, curPass, username, role, newPass }, { rejectWithValue }) => {
     try {
       const response = await UserService.updateUser(
         email,
-        password,
+        curPass,
         username,
-        role
+        role,
+        newPass
       );
       return response
     } catch (error) {
