@@ -1,6 +1,5 @@
 import {
     getTicketStatusClass,
-    getTicketStatusEnumFromString,
     getTicketStatusName,
     TICKET_STATUS
 } from "@/shared/types/statusEnum.ts";
@@ -20,17 +19,16 @@ export function Filters() {
     }
     function applyAssigneeUserFilter() {
         dispatch(ticketSlice.actions.setAssigneeFilter(user!.id));  // фильтруем по задачам назначенным на текущего юзера
-        dispatch(ticketSlice.actions.setStatusFilter(TICKET_STATUS.OPEN)) //и со статусом тикета - открыто
+        dispatch(ticketSlice.actions.setStatusFilter([TICKET_STATUS.OPEN, TICKET_STATUS.IN_PROGRESS, TICKET_STATUS.NEED_INFO])) //и со статусом тикета - открыто
 
     }
-    function applyStatusFilter(status: string) {               //на входе получаем status в виде строки
-        const enumStatus = getTicketStatusEnumFromString(status);   //при помощи ф-и переводим строку в ENUM
-        dispatch(ticketSlice.actions.setStatusFilter(enumStatus))     // передаем его в синхронный редьюсер в слайсе
+    function applyStatusFilter(status: TICKET_STATUS) {               //на входе получаем status в виде строки
+        dispatch(ticketSlice.actions.setStatusFilter([status]))     // передаем его в синхронный редьюсер в слайсе
         dispatch(ticketSlice.actions.setAssigneeFilter(null));   //сбрасываем фильтр по текущему юзеру, если вдруг он был
     }
 
     function applyAllTicketsFilter() {
-        dispatch(ticketSlice.actions.setStatusFilter(null))
+        dispatch(ticketSlice.actions.setStatusFilter([]))
         dispatch(ticketSlice.actions.setAssigneeFilter(null));
     }
 
@@ -63,13 +61,13 @@ export function Filters() {
                 <li>
                     <a
                         onClick={applyAllTicketsFilter}
-                        className={currentFilters.assigneeIdFilter === null && currentFilters.statusFilter === null ? 'is-active' : ''}>Все задачи</a>
+                        className={currentFilters.assigneeIdFilter === null && currentFilters.statusFilter.length === 0 ? 'is-active' : ''}>Все задачи</a>
                     <ul>
                         {Object.keys(TICKET_STATUS).map((status) =>
                                 <li key={status}>
                                     <a
-                                        className={currentFilters.statusFilter === status ? 'is-active' : ''}
-                                        onClick={() => applyStatusFilter(status)}>
+                                        className={currentFilters.statusFilter.length === 1 && currentFilters.statusFilter.includes(status as TICKET_STATUS) ? 'is-active' : ''}
+                                        onClick={() => applyStatusFilter(status as TICKET_STATUS)}>
                   <span className={`tag ${getTicketStatusClass(status)} is-light has-text-weight-bold is-uppercase`}>
                     {getTicketStatusName(status)}
                   </span>

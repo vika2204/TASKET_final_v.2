@@ -23,7 +23,7 @@ const initialState: TicketState = {
   loading: false,
   filters: {
     searchFilter: null,
-    statusFilter: null,
+    statusFilter: [],
     assigneeIdFilter: null
   }
 };
@@ -38,7 +38,7 @@ export const ticketSlice = createSlice({
     setAssigneeFilter(state, action: PayloadAction<number | null>) {
       state.filters.assigneeIdFilter = action.payload
     },
-    setStatusFilter(state, action: PayloadAction<TICKET_STATUS | null>) {
+    setStatusFilter(state, action: PayloadAction<TICKET_STATUS[]>) {
       state.filters.statusFilter = action.payload
     },
   },

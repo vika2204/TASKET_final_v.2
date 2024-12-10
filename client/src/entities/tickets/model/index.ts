@@ -14,6 +14,6 @@ export type Ticket = {
 export type TicketList = Ticket[];
 export type FilterType = {
   searchFilter: string | null;
-  statusFilter: TICKET_STATUS | null;
+  statusFilter: TICKET_STATUS[];
   assigneeIdFilter: number | null;
 }

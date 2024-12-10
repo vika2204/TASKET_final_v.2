@@ -7,10 +7,6 @@ export enum TICKET_STATUS {
     CANCELED = "CANCELED"
 }
 
-export function getTicketStatusEnumFromString(status: string): TICKET_STATUS {
-    return TICKET_STATUS[status as keyof typeof TICKET_STATUS];
-}
-
 // название статуса
 export function getTicketStatusName(status: TICKET_STATUS | string | null): string {
     switch (status) {
