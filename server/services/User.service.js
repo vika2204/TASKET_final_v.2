@@ -77,6 +77,8 @@ class UserService {
     try {
       const [countUpdated] = await User.update(data, { where: { id } });
       return countUpdated;
+
+      
     } catch (error) {
       throw new Error(error.message);
     }

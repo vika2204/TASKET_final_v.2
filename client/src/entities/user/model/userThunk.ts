@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
-import {  UserWithoutPasswordType } from "./index";
+import { UserWithoutPasswordType } from "./index";
 import { UserService } from "../api";
 type RejectValue = {
   message: string;
@@ -16,6 +16,7 @@ enum USER_THUNK_TYPES_PREFIX {
   USER_AUTHORIZATION = "user/authorization",
   USER_REGISTRATION = "user/registration",
   USER_LOGOUT = "user/logout",
+  USER_UPDATE = "user/updateUser",
 }
 
 export const refreshAccessToken = createAsyncThunk<
@@ -88,15 +89,20 @@ export const logout = createAsyncThunk<
 });
 
 export const updateUser = createAsyncThunk<
-  UserWithoutPasswordType,
-  { username: string; password: string },
+  AuthResponse,
+  { email: string; password: string; username: string; role: string },
   { rejectValue: RejectValue }
 >(
-  "user/updateUser",
-  async ({ username, password }, { rejectWithValue }) => {
+  USER_THUNK_TYPES_PREFIX.USER_UPDATE,
+  async ({ email, password, username, role }, { rejectWithValue }) => {
     try {
-      const response = await UserService.updateUser(username, password);
-      return response;
+      const response = await UserService.updateUser(
+        email,
+        password,
+        username,
+        role
+      );
+      return response
     } catch (error) {
       const err = error as AxiosError<{ message: string }>;
       return rejectWithValue({

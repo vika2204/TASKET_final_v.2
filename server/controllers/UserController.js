@@ -1,5 +1,6 @@
 const UserService = require("../services/User.service");
 const jwtConfig = require("../config/jwtConfig");
+const generateTokens = require("../utils/generateTokens");
 
 class UserController {
   static async register(req, res) {
@@ -81,19 +82,31 @@ class UserController {
   }
 
   static async updateUserController(req, res) {
-    const { username, password } = req.body;
+    const { username, password, email, role } = req.body;
     const { id } = res.locals.user;
-  
+
     try {
       const updateData = {};
-      if (username) updateData.username = username;
+      if (email) updateData.email = email;
       if (password) updateData.password = password;
-  
+      if (username) updateData.username = username;
+      if (role) updateData.role = role;
+
       const countUpdated = await UserService.updateUser(updateData, id);
-  
+
       if (countUpdated > 0) {
         const user = await UserService.getOneUser(id);
-        res.status(200).json({ message: "Success", user });
+
+        const { accessToken, refreshToken } = generateTokens({
+          user: user,
+        });
+
+        res.cookie("refreshToken", refreshToken, {
+          httpOnly: true,
+          maxAge: jwtConfig.refresh.expiresIn,
+        });
+
+        res.status(200).json({ message: "Success", user, accessToken });
       } else {
         res.status(301).json({ message: "No your user" });
       }

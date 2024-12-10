@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/shared/hooks/rtkHooks";
-import { updateUser } from "@/entities/user/model/userThunk";
+import {
+  refreshAccessToken,
+  updateUser,
+} from "@/entities/user/model/userThunk";
 
 type FormChangeNameProps = {
   onClose: () => void;
@@ -21,11 +24,20 @@ export function FormChangeName({ onClose }: FormChangeNameProps) {
 
     try {
       await dispatch(
-        updateUser({ username: newName, password: "" })
+        updateUser({
+          email: user.email,
+          password: "",
+          username: newName,
+          role: user.role,
+        })
       ).unwrap();
+
+      await dispatch(refreshAccessToken()).unwrap();
+
       onClose();
     } catch (err) {
-      setError("Ошибка при обновлении имени пользователя");
+      console.error(err);
+      setError('Неудачная попытка');
     }
   };
 
