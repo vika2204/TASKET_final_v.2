@@ -75,6 +75,8 @@ export function FormEditTicket({ onClose,ticket }: FormEditTicketProps) {
                   type="number"
                   value={estimate}
                   onChange={(e) => setEstimate(e.target.value)}
+                  min="1"
+                  step="1"
                   required
                 />
               </div>
