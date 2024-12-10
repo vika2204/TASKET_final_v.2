@@ -1,6 +1,6 @@
 import { AuthorizationForm } from "@/features/auth/AuthorizationForm";
 import { RegistrationForm } from "@/features/auth/RegistrationForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {useAppSelector} from "@/shared/hooks/rtkHooks.ts";
 import {Navigate} from "react-router-dom";
 import {CLIENT_ROUTES} from "@/app/router";
@@ -10,6 +10,10 @@ export function LandingPage() {
 
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isRegModalOpen, setIsRegModalOpen] = useState(false);
+
+  useEffect(() => {
+    document.title = "TASKET-Вход";
+  }, []);
 
   const openAuthModal = () => setIsAuthModalOpen(true);
   const closeAuthModal = () => setIsAuthModalOpen(false);
