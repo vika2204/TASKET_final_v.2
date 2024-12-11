@@ -20,6 +20,7 @@ export function TicketList() {
       status: statusFilter,
       projectId: currentProject.id
     }));
+    setCurrentPage(1);
   }, [dispatch, searchFilter, assigneeIdFilter, statusFilter, currentProject]);
 
 
@@ -71,7 +72,6 @@ export function TicketList() {
             Предыдущая страница
           </a>
           <a
-            href="#"
             className="pagination-next"
             onClick={handleNextPage}
           >
@@ -81,7 +81,6 @@ export function TicketList() {
             {getPageNumbers().map((number) => (
               <li key={number}>
                 <a
-                  href="#"
                   className={`pagination-link ${number === currentPage ? 'is-current' : ''}`}
                   aria-label={`Goto page ${number}`}
                   onClick={() => handlePageChange(number)}

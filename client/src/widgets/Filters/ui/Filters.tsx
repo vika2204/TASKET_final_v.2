@@ -41,6 +41,7 @@ export function Filters() {
                         className="input"
                         type="text"
                         placeholder="Поиск"
+                        onKeyUp={(e) => {(e.key === 'Enter' ? applySearchFilter() : null)}}
                         onChange={(event) => setSearchText(event.target.value)}
                     />
                 </p>

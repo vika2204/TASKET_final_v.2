@@ -21,24 +21,25 @@ export function CommentsList({ id }: propsCommentList): JSX.Element {
   };
 
 
-  
+
   useEffect((): void => {
     loadComments();
   }, []);
 
   return (
-    <>
-      {comments.length === 0 ? (
-        <h6 className="title is-6">Нет комментариев...</h6>
-      ) : (
-        comments.map(
-          (comment: CommentType): JSX.Element => (
-            <Comment data={comment} key={comment.id} />
-          )
-        )
-      )}
+      <>
+        <h3 className="title">Комментарии</h3>
+        {comments.length === 0 ? (
+            <h6 className="title is-6">Нет комментариев...</h6>
+        ) : (
+            comments.map(
+                (comment: CommentType): JSX.Element => (
+                    <Comment data={comment} key={comment.id}/>
+                )
+            )
+        )}
 
-      <CommentAddForm ticketId={id} onCommentAdd={loadComments} />
-    </>
+        <CommentAddForm ticketId={id} onCommentAdd={loadComments}/>
+      </>
   );
 }

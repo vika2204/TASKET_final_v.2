@@ -1,7 +1,7 @@
 import { Ticket } from "@/entities/tickets/model";
 import { updateTicket } from "@/entities/tickets/model/TicketThunks";
 import {useAppDispatch} from "@/shared/hooks/rtkHooks";
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {RichEditor} from "@/widgets/RichEditor";
 
 
@@ -14,6 +14,11 @@ export function FormEditTicket({ onClose,ticket }: FormEditTicketProps) {
   const [title, setTitle] = useState<string>(ticket.title);
   const [description, setDescription] = useState<string>(ticket.description);
   const [estimate, setEstimate] = useState<string>(ticket.estimate.toString());
+  const titleInput = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+      titleInput.current?.focus();
+  }, [])
 
   const dispatch = useAppDispatch();
   const handleSubmit = (e: React.FormEvent) => {
@@ -36,7 +41,7 @@ export function FormEditTicket({ onClose,ticket }: FormEditTicketProps) {
   return (
     <div className="modal is-active">
       <div className="modal-background" onClick={onClose}></div>
-      <div className="modal-card">
+      <div className="modal-card" style={{width: '800px'}}>
         <header className="modal-card-head">
           <p className="modal-card-title">Редактировать задачу</p>
           <button
@@ -51,6 +56,7 @@ export function FormEditTicket({ onClose,ticket }: FormEditTicketProps) {
               <label className="label">Заголовок</label>
               <div className="control">
                 <input
+                  ref={titleInput}
                   className="input"
                   type="text"
                   value={title}

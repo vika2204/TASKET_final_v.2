@@ -17,7 +17,7 @@ type UserState = {
 const initialState: UserState = {
   user: undefined, // undefined - неизвестно, есть ли юзер (нужно для корректной работы ProtectedRoute), null - известно, что нет
   error: null,
-  loading: false,
+  loading: true,
 };
 
 const userSlice = createSlice({

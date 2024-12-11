@@ -32,7 +32,7 @@ export const ActiveUserTasks = () => {
                 <div className="level">
                   <div className="level-left">
                     <a>
-                      <Link to={`/tickets/${ticket.id}`}>
+                      <Link to={`/tickets/${ticket.id}`} title={ticket.title}>
                       <strong>
                         {`${ticket.project.code}-${ticket.id} `}
                         {truncate(ticket.title, 20)}

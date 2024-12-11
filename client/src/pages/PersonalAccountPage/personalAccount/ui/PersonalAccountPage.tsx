@@ -8,9 +8,11 @@ import {TicketService} from "@/entities/tickets/api";
 
 export function PersonalAccountPage() {
     const [userTicketList, setUserTicketList] = useState<TicketList>([])
+    const [isLoading, setIsLoading] = useState<Boolean>(true);
 
     async function loadUserTickets() {
         setUserTicketList(await TicketService.getAllUserTickets());
+        setIsLoading(false);
     }
   useEffect(() => {
     document.title = "Личный кабинет – TASKET";
@@ -26,7 +28,7 @@ export function PersonalAccountPage() {
 
       {/* Ниже располагается просто HTML разметка (МАКЕТ) */}
 
-      <ProgressBar userTickets={userTicketList}/>
+      <ProgressBar userTickets={userTicketList} isLoading={isLoading}/>
 
       <section className="section">
 

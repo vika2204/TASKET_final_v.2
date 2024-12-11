@@ -1,6 +1,6 @@
 import {TicketList} from "@/entities/tickets/model";
 
-export const ProgressBar = ({userTickets} : {userTickets: TicketList}) => {
+export const ProgressBar = ({userTickets, isLoading} : {userTickets: TicketList, isLoading: Boolean}) => {
 
   // Считаем выполненные задачи (статус "DONE")
   const completedTickets = userTickets.filter(
@@ -24,11 +24,11 @@ export const ProgressBar = ({userTickets} : {userTickets: TicketList}) => {
       <section className="section">
         <div className="box">
           <h3 className="title">
-            Задач выполнено: {completedTickets.length} из {maxTasks}
+            Задач выполнено: {isLoading ? '...' : completedTickets.length} из {isLoading ? '...' : maxTasks}
           </h3>
           <progress
             className="progress is-success is-large"
-            value={progressPercentage}
+            value={isLoading ? undefined : progressPercentage}
             max="100"
           >
             {progressPercentage}%

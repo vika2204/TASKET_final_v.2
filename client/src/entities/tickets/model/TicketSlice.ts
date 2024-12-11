@@ -69,7 +69,6 @@ export const ticketSlice = createSlice({
       })
       .addCase(updateTicket.pending, (state) => {
         state.loading = true;
-        state.ticket = null;
       })
       .addCase(updateTicket.fulfilled, (state, action) => {
         state.ticketList = state.ticketList.map((el) =>
