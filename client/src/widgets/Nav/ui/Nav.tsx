@@ -1,11 +1,21 @@
-import { useAppSelector } from "@/shared/hooks/rtkHooks.ts";
+import {useAppDispatch, useAppSelector} from "@/shared/hooks/rtkHooks.ts";
 import { Logout } from "./Logout";
 import { Filters } from "@/widgets/Filters";
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {CLIENT_ROUTES} from "@/app/router";
+import {ticketSlice} from "@/entities/tickets/model/TicketSlice.ts";
 
 export function Nav() {
   const { user } = useAppSelector((state) => state.user);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  function resetFiltersAndGoHome(): void {
+      dispatch(ticketSlice.actions.setSearchFilter(null))
+      dispatch(ticketSlice.actions.setStatusFilter([]))
+      dispatch(ticketSlice.actions.setAssigneeFilter(null));
+      navigate(CLIENT_ROUTES.HOME)
+  }
 
   return (
     <>
@@ -17,17 +27,17 @@ export function Nav() {
         }}
       >
         <div
+            onClick={resetFiltersAndGoHome}
           style={{
             textAlign: "left",
             fontWeight: "bold",
             fontSize: "36px",
             borderBottom: "1px solid #ccc",
             paddingBottom: "20px",
+              cursor: "pointer"
           }}
         >
-          <Link to={"/"}>
             <h1 className="title is-1">TASKET</h1>
-          </Link>
         </div>
         <p className="menu-label">Вы авторизованы</p>
         <ul className="menu-list">
