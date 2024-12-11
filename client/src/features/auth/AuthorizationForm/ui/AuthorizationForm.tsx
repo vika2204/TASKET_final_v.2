@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@/shared/hooks/rtkHooks";
 import { authorization } from "@/entities/user/model/userThunk";
 import { CLIENT_ROUTES } from "@/app/router";
+import ReCAPTCHA from "react-google-recaptcha";
 
 type FormValues = {
   email: string;
@@ -14,6 +15,7 @@ export const AuthorizationForm: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [captchaValue, setCaptchaValue] = useState<string | null>(null);
 
   const {
     register,
@@ -22,21 +24,27 @@ export const AuthorizationForm: React.FC = () => {
   } = useForm<FormValues>();
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    if (!captchaValue) {
+      setErrorMessage("Пожалуйста, пройдите проверку CAPTCHA.");
+      return;
+    }
+
     try {
       await dispatch(
         authorization({
           email: data.email,
           password: data.password,
+          captcha: captchaValue, // Передаём токен reCAPTCHA
         })
       ).unwrap();
       navigate(CLIENT_ROUTES.HOME);
-    } catch  {
+    } catch {
       setErrorMessage("Введите корректные данные");
     }
   };
 
   return (
-    <div className="container is-max-desktop ">
+    <div className="container is-max-desktop">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="p-5"
@@ -59,6 +67,7 @@ export const AuthorizationForm: React.FC = () => {
         {errorMessage && (
           <div className="notification is-danger">{errorMessage}</div>
         )}
+
         <div className="field">
           <label className="label has-text-black">Email</label>
           <div className="control has-icons-left">
@@ -102,6 +111,16 @@ export const AuthorizationForm: React.FC = () => {
               <p className="help is-danger">{errors.password.message}</p>
             )}
           </div>
+        </div>
+
+        <div className="field">
+          <ReCAPTCHA
+            sitekey="6LecopgqAAAAAK_f7p6vgsEhEs0Vm5Csh-1rnTAu" // Вставь сюда свой Site Key
+            onChange={(value) => setCaptchaValue(value)}
+          />
+          {!captchaValue && (
+            <p className="help is-danger">Пожалуйста, пройдите CAPTCHA.</p>
+          )}
         </div>
 
         <div className="field">

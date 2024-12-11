@@ -15,13 +15,16 @@ export class UserService {
     email: string,
     password: string,
     username: string,
-    role: string
+    role: string,
+    captcha: string | null
+    
   ): Promise<{ accessToken: string; user: UserWithoutPasswordType }> {
     const response = await axiosInstance.post(API_ROUTES.REG_PATH, {
       email,
       password,
       username,
       role,
+      captcha
     });
     setAccessToken(response.data.accessToken);
     return response.data;
@@ -29,11 +32,13 @@ export class UserService {
 
   static async authorization(
     email: string,
-    password: string
+    password: string,
+    captcha: string | null
   ): Promise<{ accessToken: string; user: UserWithoutPasswordType }> {
     const response = await axiosInstance.post(API_ROUTES.AUTH_PATH, {
       email,
       password,
+      captcha
     });
     setAccessToken(response.data.accessToken);
     return response.data;

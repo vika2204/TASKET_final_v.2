@@ -35,12 +35,12 @@ class UserService {
     try {
       const user = await User.findOne({ where: { email } });
       if (!user) {
-        throw new Error("No user with this email");
+        throw new Error("Пользователь с таким email не найден.");
       }
 
       const isCorrectPassword = await bcrypt.compare(password, user.password);
       if (!isCorrectPassword) {
-        throw new Error("Incorrect password");
+        throw new Error("Неверный пароль.");
       }
 
       const targetUser = user.get();
@@ -49,9 +49,10 @@ class UserService {
       const { accessToken, refreshToken } = generateTokens({
         user: targetUser,
       });
+
       return { user: targetUser, accessToken, refreshToken };
     } catch (error) {
-      throw new Error(`Error during authorization: ${error.message}`);
+      throw new Error(`Ошибка авторизации: ${error.message}`);
     }
   }
 

@@ -39,13 +39,13 @@ export const refreshAccessToken = createAsyncThunk<
 
 export const authorization = createAsyncThunk<
   AuthResponse,
-  { email: string; password: string },
+  { email: string; password: string; captcha: string | null },
   { rejectValue: RejectValue }
 >(
   USER_THUNK_TYPES_PREFIX.USER_AUTHORIZATION,
-  async ({ email, password }, { rejectWithValue }) => {
+  async ({ email, password, captcha }, { rejectWithValue }) => {
     try {
-      return await UserService.authorization(email, password);
+      return await UserService.authorization(email, password, captcha);
     } catch (error) {
       const err = error as AxiosError<{ message: string }>;
       return rejectWithValue({
@@ -57,13 +57,25 @@ export const authorization = createAsyncThunk<
 
 export const registration = createAsyncThunk<
   AuthResponse,
-  { email: string; password: string; username: string; role: string },
+  {
+    email: string;
+    password: string;
+    username: string;
+    role: string;
+    captcha: string | null;
+  },
   { rejectValue: RejectValue }
 >(
   USER_THUNK_TYPES_PREFIX.USER_REGISTRATION,
-  async ({ email, password, username, role }, { rejectWithValue }) => {
+  async ({ email, password, username, role, captcha }, { rejectWithValue }) => {
     try {
-      return await UserService.registration(email, password, username, role);
+      return await UserService.registration(
+        email,
+        password,
+        username,
+        role,
+        captcha
+      );
     } catch (error) {
       const err = error as AxiosError<{ message: string }>;
       return rejectWithValue({
@@ -90,7 +102,13 @@ export const logout = createAsyncThunk<
 
 export const updateUser = createAsyncThunk<
   AuthResponse,
-  { email: string; curPass: string; username: string; role: string, newPass: string },
+  {
+    email: string;
+    curPass: string;
+    username: string;
+    role: string;
+    newPass: string;
+  },
   { rejectValue: RejectValue }
 >(
   USER_THUNK_TYPES_PREFIX.USER_UPDATE,
@@ -103,7 +121,7 @@ export const updateUser = createAsyncThunk<
         role,
         newPass
       );
-      return response
+      return response;
     } catch (error) {
       const err = error as AxiosError<{ message: string }>;
       return rejectWithValue({

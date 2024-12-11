@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@/shared/hooks/rtkHooks";
 import { registration } from "@/entities/user/model/userThunk";
 import { CLIENT_ROUTES } from "@/app/router";
+import ReCAPTCHA from "react-google-recaptcha";
 
 type FormValues = {
   email: string;
@@ -16,6 +17,8 @@ type FormValues = {
 export const RegistrationForm: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const [captchaValue, setCaptchaValue] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const {
     register,
@@ -27,6 +30,11 @@ export const RegistrationForm: React.FC = () => {
   } = useForm<FormValues>();
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    if (!captchaValue) {
+      setErrorMessage("Пожалуйста, пройдите проверку CAPTCHA.");
+      return;
+    }
+
     try {
       await dispatch(
         registration({
@@ -34,6 +42,7 @@ export const RegistrationForm: React.FC = () => {
           username: data.username,
           password: data.password,
           role: data.role,
+          captcha: captchaValue, // Передаём токен reCAPTCHA
         })
       ).unwrap();
       navigate(CLIENT_ROUTES.HOME);
@@ -45,6 +54,8 @@ export const RegistrationForm: React.FC = () => {
             type: "manual",
             message: "Email уже занят",
           });
+        } else {
+          setErrorMessage("Ошибка регистрации. Пожалуйста, попробуйте снова.");
         }
       }
     }
@@ -55,7 +66,7 @@ export const RegistrationForm: React.FC = () => {
   };
 
   return (
-    <div className="container is-max-desktop ">
+    <div className="container is-max-desktop">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="p-5"
@@ -75,6 +86,10 @@ export const RegistrationForm: React.FC = () => {
             }
           `}
         </style>
+        {errorMessage && (
+          <div className="notification is-danger">{errorMessage}</div>
+        )}
+
         <div className="field">
           <label className="label has-text-black">Email</label>
           <div className="control has-icons-left">
@@ -178,6 +193,16 @@ export const RegistrationForm: React.FC = () => {
               </select>
             </div>
           </div>
+        </div>
+
+        <div className="field">
+          <ReCAPTCHA
+            sitekey="6LecopgqAAAAAK_f7p6vgsEhEs0Vm5Csh-1rnTAu" // Вставьте ваш Site Key
+            onChange={(value) => setCaptchaValue(value)}
+          />
+          {!captchaValue && (
+            <p className="help is-danger">Пожалуйста, пройдите CAPTCHA.</p>
+          )}
         </div>
 
         <div className="field">

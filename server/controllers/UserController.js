@@ -1,10 +1,13 @@
 const UserService = require("../services/User.service");
 const jwtConfig = require("../config/jwtConfig");
 const generateTokens = require("../utils/generateTokens");
+const axios = require("axios");
 
 class UserController {
   static async register(req, res) {
-    const { email, password, username, role } = req.body;
+    const { email, password, username, role, captcha } = req.body;
+
+    // Проверяем, что все обязательные поля заполнены
     if (
       !email ||
       !password ||
@@ -15,17 +18,45 @@ class UserController {
       username.trim() === "" ||
       role.trim() === ""
     ) {
-      res
+      return res
         .status(400)
         .json({ user: {}, message: "No email or password or name" });
     }
+
+    // Проверяем, что CAPTCHA была пройдена
+    if (!captcha) {
+      return res.status(400).json({ message: "reCAPTCHA не была пройдена." });
+    }
+
     try {
+      // Проверяем токен reCAPTCHA через Google API
+      const captchaResponse = await axios.post(
+        `https://www.google.com/recaptcha/api/siteverify`,
+        null,
+        {
+          params: {
+            secret: "6LecopgqAAAAADH7fEgNp4UK5ni6wovtGoRS4qDt", // Вставьте ваш Secret Key
+            response: captcha,
+          },
+        }
+      );
+
+      // Если CAPTCHA не пройдена
+      if (!captchaResponse.data.success) {
+        return res.status(400).json({ message: "Ошибка reCAPTCHA." });
+      }
+
+      // Если CAPTCHA пройдена, продолжаем регистрацию
       const { user, accessToken, refreshToken } =
         await UserService.registerUser(email, password, username, role);
+
+      // Устанавливаем refreshToken в cookie
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         maxAge: jwtConfig.refresh.expiresIn,
       });
+
+      // Возвращаем данные пользователя и accessToken
       res.status(201).json({ user, message: "success", accessToken });
     } catch (error) {
       res.status(400).json({ message: error.message });
@@ -33,14 +64,42 @@ class UserController {
   }
 
   static async authorization(req, res) {
-    const { email, password } = req.body;
+    const { email, password, captcha } = req.body;
+
+    // Проверяем, что CAPTCHA была пройдена
+    if (!captcha) {
+      return res.status(400).json({ message: "reCAPTCHA не была пройдена." });
+    }
+
     try {
+      // Проверяем токен reCAPTCHA через Google API
+      const captchaResponse = await axios.post(
+        `https://www.google.com/recaptcha/api/siteverify`,
+        null,
+        {
+          params: {
+            secret: "6LecopgqAAAAADH7fEgNp4UK5ni6wovtGoRS4qDt", // Вставьте ваш Secret Key
+            response: captcha,
+          },
+        }
+      );
+
+      // Если CAPTCHA не пройдена
+      if (!captchaResponse.data.success) {
+        return res.status(400).json({ message: "Ошибка reCAPTCHA." });
+      }
+
+      // Если CAPTCHA пройдена, продолжаем авторизацию
       const { user, accessToken, refreshToken } =
         await UserService.authorizeUser(email, password);
+
+      // Устанавливаем refreshToken в cookie
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         maxAge: jwtConfig.refresh.expiresIn,
       });
+
+      // Возвращаем данные пользователя и accessToken
       res.status(200).json({ user, accessToken });
     } catch (error) {
       res.status(401).json({ message: error.message });
