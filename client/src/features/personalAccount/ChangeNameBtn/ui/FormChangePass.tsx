@@ -17,7 +17,6 @@ export function FormChangePass({ onClose }: FormChangePassProps) {
   const [rNewPass, setRNewPass] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const [isTrue, setIsTrue] = useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

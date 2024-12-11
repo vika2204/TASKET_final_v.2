@@ -20,7 +20,7 @@ class TicketService {
           { title: { [Op.iLike]: `%${search}%` } },
           { description: { [Op.iLike]: `%${search}%` } },
           sequelize.where(
-              sequelize.cast(sequelize.col("id"),"varchar"),
+              sequelize.cast(sequelize.col("Ticket.id"),"varchar"),
               { [Op.iLike]:  `%${search}%` }
       )
         ];

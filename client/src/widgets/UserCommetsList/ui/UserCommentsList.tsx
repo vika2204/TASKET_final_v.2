@@ -45,7 +45,7 @@ export const UserCommentsList = () => {
             return (
               <div className="box" key={comment.id}>
                 <div className="level">
-                  <div className="level-left">{truncate(comment.text, 40)}</div>
+                  <div className="level-left" title={comment.text}>{truncate(comment.text, 40)}</div>
                   <div className="level-right">
                     <a>
                     <Link to={`/tickets/${comment.ticket.id}`}>
