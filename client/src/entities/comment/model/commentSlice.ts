@@ -35,20 +35,7 @@ const commentSlice = createSlice({
       state.loading = false;
       state.error = action.payload?.message || "Failed to fetch comments";
     });
-    // builder.addCase(getUserComments.pending, (state) => {
-    //   state.loading = true;
-    //   state.error = null;
-    // });
-    // builder.addCase(getUserComments.fulfilled, (state, action: PayloadAction<CommentType[]>) => {
-    //   state.loading = false;
 
-      
-    //   state.comments = action.payload;
-    // });
-    // builder.addCase(getUserComments.rejected, (state, action) => {
-    //   state.loading = false;
-    //   state.error = action.payload?.message || "Failed to fetch comments";
-    // });
 
 
     builder.addCase(createComment.pending, (state) => {

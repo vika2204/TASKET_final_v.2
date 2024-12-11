@@ -8,7 +8,7 @@ import {TicketService} from "@/entities/tickets/api";
 
 export function PersonalAccountPage() {
     const [userTicketList, setUserTicketList] = useState<TicketList>([])
-    const [isLoading, setIsLoading] = useState<Boolean>(true);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     async function loadUserTickets() {
         setUserTicketList(await TicketService.getAllUserTickets());
@@ -33,7 +33,7 @@ export function PersonalAccountPage() {
       <section className="section">
 
         <div className="columns">
-        <ActiveUserTasks/>
+        <ActiveUserTasks userTicketList={userTicketList}/>
         <UserCommentsList/>
         </div>
       </section>

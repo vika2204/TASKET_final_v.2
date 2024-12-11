@@ -1,6 +1,6 @@
 import {TicketList} from "@/entities/tickets/model";
 
-export const ProgressBar = ({userTickets, isLoading} : {userTickets: TicketList, isLoading: Boolean}) => {
+export const ProgressBar = ({userTickets, isLoading} : {userTickets: TicketList, isLoading: boolean}) => {
 
   // Считаем выполненные задачи (статус "DONE")
   const completedTickets = userTickets.filter(

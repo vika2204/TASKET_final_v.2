@@ -1,23 +1,14 @@
-import { TicketService } from "@/entities/tickets/api";
+// import { TicketService } from "@/entities/tickets/api";
 import { TicketList } from "@/entities/tickets/model";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {truncate} from "@/shared/lib/truncate.ts";
 
-export const ActiveUserTasks = () => {
-  const [ticketList, setTicketList] = useState<TicketList>([]);
+export const ActiveUserTasks = ({userTicketList}:{userTicketList:TicketList}) => {
 
-  const getAllTickets = async () => {
-    const response = await TicketService.getAllUserTickets();
-    setTicketList(response);
-  };
-
-  useEffect(() => {
-    getAllTickets();
-  }, []);
 
   // Фильтруем и сортируем тикеты пользователя
-  const userTickets = ticketList
+  const userTickets = userTicketList
     .sort((a, b) => b.id - a.id) // Сортируем по убыванию id
     .slice(0, 5); // Берем только 5 последних
 

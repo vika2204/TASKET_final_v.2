@@ -31,24 +31,6 @@ export const getComments = createAsyncThunk<
   }
 );
 
-// export const getUserComments = createAsyncThunk<
-//   CommentType[],
-//   void,
-//   { rejectValue: RejectValue }
-// >(
-//   COMMENT_THUNK_TYPES_PREFIX.COMMENT_GET_ALL,
-//   async (_, { rejectWithValue }) => {
-//     try {
-//       return await CommentService.getUserComments();
-//     } catch (error) {
-//       const err = error as AxiosError<{ message: string }>;
-
-//       return rejectWithValue({
-//         message: err.response?.data.message || err.message,
-//       });
-//     }
-//   }
-// );
 
 export const createComment = createAsyncThunk<
   CommentType,
