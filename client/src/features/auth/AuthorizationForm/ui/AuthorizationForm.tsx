@@ -34,7 +34,7 @@ export const AuthorizationForm: React.FC = () => {
         authorization({
           email: data.email,
           password: data.password,
-          captcha: captchaValue, // Передаём токен reCAPTCHA
+          captcha: captchaValue, 
         })
       ).unwrap();
       navigate(CLIENT_ROUTES.HOME);
@@ -115,7 +115,7 @@ export const AuthorizationForm: React.FC = () => {
 
         <div className="field">
           <ReCAPTCHA
-            sitekey="6LecopgqAAAAAK_f7p6vgsEhEs0Vm5Csh-1rnTAu" // Вставь сюда свой Site Key
+            sitekey="6LecopgqAAAAAK_f7p6vgsEhEs0Vm5Csh-1rnTAu" 
             onChange={(value) => setCaptchaValue(value)}
           />
           {!captchaValue && (

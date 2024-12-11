@@ -86,25 +86,25 @@ class UserService {
         throw new Error("Пользователь не найден");
       }
 
-      // Проверка текущего пароля, если передан новый пароль
       if (updateData.newPass && !updateData.curPass) {
         throw new Error("Текущий пароль не указан");
       }
 
       if (updateData.curPass) {
-        const isPasswordValid = await bcrypt.compare(updateData.curPass, user.password);
+        const isPasswordValid = await bcrypt.compare(
+          updateData.curPass,
+          user.password
+        );
         if (!isPasswordValid) {
           throw new Error("Текущий пароль неверный");
         }
       }
 
-      // Хеширование нового пароля, если он передан
       if (updateData.newPass) {
         const newHashedPass = await bcrypt.hash(updateData.newPass, 10);
         updateData.password = newHashedPass;
       }
 
-      // Удаляем поля, которые не нужно обновлять
       delete updateData.curPass;
       delete updateData.newPass;
 
@@ -114,7 +114,6 @@ class UserService {
         throw new Error("Пользователь не был обновлен");
       }
 
-      // Возвращаем обновленного пользователя
       const updatedUser = await User.findOne({ where: { id } });
 
       const userWithoutPassword = updatedUser.get();

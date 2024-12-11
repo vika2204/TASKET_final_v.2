@@ -42,7 +42,7 @@ export const RegistrationForm: React.FC = () => {
           username: data.username,
           password: data.password,
           role: data.role,
-          captcha: captchaValue, // Передаём токен reCAPTCHA
+          captcha: captchaValue, 
         })
       ).unwrap();
       navigate(CLIENT_ROUTES.HOME);
@@ -197,7 +197,7 @@ export const RegistrationForm: React.FC = () => {
 
         <div className="field">
           <ReCAPTCHA
-            sitekey="6LecopgqAAAAAK_f7p6vgsEhEs0Vm5Csh-1rnTAu" // Вставьте ваш Site Key
+            sitekey="6LecopgqAAAAAK_f7p6vgsEhEs0Vm5Csh-1rnTAu" 
             onChange={(value) => setCaptchaValue(value)}
           />
           {!captchaValue && (
