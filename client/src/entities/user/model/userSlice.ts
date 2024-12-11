@@ -5,18 +5,19 @@ import {
   registration,
   authorization,
   logout,
+  updateUser,
 } from "./userThunk";
 
 type UserState = {
-  user: UserWithoutPasswordType | null | undefined; // undefined - неизвестно залогинен ли, null - известно, что не залогинен
+  user: UserWithoutPasswordType | null | undefined; // undefined - неизвестно, есть ли юзер (нужно для корректной работы ProtectedRoute)
   error: string | null;
   loading: boolean;
 };
 
 const initialState: UserState = {
-  user: undefined, // undefined - неизвестно залогинен ли, null - известно, что не залогинен. Для корректной работы <ProtectedRoute/>
+  user: undefined, // undefined - неизвестно, есть ли юзер (нужно для корректной работы ProtectedRoute), null - известно, что нет
   error: null,
-  loading: false,
+  loading: true,
 };
 
 const userSlice = createSlice({
@@ -79,6 +80,20 @@ const userSlice = createSlice({
         state.loading = false;
         state.error = action.payload?.message || "Logout: fail";
         state.user = null;
+      })
+
+      .addCase(updateUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload.user;
+        state.error = null;
+      })
+      .addCase(updateUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload?.message || "Update: fail";
       });
   },
 });

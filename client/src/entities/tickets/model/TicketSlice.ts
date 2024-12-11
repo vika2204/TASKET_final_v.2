@@ -23,7 +23,7 @@ const initialState: TicketState = {
   loading: false,
   filters: {
     searchFilter: null,
-    statusFilter: null,
+    statusFilter: [],
     assigneeIdFilter: null
   }
 };
@@ -38,7 +38,7 @@ export const ticketSlice = createSlice({
     setAssigneeFilter(state, action: PayloadAction<number | null>) {
       state.filters.assigneeIdFilter = action.payload
     },
-    setStatusFilter(state, action: PayloadAction<TICKET_STATUS | null>) {
+    setStatusFilter(state, action: PayloadAction<TICKET_STATUS[]>) {
       state.filters.statusFilter = action.payload
     },
   },
@@ -65,6 +65,7 @@ export const ticketSlice = createSlice({
       })
       .addCase(getOneTicket.rejected, (state) => {
         state.loading = false;
+        state.ticket = null;
       })
       .addCase(updateTicket.pending, (state) => {
         state.loading = true;
@@ -73,6 +74,7 @@ export const ticketSlice = createSlice({
         state.ticketList = state.ticketList.map((el) =>
           el.id === action.payload.id ? action.payload : el
         );
+        state.ticket = action.payload;
         state.loading = false;
         state.error = null;
       })

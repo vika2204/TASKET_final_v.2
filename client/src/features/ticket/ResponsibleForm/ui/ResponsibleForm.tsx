@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {UserService, UserWithoutPasswordType} from "@/entities/user";
 import { useAppDispatch, useAppSelector } from "@/shared/hooks/rtkHooks";
 import { Ticket } from "@/entities/tickets/model";
@@ -10,6 +10,8 @@ export function ResponsibleForm({ticket}:{ticket: Ticket}) {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const { user: authUser } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch()
+  const searchInput = useRef<HTMLInputElement>(null);
+
   const loadUsers = async () => {
     const loadedUsers = await UserService.getAllUsers();
     setUsers(loadedUsers);
@@ -32,7 +34,6 @@ export function ResponsibleForm({ticket}:{ticket: Ticket}) {
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
-console.log(authUser);
 
   const updateUserHandler = (user: UserWithoutPasswordType | null) => {
     if (user) {
@@ -59,7 +60,7 @@ console.log(authUser);
       .slice(0, 5);
 
   return (
-    <div className="dropdown is-hoverable" >
+    <div className="dropdown is-hoverable" onMouseEnter={() => searchInput.current?.focus()} onMouseLeave={() => setSearchTerm('')}>
       <div className="dropdown-trigger">
         <button
           className={users.length === 0 ? "button is-loading" : "button"}
@@ -68,7 +69,7 @@ console.log(authUser);
         >
           <span>
             Исполнитель:&nbsp;
-            {selectedUser ? " @" + selectedUser.username : "Выбрать"}
+            {selectedUser ? <strong>@{selectedUser.username}</strong> : "Выбрать"}
           </span>
           <span className="icon is-small">
             <i className="fas fa-angle-down" aria-hidden="true"></i>
@@ -80,27 +81,30 @@ console.log(authUser);
           <div className="dropdown-item">
             <div className="field">
               <input
-                className="input"
-                type="text"
-                placeholder="Поиск"
-                value={searchTerm}
-                onChange={handleSearchChange}
+                  ref={searchInput}
+                  className="input"
+                  type="text"
+                  placeholder="Поиск"
+                  value={searchTerm}
+                  onChange={handleSearchChange}
               />
             </div>
           </div>
-
-          {filteredUsers.map((u) => (
-
-            <a
-              key={u?.id}
-              className="dropdown-item"
-              onClick={() => handleUserSelect(u)}
-            >
-              <b>@{u?.username}</b> - {u?.role}
-            </a>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
+          <hr className="dropdown-divider"/>
+          {filteredUsers.length === 0 && <div className="dropdown-item">Нет подходящих исполнителей...</div>}
+            {filteredUsers.map((u) => (
+                <div key={u?.id}>
+                  <a
+                      className="dropdown-item"
+                      onClick={() => handleUserSelect(u)}
+                  >
+                    <b>@{u?.username}</b> - {u?.role}
+                  </a>
+                  {authUser?.id === u?.id && <hr className="dropdown-divider"/>}
+                </div>
+            ))}
+          </div>
+            </div>
+            </div>
+            );
+          }

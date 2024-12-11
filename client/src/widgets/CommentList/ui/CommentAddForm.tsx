@@ -28,7 +28,7 @@ export function CommentAddForm(props: propsCommentAddForm): JSX.Element {
                 onChange={(event) => setCommentText(event.target.value)}
                 value={commentText}
                 className="textarea"
-                placeholder="Add a comment..."
+                placeholder="Оставьте комментарий к задаче..."
               ></textarea>
             </p>
           </div>

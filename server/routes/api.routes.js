@@ -5,7 +5,7 @@ const apiTicketsRouter = require("./api.ticket.routes");
 const apiCommentsRouter = require("./api.comment.routes");
 
 
-router.use("/auth", apiUserRouter);
+router.use("/users", apiUserRouter);
 router.use("/tickets", apiTicketsRouter)
 router.use("/projects", apiProjectRouter)
 router.use("/comments", apiCommentsRouter)

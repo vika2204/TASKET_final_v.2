@@ -7,9 +7,13 @@ class TicketController {
     const { projectId } = req.params;
     const { search, assignee_id, status } = req.query;
 
-    if (status !== undefined && !validateStatus(status)) {
-      res.status(400).json({ error: 'Incorrect status' });
-      return;
+    if(Array.isArray(status)){
+      for(let el of status) {
+        if (el !== undefined && !validateStatus(el)) {
+          res.status(400).json({ error: 'Incorrect status' });
+          return;
+        }
+      }
     }
 
     try {
@@ -19,14 +23,39 @@ class TicketController {
         search,
         status
       );
-console.log(tickets);
-
 
       res.status(200).json(tickets);
     } catch (error) {
       res.status(404).json({ error: error.message });
     }
   }
+
+  static async getAllUserTickets(req, res) {
+    const  author_id  = res.locals.user.id;
+
+    if (!author_id) {
+      return res.status(400).json({ error: "author_id is required" });
+    }
+
+    try {
+      const tickets = await TicketService.getAllUserTickets(author_id);
+      console.log(tickets);
+
+      console.log(
+        `Found ${tickets.length} tickets for author_id: ${author_id}`
+      );
+      res.status(200).json(tickets);
+    } catch (error) {
+      console.error(
+        `Error fetching tickets for author_id: ${author_id}`,
+        error
+      );
+      res.status(404).json({ error: error.message });
+    }
+  }
+
+
+
 
   static async getOneTicketController(req, res) {
     const { id } = req.params;

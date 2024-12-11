@@ -1,5 +1,6 @@
 const UserService = require("../services/User.service");
 const jwtConfig = require("../config/jwtConfig");
+const generateTokens = require("../utils/generateTokens");
 
 class UserController {
   static async register(req, res) {
@@ -73,10 +74,48 @@ class UserController {
         const targetUser = user.get();
         delete targetUser.password;
         return targetUser;
-      })
+      });
       res.status(200).json({ message: "Success", users: usersWithoutPassword });
     } catch (error) {
       res.status(500).json({ message: error.message, users: [] });
+    }
+  }
+
+  static async updateUserController(req, res) {
+    const { username, curPass, email, role, newPass } = req.body;
+    const { id } = res.locals.user;
+
+    try {
+      const updateData = {};
+      if (email) updateData.email = email;
+      if (curPass) updateData.curPass = curPass;
+      if (username) updateData.username = username;
+      if (role) updateData.role = role;
+      if (newPass) updateData.newPass = newPass;
+
+      const updatedUser = await UserService.updateUser(updateData, id);
+
+      if (!updatedUser) {
+        return res.status(404).json({ message: "Пользователь не найден" });
+      }
+
+      const { accessToken, refreshToken } = generateTokens({
+        user: updatedUser,
+      });
+
+      res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        maxAge: jwtConfig.refresh.expiresIn,
+      });
+
+      res
+        .status(200)
+        .json({ message: "Success", user: updatedUser, accessToken });
+    } catch (error) {
+      if (error.message === "Текущий пароль неверный") {
+        return res.status(400).json({ message: "Неверный текущий пароль" });
+      }
+      res.status(500).json({ message: error.message, user: {} });
     }
   }
 }

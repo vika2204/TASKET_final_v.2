@@ -37,7 +37,7 @@ export const RegistrationForm: React.FC = () => {
         })
       ).unwrap();
       navigate(CLIENT_ROUTES.HOME);
-    } catch (error:unknown) {
+    } catch (error: unknown) {
       if (typeof error === "object" && error !== null && "message" in error) {
         const errorMessage = (error as { message: string }).message;
         if (errorMessage.includes("This email already in use")) {
@@ -77,7 +77,7 @@ export const RegistrationForm: React.FC = () => {
         </style>
         <div className="field">
           <label className="label has-text-black">Email</label>
-          <div className="control has-icons-right">
+          <div className="control has-icons-left">
             <input
               className={`input has-background-white has-text-black ${
                 errors.email ? "is-danger" : ""

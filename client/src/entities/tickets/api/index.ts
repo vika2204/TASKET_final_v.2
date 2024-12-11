@@ -28,13 +28,25 @@ export class TicketService {
   static async getAllTickets(
     search: string | null,
     assignee_id: number | null,
-    status: TICKET_STATUS | null
-
+    status: TICKET_STATUS[],
+    projectId: number
   ): Promise<TicketList> {
     try {
-      const response = await axiosInstance.get(`/projects/1/tickets`, {
+      const response = await axiosInstance.get(`/projects/${projectId}/tickets`, {
         params: { search, assignee_id, status },
       });
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching all tickets:", error);
+      throw new Error("Failed to fetch tickets");
+    }
+  }
+
+  static async getAllUserTickets(): Promise<TicketList> {
+    try {
+      const response = await axiosInstance.get(`/users/tickets`);
+      console.log(response);
+
       return response.data;
     } catch (error) {
       console.error("Error fetching all tickets:", error);
@@ -81,6 +93,7 @@ export class TicketService {
       const response = await axiosInstance.post(`/tickets/${id}/analysis`);
       return response.data;
     } catch(error) {
+      console.error("Error analysis  ticket:", error);
       throw new Error("Failed to get ticket analysis");
     }
   }

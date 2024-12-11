@@ -1,7 +1,7 @@
-import {createNewTicket} from "@/entities/tickets/model/TicketThunks";
-import {useAppDispatch} from "@/shared/hooks/rtkHooks";
-import {useState} from "react";
-
+import {createNewTicket, getAllTickets} from "@/entities/tickets/model/TicketThunks";
+import {useAppDispatch, useAppSelector} from "@/shared/hooks/rtkHooks";
+import {useEffect, useRef, useState} from "react";
+import {RichEditor} from "@/widgets/RichEditor";
 
 type FormCreateTicketProps = {
   onClose: () => void;
@@ -11,20 +11,33 @@ export function FormCreateTicket({ onClose }: FormCreateTicketProps) {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [estimate, setEstimate] = useState<string>("");
+  const currentProject = useAppSelector((state) => state.project.currentProject)
+  const { searchFilter, statusFilter, assigneeIdFilter } = useAppSelector((state) => state.ticket.filters);
+  const titleInput = useRef<HTMLInputElement>(null);
 
-  // const { user } = useAppSelector((state) => state.user);
+  useEffect(() => {
+    titleInput.current?.focus();
+  }, [])
+
   const dispatch = useAppDispatch();
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    dispatch(
+    await dispatch(
       createNewTicket({
         title,
         description,
         estimate: Number(estimate),
-        project_id: 1,
+        project_id: currentProject.id,
       })
-    );
+    ).unwrap();
+
+    dispatch(getAllTickets({
+      search: searchFilter,
+      assignee_id: assigneeIdFilter,
+      status: statusFilter,
+      projectId: currentProject.id
+    }));
 
     onClose();
   };
@@ -32,7 +45,7 @@ export function FormCreateTicket({ onClose }: FormCreateTicketProps) {
   return (
     <div className="modal is-active">
       <div className="modal-background" onClick={onClose}></div>
-      <div className="modal-card">
+      <div className="modal-card" style={{width: '800px'}}>
         <header className="modal-card-head">
           <p className="modal-card-title">Создать задачу</p>
           <button
@@ -47,6 +60,7 @@ export function FormCreateTicket({ onClose }: FormCreateTicketProps) {
               <label className="label">Заголовок</label>
               <div className="control">
                 <input
+                  ref={titleInput}
                   className="input"
                   type="text"
                   value={title}
@@ -59,12 +73,7 @@ export function FormCreateTicket({ onClose }: FormCreateTicketProps) {
             <div className="field">
               <label className="label">Описание</label>
               <div className="control">
-                <textarea
-                  className="textarea"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  required
-                ></textarea>
+                <RichEditor state={description} setState={setDescription}/>
               </div>
             </div>
 
@@ -76,6 +85,8 @@ export function FormCreateTicket({ onClose }: FormCreateTicketProps) {
                   type="number"
                   value={estimate}
                   onChange={(e) => setEstimate(e.target.value)}
+                  min="1"
+                  step="1"
                   required
                 />
               </div>

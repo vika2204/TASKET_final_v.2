@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   getTicketStatusClass,
-  getTicketStatusEnumFromString,
   getTicketStatusName,
   TICKET_STATUS
 } from "@/shared/types/statusEnum.ts";
@@ -17,10 +16,9 @@ interface statusFormProps  {
 export const StatusForm: React.FC<statusFormProps> = ({ticket}) => {
   const [selectedStatus, setSelectedStatus] = useState<TICKET_STATUS | null>(ticket.status);
 
-  const handleStatusSelect = (status: string) => {
-  const statusEnum =  getTicketStatusEnumFromString(status);
-  setSelectedStatus(statusEnum);
-  updateStatusHandler(statusEnum)
+  const handleStatusSelect = (status: TICKET_STATUS) => {
+  setSelectedStatus(status);
+  updateStatusHandler(status)
   };
 
 const dispatch = useAppDispatch()
@@ -50,8 +48,8 @@ const updateStatusHandler = (status:TICKET_STATUS|null) => {
         >
           <span>
             Статус:&nbsp;
-            <span
-              className={`tag has-text-weight-bold is-uppercase ${
+            <span style={{height: '21px'}}
+              className={`tag has-text-weight-bold is-light is-uppercase ${
                 getTicketStatusClass(selectedStatus)
               }`}
             >
@@ -69,7 +67,7 @@ const updateStatusHandler = (status:TICKET_STATUS|null) => {
             <a
               key={status}
               className="dropdown-item"
-              onClick={() => handleStatusSelect(status)}
+              onClick={() => handleStatusSelect(status as TICKET_STATUS)}
             >
               <span
                 className={`tag is-light has-text-weight-bold is-uppercase ${getTicketStatusClass(status)}`}
