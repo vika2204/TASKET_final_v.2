@@ -56,18 +56,22 @@ export function FormChangePass({ onClose }: FormChangePassProps) {
     <div className="modal is-active">
       <div className="modal-background" onClick={onClose}></div>
       <div className="modal-card">
+        <header className="modal-card-head">
+          <p className="modal-card-title">Изменение пароля</p>
+          <button className="delete" aria-label="close" onClick={onClose}></button>
+        </header>
         <section className="modal-card-body">
           <form onSubmit={handleSubmit}>
             <div className="field">
               <label className="label">Текущий пароль</label>
               <div className="control">
                 <input
-                  required
-                  className="input"
-                  type="password"
-                  value={curPass}
-                  onChange={(e) => setCurPass(e.target.value)}
-                  placeholder="Введите текущий пароль"
+                    required
+                    className="input"
+                    type="password"
+                    value={curPass}
+                    onChange={(e) => setCurPass(e.target.value)}
+                    placeholder="Введите текущий пароль"
                 />
               </div>
             </div>
@@ -75,12 +79,12 @@ export function FormChangePass({ onClose }: FormChangePassProps) {
               <label className="label">Новый пароль</label>
               <div className="control">
                 <input
-                  required
-                  className="input"
-                  type="password"
-                  value={newPass}
-                  onChange={(e) => setNewPass(e.target.value)}
-                  placeholder="Введите новый пароль"
+                    required
+                    className="input"
+                    type="password"
+                    value={newPass}
+                    onChange={(e) => setNewPass(e.target.value)}
+                    placeholder="Введите новый пароль"
                 />
               </div>
             </div>
@@ -88,22 +92,22 @@ export function FormChangePass({ onClose }: FormChangePassProps) {
               <label className="label">Повторите новый пароль</label>
               <div className="control">
                 <input
-                  required
-                  className="input"
-                  type="password"
-                  value={rNewPass}
-                  onChange={(e) => setRNewPass(e.target.value)}
-                  placeholder="Повторите новый пароль"
+                    required
+                    className="input"
+                    type="password"
+                    value={rNewPass}
+                    onChange={(e) => setRNewPass(e.target.value)}
+                    placeholder="Повторите новый пароль"
                 />
               </div>
             </div>
             {error && <div className="notification is-danger">{error}</div>}
             {success && (
-              <div className="notification is-success">{success}</div>
+                <div className="notification is-success">{success}</div>
             )}
             <div className="field">
               <div className="control">
-                <button className="button is-primary" type="submit">
+                <button className="button is-info" type="submit">
                   Сохранить
                 </button>
               </div>

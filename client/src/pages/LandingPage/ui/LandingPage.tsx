@@ -62,13 +62,13 @@ export function LandingPage() {
 
             <div className="buttons" style={{justifyContent: "center"}}>
               <button
-                  className="button js-modal-trigger is-info"
+                  className="button js-modal-trigger is-info is-medium"
                   onClick={openAuthModal}
               >
                 Войти
               </button>
               {" "}
-              <button className="button js-modal-trigger" onClick={openRegModal}>
+              <button className="button js-modal-trigger is-medium" onClick={openRegModal}>
                 Зарегистрироваться
               </button>
             </div>
@@ -79,23 +79,26 @@ export function LandingPage() {
         {isAuthModalOpen && (
             <div className="modal is-active">
               <div className="modal-background" onClick={closeAuthModal}></div>
-              <div className="modal-content">
-                <AuthorizationForm/>
+              <div className="modal-card">
+                <header className="modal-card-head">
+                  <p className="modal-card-title">Авторизация</p>
+                  <button className="delete" aria-label="close" onClick={closeAuthModal}></button>
+                </header>
+                <section className="modal-card-body"><AuthorizationForm/></section>
               </div>
-              <button
-                  className="modal-close is-large"
-                  aria-label="close"
-                  onClick={closeAuthModal}
-              ></button>
             </div>
         )}
 
-        {/* Модальное окно для регистрации */}
+          {/* Модальное окно для регистрации */}
         {isRegModalOpen && (
             <div className="modal is-active">
               <div className="modal-background" onClick={closeRegModal}></div>
-              <div className="modal-content">
-                <RegistrationForm/>
+              <div className="modal-card">
+                <header className="modal-card-head">
+                  <p className="modal-card-title">Регистрация</p>
+                  <button className="delete" aria-label="close" onClick={closeRegModal}></button>
+                </header>
+                <section className="modal-card-body"><RegistrationForm/></section>
               </div>
               <button
                   className="modal-close is-large"
@@ -104,8 +107,8 @@ export function LandingPage() {
               ></button>
             </div>
         )}
-      </section>
-      <script src="landing.js"></script>
+        </section>
+        <script src="landing.js"></script>
     </>)
   ;
 }

@@ -36,18 +36,9 @@ export const AuthorizationForm: React.FC = () => {
   };
 
   return (
-    <div className="container is-max-desktop ">
+
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="p-5"
-        style={{
-          maxWidth: "500px",
-          margin: "auto",
-          borderRadius: "10px",
-          background: "white",
-          padding: "20px",
-          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
-        }}
       >
         <style>
           {`
@@ -112,6 +103,5 @@ export const AuthorizationForm: React.FC = () => {
           </div>
         </div>
       </form>
-    </div>
   );
 };

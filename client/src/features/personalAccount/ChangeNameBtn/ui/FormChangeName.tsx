@@ -46,24 +46,28 @@ export function FormChangeName({ onClose }: FormChangeNameProps) {
     <div className="modal is-active">
       <div className="modal-background" onClick={onClose}></div>
       <div className="modal-card">
+        <header className="modal-card-head">
+          <p className="modal-card-title">Изменение имени пользователя</p>
+          <button className="delete" aria-label="close" onClick={onClose}></button>
+        </header>
         <section className="modal-card-body">
           <form onSubmit={handleSubmit}>
             <div className="field">
               <label className="label">Новое имя</label>
               <div className="control">
                 <input
-                  className="input"
-                  type="text"
-                  value={newName}
-                  onChange={(e) => setNewName(e.target.value)}
-                  placeholder="Введите новое имя"
+                    className="input"
+                    type="text"
+                    value={newName}
+                    onChange={(e) => setNewName(e.target.value)}
+                    placeholder="Введите новое имя"
                 />
               </div>
             </div>
             {error && <div className="notification is-danger">{error}</div>}
             <div className="field">
               <div className="control">
-                <button className="button is-primary" type="submit">
+                <button className="button is-info" type="submit">
                   Сохранить
                 </button>
               </div>

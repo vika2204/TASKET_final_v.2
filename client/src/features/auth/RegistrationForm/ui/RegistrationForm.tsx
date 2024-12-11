@@ -58,15 +58,6 @@ export const RegistrationForm: React.FC = () => {
     <div className="container is-max-desktop ">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="p-5"
-        style={{
-          maxWidth: "500px",
-          margin: "auto",
-          borderRadius: "10px",
-          background: "white",
-          padding: "20px",
-          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
-        }}
       >
         <style>
           {`
@@ -104,19 +95,22 @@ export const RegistrationForm: React.FC = () => {
 
         <div className="field">
           <label className="label has-text-black">Имя пользователя</label>
-          <div className="control">
+          <div className="control has-icons-left">
             <input
-              className={`input has-background-white has-text-black ${
-                errors.username ? "is-danger" : ""
-              }`}
-              type="text"
-              placeholder="Введите имя пользователя"
-              {...register("username", {
-                required: "Имя пользователя обязательно",
-              })}
+                className={`input has-background-white has-text-black ${
+                    errors.username ? "is-danger" : ""
+                }`}
+                type="text"
+                placeholder="Введите имя пользователя"
+                {...register("username", {
+                  required: "Имя пользователя обязательно",
+                })}
             />
+            <span className="icon is-small is-left">
+              <i className="fas fa-user"></i>
+            </span>
             {errors.username && (
-              <p className="help is-danger">{errors.username.message}</p>
+                <p className="help is-danger">{errors.username.message}</p>
             )}
           </div>
         </div>
@@ -170,11 +164,14 @@ export const RegistrationForm: React.FC = () => {
           <div className="control">
             <div className="select">
               <select
-                className="has-background-white has-text-black"
-                {...register("role", { required: "Роль обязательна" })}
+                  className="has-background-white has-text-black"
+                  {...register("role", {required: "Роль обязательна"})}
               >
-                <option value="developer">Разработчик</option>
-                <option value="lead">Ведущий разработчик</option>
+                <option value="Разработчик">Разработчик</option>
+                <option value="Ведущий разработчик">Ведущий разработчик</option>
+                <option value="Менеджер проектов">Менеджер проектов</option>
+                <option value="Руководитель группы">Руководитель группы</option>
+                <option value="Тестировщик">Тестировщик</option>
               </select>
             </div>
           </div>
