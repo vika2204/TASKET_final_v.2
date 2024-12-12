@@ -69,7 +69,7 @@ class TicketService {
   static async addTicket(data) {
     try {
       const ticket = await Ticket.create(data);
-      return ticket;
+      return TicketService.getOneTicket(ticket.id);
     } catch (error) {
       throw new Error(error.message);
     }
