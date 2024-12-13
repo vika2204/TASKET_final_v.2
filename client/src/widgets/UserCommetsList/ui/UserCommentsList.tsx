@@ -29,39 +29,37 @@ export const UserCommentsList = () => {
 
   // Фильтруем комментарии, принадлежащие текущему пользователю
   const userComments = comments
-    .sort((a, b) => b.id - a.id) // Сортируем по убыванию id (последние комментарии в начале)
-    .slice(0, 5); // Берем только 5 последних комментариев
+      .sort((a, b) => b.id - a.id) // Сортируем по убыванию id (последние комментарии в начале)
+      .slice(0, 5); // Берем только 5 последних комментариев
 
   return (
-    <div className="column is-half">
-      <h5 className="title">Ваши последние комментарии</h5>
-      {loading ? (
-        <p>Загрузка комментариев...</p>
-      ) : error ? (
-        <p>{error}</p>
-      ) : userComments.length > 0 ? (
-        userComments
-          .map((comment) => {
-            return (
-              <div className="box" key={comment.id}>
-                <div className="level">
-                  <div className="level-left" title={comment.text}>{truncate(comment.text, 40)}</div>
-                  <div className="level-right">
-                    <a>
-                    <Link to={`/tickets/${comment.ticket.id}`}>
-                      <strong>
-                        {`${comment.ticket.project.code}-${comment.ticket.id}`}
-                      </strong>
-                      </Link>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            );
-          })
-      ) : (
-        <p>У вас нет комментариев.</p>
-      )}
-    </div>
+      <div className="column is-half">
+        <h5 className="title">Ваши последние комментарии</h5>
+        {loading ? (
+            <p>Загрузка комментариев...</p>
+        ) : error ? (
+            <p>{error}</p>
+        ) : userComments.length > 0 ? (
+            userComments
+                .map((comment) => {
+                  return (
+                      <div className="box" key={comment.id}>
+                        <div className="level">
+                          <div className="level-left" title={comment.text}>{truncate(comment.text, 40)}</div>
+                          <div className="level-right">
+                            <Link to={`/tickets/${comment.ticket.id}`}>
+                              <strong>
+                                {`${comment.ticket.project.code}-${comment.ticket.id}`}
+                              </strong>
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                  );
+                })
+        ) : (
+            <p>У вас нет комментариев.</p>
+        )}
+      </div>
   );
 };

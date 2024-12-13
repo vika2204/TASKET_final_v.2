@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors')
 const cookieParser = require("cookie-parser");
+const path = require('path')
 
 
 
@@ -15,7 +16,7 @@ const serverConfig = (app) => {
 
     app.use(
         cors({
-            origin: ["http://localhost:5173"],
+            origin: ["http://46.148.238.157:80"],
             optionsSuccessStatus: 200,
             credentials: true
         })
@@ -27,7 +28,8 @@ const serverConfig = (app) => {
     app.use(cookieParser());
 
     // настройка статики, папка public ассоциирована с маршрутом запроса
-    app.use(express.static('public'))
+    app.use(express.static(path.join(__dirname, '../public/dist')));
+    // app.use(express.static('public'))
 }
 
 module.exports = serverConfig;

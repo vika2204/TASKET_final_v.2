@@ -3,9 +3,11 @@ import {
     getTicketStatusName,
     TICKET_STATUS
 } from "@/shared/types/statusEnum.ts";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "@/shared/hooks/rtkHooks.ts";
 import {ticketSlice} from "@/entities/tickets/model/TicketSlice.ts";
+import {useNavigate} from "react-router-dom";
+import {CLIENT_ROUTES} from "@/app/router";
 
 
 export function Filters() {
@@ -13,24 +15,32 @@ export function Filters() {
     const dispatch = useAppDispatch();
     const {user} = useAppSelector((state) => state.user)
     const currentFilters = useAppSelector((state) => state.ticket.filters)
+    const navigate = useNavigate();
 
     function applySearchFilter() {
         dispatch(ticketSlice.actions.setSearchFilter(searchText))
+        navigate(CLIENT_ROUTES.HOME);
     }
     function applyAssigneeUserFilter() {
         dispatch(ticketSlice.actions.setAssigneeFilter(user!.id));  // фильтруем по задачам назначенным на текущего юзера
         dispatch(ticketSlice.actions.setStatusFilter([TICKET_STATUS.OPEN, TICKET_STATUS.IN_PROGRESS, TICKET_STATUS.NEED_INFO])) //и со статусом тикета - открыто
-
+        navigate(CLIENT_ROUTES.HOME);
     }
     function applyStatusFilter(status: TICKET_STATUS) {               //на входе получаем status в виде строки
         dispatch(ticketSlice.actions.setStatusFilter([status]))     // передаем его в синхронный редьюсер в слайсе
         dispatch(ticketSlice.actions.setAssigneeFilter(null));   //сбрасываем фильтр по текущему юзеру, если вдруг он был
+        navigate(CLIENT_ROUTES.HOME);
     }
 
     function applyAllTicketsFilter() {
         dispatch(ticketSlice.actions.setStatusFilter([]))
         dispatch(ticketSlice.actions.setAssigneeFilter(null));
+        navigate(CLIENT_ROUTES.HOME);
     }
+
+    useEffect(() => {
+        setSearchText(currentFilters.searchFilter)
+    }, [currentFilters.searchFilter])
 
     return (
         <>
@@ -40,6 +50,7 @@ export function Filters() {
                     <input
                         className="input"
                         type="text"
+                        value={searchText || ''}
                         placeholder="Поиск"
                         onKeyUp={(e) => {(e.key === 'Enter' ? applySearchFilter() : null)}}
                         onChange={(event) => setSearchText(event.target.value)}
